@@ -1,14 +1,25 @@
 @import "tailwindcss";
 
+/* Dark mode is driven by `.dark` on <html> — see theme-init script in layout.tsx
+   and ButtercutThemeProvider. */
 @variant dark (.dark &);
 
 :root {
   --background: #f7f3ee;
   --foreground: #171717;
   --accent: #c4894f;
-  --color-border-primary: #a1a1aa;
-  --color-border-secondary: #d4d4d8;
-  --color-border-tertiary: #e4e4e7;
+  --dot-idle: #a1a1aa;
+
+  /* Border hierarchy for .mag-card */
+  --color-border-primary: #a1a1aa;   /* zinc-400 — bottom accent */
+  --color-border-secondary: #d4d4d8; /* zinc-300 — side */
+  --color-border-tertiary: #e4e4e7;  /* zinc-200 — shadow */
+
+  /* Font families — defined here, surfaced as Tailwind utilities via @theme inline. */
+  --font-nunito: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-bitter: "Bitter", ui-serif, Georgia, serif;
+  --font-jetbrains-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+    monospace;
 }
 
 .dark {
@@ -23,8 +34,17 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-bitter);
+  --font-nunito: var(--font-nunito);
+  --font-bitter: var(--font-bitter);
+  --font-jetbrains-mono: var(--font-jetbrains-mono);
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 html {
@@ -36,6 +56,7 @@ body {
   color: var(--foreground);
 }
 
+/* ── Magazine / editorial card ───────────────────────────────── */
 .mag-card {
   background: #ffffff;
   border: 1px solid var(--color-border-secondary);
@@ -48,37 +69,119 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease,
     background-color 0.2s ease;
 }
-
-.dark .mag-card {
-  background: #141210;
-}
-
 .mag-card:hover {
   transform: translateY(-3px);
   box-shadow: 7px 7px 0px 0px var(--color-border-tertiary);
   border-bottom-color: var(--accent);
   border-right-color: var(--accent);
+  background: #fffaf6;
+}
+.dark .mag-card {
+  background: #252019;
+}
+.dark .mag-card:hover {
+  border-bottom-color: var(--accent);
+  border-right-color: var(--accent);
+  background: #2a221c;
 }
 
+/* ── Magazine label (Nunito 400, uppercase + hairline) ────────── */
 .mag-label {
-  font-size: 11px;
-  letter-spacing: 0.28em;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-nunito);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: #a1a1aa;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+.dark .mag-label {
+  color: #52525b;
+}
+.mag-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-tertiary);
+}
+.dark .mag-label::after {
+  background: var(--color-border-secondary);
 }
 
-.fade-up {
-  animation: fade-up 0.6s ease both;
-}
-
+/* ── Entrance animations ──────────────────────────────────────── */
 @keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fade-up 0.4s ease forwards;
+}
+
+/* Non-home subpage veil + content entrance */
+.subpage-enter {
+  position: relative;
+  isolation: isolate;
+}
+.subpage-enter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    165deg,
+    rgba(113, 113, 122, 0.16) 0%,
+    rgba(113, 113, 122, 0.06) 38%,
+    transparent 72%
+  );
+  opacity: 1;
+  animation: subpage-veil 0.85s ease forwards;
+}
+.dark .subpage-enter::before {
+  background: linear-gradient(
+    165deg,
+    rgba(161, 161, 170, 0.14) 0%,
+    rgba(161, 161, 170, 0.05) 40%,
+    transparent 72%
+  );
+}
+@keyframes subpage-veil {
   to {
+    opacity: 0;
+  }
+}
+.subpage-enter-inner {
+  opacity: 0;
+  animation: subpage-enter 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+}
+@keyframes subpage-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Nav wave underline (overlay rendered via portal) ─────────── */
+@keyframes nav-wave-flow {
+  from { background-position-x: 0px; }
+  to   { background-position-x: 20px; }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .subpage-enter::before {
+    animation: none;
+    opacity: 0;
+  }
+  .subpage-enter-inner {
+    animation: none;
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
+  }
+  .fade-up {
+    animation: none;
+    opacity: 1;
   }
 }

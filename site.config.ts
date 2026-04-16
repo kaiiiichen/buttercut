@@ -11,4 +11,12 @@ export const siteConfig = createSiteConfig({
       "Demo preview — configure `site.config.ts` and `content/demo/` for your site.",
     siteUrl: "http://localhost:3000",
   },
+  nav: [
+    { label: "Home", href: "/" },
+    { label: "GitHub", href: "https://github.com" },
+  ],
+  socials: [
+    { id: "github", label: "GitHub", href: "https://github.com" },
+    { id: "docs", label: "Docs", href: "https://nextjs.org" },
+  ],
 });

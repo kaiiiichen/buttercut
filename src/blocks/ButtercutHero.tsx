@@ -49,10 +49,10 @@ export function ButtercutHero({
       </div>
 
       <div className="min-w-0 space-y-4">
-        <h1 className="text-4xl font-light tracking-tight text-zinc-900 dark:text-zinc-100 md:text-5xl">
+        <h1 className="font-nunito text-[36px] font-light leading-[1.1] tracking-tight text-zinc-900 dark:text-zinc-100 md:text-[48px]">
           {config.site.title}
         </h1>
-        <p className="text-sm uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+        <p className="font-nunito text-xs uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
           {demo.tagline}
         </p>
         <div className="space-y-3 font-serif text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
@@ -60,14 +60,14 @@ export function ButtercutHero({
             <p key={idx}>{renderInlineMarkdown(p)}</p>
           ))}
         </div>
-        <div className="socials flex flex-wrap gap-4 pt-2">
+        <div className="flex flex-wrap gap-4 pt-2">
           {config.socials.map((s) => (
             <a
               key={s.id}
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-zinc-600 underline underline-offset-4 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+              className="font-nunito text-sm text-zinc-600 underline underline-offset-4 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
             >
               {s.label}
             </a>
