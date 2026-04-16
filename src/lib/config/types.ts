@@ -9,24 +9,47 @@ export type ButtercutSocialLink = {
   href: string;
 };
 
-export type ButtercutHomeBlockId = "hero" | "demo_projects" | "integrations";
+/**
+ * Home block IDs are open strings so users can register custom blocks.
+ * Built-in IDs: "hero" | "demo_projects" | "integrations" | "now_playing" | "weather".
+ */
+export type ButtercutHomeBlockId = string;
 
 export type ButtercutHomeBlock = {
   id: ButtercutHomeBlockId;
   enabled: boolean;
 };
 
-export type ButtercutIntegrationKey =
-  | "lastfm"
-  | "github"
-  | "supabase"
-  | "sentry"
-  | "weather";
+export type ButtercutGitHubIntegration = {
+  enabled: boolean;
+  /** Optional repos (owner/name). Used to show star counts inline. */
+  repos?: string[];
+};
 
-export type ButtercutIntegrationsConfig = Record<
-  ButtercutIntegrationKey,
-  { enabled: boolean }
->;
+export type ButtercutLastfmIntegration = {
+  enabled: boolean;
+  username?: string;
+};
+
+export type ButtercutWeatherIntegration = {
+  enabled: boolean;
+  lat?: number;
+  lon?: number;
+  /** Human-readable location shown in the UI */
+  label?: string;
+  /** IANA tz name, e.g. "America/Los_Angeles" */
+  timezone?: string;
+};
+
+export type ButtercutIntegrationsConfig = {
+  github: ButtercutGitHubIntegration;
+  lastfm: ButtercutLastfmIntegration;
+  supabase: { enabled: boolean };
+  sentry: { enabled: boolean };
+  weather: ButtercutWeatherIntegration;
+};
+
+export type ButtercutIntegrationKey = keyof ButtercutIntegrationsConfig;
 
 export type ButtercutSiteConfig = {
   site: {
@@ -43,7 +66,6 @@ export type ButtercutSiteConfig = {
     avatar: string;
     logo?: string;
     og: {
-      /** Path under `public/` for default OG image */
       defaultImagePath: string;
     };
   };
@@ -56,5 +78,11 @@ export type ButtercutSiteConfigInput = Partial<{
   socials: ButtercutSocialLink[];
   home: Partial<Pick<ButtercutSiteConfig["home"], "blocks">>;
   brand: Partial<ButtercutSiteConfig["brand"]>;
-  integrations: Partial<ButtercutIntegrationsConfig>;
+  integrations: Partial<{
+    github: Partial<ButtercutGitHubIntegration>;
+    lastfm: Partial<ButtercutLastfmIntegration>;
+    supabase: Partial<{ enabled: boolean }>;
+    sentry: Partial<{ enabled: boolean }>;
+    weather: Partial<ButtercutWeatherIntegration>;
+  }>;
 }>;

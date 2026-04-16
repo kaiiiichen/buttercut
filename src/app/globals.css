@@ -169,6 +169,97 @@ body {
   to   { background-position-x: 20px; }
 }
 
+/* ── Long-form typography (used by /about and /notes) ─────────── */
+.buttercut-prose {
+  line-height: 1.75;
+  font-size: 16px;
+}
+.buttercut-prose h1,
+.buttercut-prose h2,
+.buttercut-prose h3,
+.buttercut-prose h4 {
+  font-family: var(--font-nunito);
+  color: var(--foreground);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin-top: 2.2em;
+  margin-bottom: 0.6em;
+}
+.buttercut-prose h1 { font-size: 1.9rem; }
+.buttercut-prose h2 { font-size: 1.35rem; }
+.buttercut-prose h3 { font-size: 1.1rem; }
+.buttercut-prose h4 { font-size: 1rem; }
+.buttercut-prose p {
+  margin: 0 0 1em;
+}
+.buttercut-prose ul,
+.buttercut-prose ol {
+  margin: 0 0 1em 1.25em;
+  padding: 0;
+}
+.buttercut-prose ul { list-style: disc; }
+.buttercut-prose ol { list-style: decimal; }
+.buttercut-prose li { margin: 0.25em 0; }
+.buttercut-prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.buttercut-prose a:hover {
+  text-decoration-thickness: 2px;
+}
+.buttercut-prose strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.buttercut-prose em {
+  font-style: italic;
+}
+.buttercut-prose code {
+  font-family: var(--font-jetbrains-mono);
+  font-size: 0.85em;
+  padding: 0.15em 0.35em;
+  background: rgba(161, 161, 170, 0.14);
+  border-radius: 3px;
+}
+.buttercut-prose pre {
+  font-family: var(--font-jetbrains-mono);
+  font-size: 0.85em;
+  padding: 1em 1.25em;
+  background: rgba(24, 24, 27, 0.04);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+.buttercut-prose pre code {
+  background: transparent;
+  padding: 0;
+}
+.dark .buttercut-prose pre {
+  background: rgba(255, 255, 255, 0.03);
+}
+.dark .buttercut-prose code {
+  background: rgba(255, 255, 255, 0.08);
+}
+.buttercut-prose blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 3px solid var(--color-border-secondary);
+  color: #52525b;
+  font-style: italic;
+}
+.dark .buttercut-prose blockquote {
+  color: #a1a1aa;
+}
+.buttercut-prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-border-tertiary);
+  margin: 2em 0;
+}
+
 /* ── Reduced motion ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .subpage-enter::before {

@@ -1,3 +1,4 @@
+import type { ButtercutBlockProps } from "@/lib/blocks/registry";
 import type { ButtercutSiteConfig } from "@/lib/config/types";
 import { buttercutIntegrationStatus } from "@/lib/integrations/integration-env";
 
@@ -9,7 +10,7 @@ const LABELS: Record<keyof ButtercutSiteConfig["integrations"], string> = {
   weather: "Weather",
 };
 
-export function ButtercutIntegrationsPanel({ config }: { config: ButtercutSiteConfig }) {
+export function ButtercutIntegrationsPanel({ config }: ButtercutBlockProps) {
   const status = buttercutIntegrationStatus(config);
   const entries = Object.entries(status) as Array<
     [keyof typeof LABELS, (typeof status)["lastfm"]]

@@ -9,15 +9,13 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
   },
   nav: [{ label: "Home", href: "/" }],
   socials: [
-    {
-      id: "github",
-      label: "GitHub",
-      href: "https://github.com",
-    },
+    { id: "github", label: "GitHub", href: "https://github.com" },
   ],
   home: {
     blocks: [
       { id: "hero", enabled: true },
+      { id: "now_playing", enabled: true },
+      { id: "weather", enabled: true },
       { id: "demo_projects", enabled: true },
       { id: "integrations", enabled: true },
     ],
@@ -29,8 +27,8 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
     },
   },
   integrations: {
-    lastfm: { enabled: false },
     github: { enabled: false },
+    lastfm: { enabled: false },
     supabase: { enabled: false },
     sentry: { enabled: false },
     weather: { enabled: false },

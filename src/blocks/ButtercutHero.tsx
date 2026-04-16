@@ -1,7 +1,14 @@
 import Image from "next/image";
-import type { ButtercutSiteConfig } from "@/lib/config/types";
-import type { ButtercutDemoContent } from "@/lib/demo/load-demo-content";
 import type { ReactNode } from "react";
+import type { ButtercutBlockProps } from "@/lib/blocks/registry";
+
+export type ButtercutHeroSlots = {
+  avatar?: ReactNode;
+  title?: ReactNode;
+  tagline?: ReactNode;
+  body?: ReactNode;
+  socials?: ReactNode;
+};
 
 function splitIntroParagraphs(text: string): string[] {
   return text
@@ -28,51 +35,59 @@ function renderInlineMarkdown(text: string): ReactNode[] {
 export function ButtercutHero({
   config,
   demo,
-}: {
-  config: ButtercutSiteConfig;
-  demo: ButtercutDemoContent;
-}) {
+  slots,
+}: ButtercutBlockProps & { slots?: ButtercutHeroSlots }) {
   const paragraphs = splitIntroParagraphs(demo.intro);
 
   return (
     <section className="grid gap-8 md:grid-cols-[minmax(0,320px)_1fr] md:items-start">
       <div className="mag-card mx-auto w-full max-w-[280px] shrink-0 overflow-hidden p-0 md:mx-0">
-        <Image
-          src={config.brand.avatar}
-          alt=""
-          width={512}
-          height={512}
-          className="h-auto w-full"
-          priority
-          unoptimized
-        />
+        {slots?.avatar ?? (
+          <Image
+            src={config.brand.avatar}
+            alt=""
+            width={512}
+            height={512}
+            className="h-auto w-full"
+            priority
+            unoptimized
+          />
+        )}
       </div>
 
       <div className="min-w-0 space-y-4">
-        <h1 className="font-nunito text-[36px] font-light leading-[1.1] tracking-tight text-zinc-900 dark:text-zinc-100 md:text-[48px]">
-          {config.site.title}
-        </h1>
-        <p className="font-nunito text-xs uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
-          {demo.tagline}
-        </p>
-        <div className="space-y-3 font-serif text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
-          {paragraphs.map((p, idx) => (
-            <p key={idx}>{renderInlineMarkdown(p)}</p>
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-4 pt-2">
-          {config.socials.map((s) => (
-            <a
-              key={s.id}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-nunito text-sm text-zinc-600 underline underline-offset-4 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-            >
-              {s.label}
-            </a>
-          ))}
-        </div>
+        {slots?.title ?? (
+          <h1 className="font-nunito text-[36px] font-light leading-[1.1] tracking-tight text-zinc-900 dark:text-zinc-100 md:text-[48px]">
+            {config.site.title}
+          </h1>
+        )}
+        {slots?.tagline ?? (
+          <p className="font-nunito text-xs uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+            {demo.tagline}
+          </p>
+        )}
+        {slots?.body ?? (
+          <div className="space-y-3 font-serif text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
+            {paragraphs.map((p, idx) => (
+              <p key={idx}>{renderInlineMarkdown(p)}</p>
+            ))}
+          </div>
+        )}
+        {slots?.socials ?? (
+          <div className="flex flex-wrap gap-4 pt-2">
+            {config.socials.map((s) => (
+              <a
+                key={s.id}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-nunito text-sm text-zinc-600 underline underline-offset-4 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

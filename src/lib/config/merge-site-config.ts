@@ -1,27 +1,38 @@
 import { BUTTERCUT_DEFAULT_SITE_CONFIG } from "./defaults";
 import type {
   ButtercutIntegrationKey,
+  ButtercutIntegrationsConfig,
   ButtercutSiteConfig,
   ButtercutSiteConfigInput,
 } from "./types";
 
 function mergeIntegrations(
-  base: ButtercutSiteConfig["integrations"],
+  base: ButtercutIntegrationsConfig,
   input?: ButtercutSiteConfigInput["integrations"],
-): ButtercutSiteConfig["integrations"] {
+): ButtercutIntegrationsConfig {
   const keys: ButtercutIntegrationKey[] = [
-    "lastfm",
     "github",
+    "lastfm",
     "supabase",
     "sentry",
     "weather",
   ];
-  const out = { ...base };
+  const out: ButtercutIntegrationsConfig = {
+    github: { ...base.github },
+    lastfm: { ...base.lastfm },
+    supabase: { ...base.supabase },
+    sentry: { ...base.sentry },
+    weather: { ...base.weather },
+  };
   if (!input) return out;
   for (const k of keys) {
     const patch = input[k];
     if (!patch) continue;
-    out[k] = { ...out[k], ...patch };
+    // `as` is required because the union member types differ per key.
+    (out[k] as Record<string, unknown>) = {
+      ...(out[k] as Record<string, unknown>),
+      ...(patch as Record<string, unknown>),
+    };
   }
   return out;
 }

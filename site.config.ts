@@ -12,8 +12,9 @@ export const siteConfig = createSiteConfig({
     siteUrl: "http://localhost:3000",
   },
   nav: [
-    { label: "Home", href: "/" },
-    { label: "GitHub", href: "https://github.com" },
+    { label: "About", href: "/about" },
+    { label: "Projects", href: "/projects" },
+    { label: "Notes", href: "/notes" },
   ],
   socials: [
     { id: "github", label: "GitHub", href: "https://github.com" },

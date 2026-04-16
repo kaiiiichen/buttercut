@@ -1,10 +1,11 @@
 {
-  "tagline": "Demo projects — swap these for yours in content/demo/projects.json",
+  "tagline": "Demo projects — swap these in content/demo/projects.json",
   "projects": [
     {
       "name": "buttercut",
       "description": "This theme repository: App Router, typed config, CI, and demo content.",
-      "href": "https://github.com",
+      "href": "https://github.com/vercel/next.js",
+      "repo": "vercel/next.js",
       "tags": ["Next.js", "TypeScript", "Tailwind"]
     },
     {
