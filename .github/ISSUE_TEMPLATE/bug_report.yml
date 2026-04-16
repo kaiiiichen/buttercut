@@ -1,0 +1,53 @@
+name: Bug report
+description: Something is broken or incorrect in the theme or repository
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Short summary of the problem.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: Steps or minimal code if building locally.
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment (if relevant)
+      description: Browser / OS, or Node version if it is a build/dev issue.
+      placeholder: e.g. Node 20, npm 10
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Screenshots or logs
+      description: Optional — console errors or screenshots.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow this project’s Code of Conduct
+          required: true

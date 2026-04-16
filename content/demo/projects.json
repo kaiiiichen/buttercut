@@ -1,0 +1,17 @@
+{
+  "tagline": "Demo projects — swap these for yours in content/demo/projects.json",
+  "projects": [
+    {
+      "name": "buttercut",
+      "description": "This theme repository: App Router, typed config, CI, and demo content.",
+      "href": "https://github.com",
+      "tags": ["Next.js", "TypeScript", "Tailwind"]
+    },
+    {
+      "name": "Your next idea",
+      "description": "Add entries here or replace the file entirely — the home page reads it at build time.",
+      "href": "https://example.com",
+      "tags": ["Theme", "Content"]
+    }
+  ]
+}
