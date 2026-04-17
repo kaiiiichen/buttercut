@@ -64,7 +64,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
       ref={navRef}
       className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 dark:border-zinc-800 bg-[var(--background)]"
     >
-      <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+      <div className="max-w-[1180px] mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
         <Link
           href="/"
           className="font-nunito text-base font-light tracking-tight hover:opacity-70 transition-opacity"

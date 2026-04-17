@@ -24,15 +24,16 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- **Container width bumped from 1180px → 1360px across the site.**
-  `/`, `/about`, `/projects`, `/notes`, `/notes/[slug]`, `/guide`,
-  and `ButtercutNav` share one `max-w-[1360px]` shell with a
-  trimmed `md:px-8` gutter (was `md:px-12`). Visibly less dead
-  space on wide monitors without pushing body copy past a
-  comfortable reading measure — the long-form `<p>` and `<li>`
-  scale inside `.buttercut-prose` is unchanged, so prose still
-  breathes at the same rhythm, but code blocks, tables, and the
-  hero layout get noticeably more room.
+- **Editorial shell matches kaichen.dev horizontal rhythm again.**
+  Main content uses `max-w-[1180px]` with `px-4 md:px-12 py-16` — the
+  same numbers as `kaichen.dev` (`app/page.tsx`, `app/notes/layout.tsx`,
+  `app/about/page.tsx`, `app/projects/page.tsx`). The nav bar stays
+  `max-w-[1180px] px-4 md:px-8` so the logo and links align with the
+  content column the way the reference site does. A brief experiment
+  with `1360px` + `md:px-8` is rolled back so side margins and
+  nav-to-content alignment match the screenshot reference.
+- **`/guide` layout uses full `py-16`** (not `pt-16` only) so bottom
+  padding matches other long-form routes.
 - **`/guide` Step 8 rewritten for the MDX-only path.** Anchors are
   unchanged (`/guide#notes` still points at the write-notes step),
   but the body drops the `.md` vs `.mdx` fork and describes the

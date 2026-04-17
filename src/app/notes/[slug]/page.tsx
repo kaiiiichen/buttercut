@@ -64,7 +64,7 @@ export default async function NotePage(props: {
   if (!note) notFound();
 
   return (
-    <article className="mx-auto max-w-[1360px] px-4 py-16 md:px-8">
+    <article className="mx-auto max-w-[1180px] px-4 py-16 md:px-12">
       <div className="mb-5 fade-up" style={{ animationDelay: "0ms" }}>
         <Link
           href="/notes"

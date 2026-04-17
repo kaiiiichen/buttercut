@@ -16,7 +16,7 @@ export default async function NotesIndexPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[1360px] px-4 py-16 md:px-8">
+    <div className="mx-auto max-w-[1180px] px-4 py-16 md:px-12">
       {/* Header — mirrors kaichen.dev /notes */}
       <div
         className="mb-10 fade-up"

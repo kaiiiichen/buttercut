@@ -8,6 +8,6 @@ import type { ReactNode } from "react";
  */
 export default function MdxDemoLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto max-w-[760px] px-4 py-16 md:px-8">{children}</div>
+    <div className="mx-auto max-w-[760px] px-4 py-16 md:px-12">{children}</div>
   );
 }
