@@ -20,10 +20,10 @@ describe("mergeSiteConfig", () => {
   it("merges integration flags individually", () => {
     const merged = mergeSiteConfig({
       integrations: {
-        github: { enabled: true },
+        github: { enabled: false },
       },
     });
-    expect(merged.integrations.github.enabled).toBe(true);
+    expect(merged.integrations.github.enabled).toBe(false);
     expect(merged.integrations.lastfm.enabled).toBe(false);
   });
 

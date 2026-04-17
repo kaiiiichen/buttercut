@@ -5,11 +5,35 @@ import { BUTTERCUT_MDX_NOTES } from "./mdx-notes";
 export type ButtercutDemoProject = {
   name: string;
   description: string;
+  /** Public URL. When omitted, auto-derived from `repo` as github.com/<repo>. */
   href: string;
   tags: string[];
   /** Optional "owner/name" for GitHub integration */
   repo?: string;
 };
+
+/**
+ * Accepts the raw shape from `content/demo/projects.json` where `href`
+ * may be omitted if a `repo` is provided. We resolve the two so the
+ * rendered type always has a concrete URL.
+ */
+export type ButtercutDemoProjectInput = Omit<ButtercutDemoProject, "href"> & {
+  href?: string;
+};
+
+function resolveProjectHref(p: ButtercutDemoProjectInput): string {
+  if (p.href && p.href.length > 0) return p.href;
+  if (p.repo && /^[\w.-]+\/[\w.-]+$/.test(p.repo)) {
+    return `https://github.com/${p.repo}`;
+  }
+  return "#";
+}
+
+export function normaliseButtercutProject(
+  p: ButtercutDemoProjectInput,
+): ButtercutDemoProject {
+  return { ...p, href: resolveProjectHref(p) };
+}
 
 export type ButtercutDemoNoteSummary = {
   slug: string;
@@ -30,7 +54,7 @@ export type ButtercutDemoContent = {
 
 type ProjectsFile = {
   tagline: string;
-  projects: ButtercutDemoProject[];
+  projects: ButtercutDemoProjectInput[];
 };
 
 type NoteFrontmatter = {
@@ -137,7 +161,7 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
     tagline: parsed.tagline,
     intro: introRaw.trim(),
     about: aboutRaw.trim(),
-    projects: parsed.projects,
+    projects: parsed.projects.map(normaliseButtercutProject),
     notes,
   };
 }

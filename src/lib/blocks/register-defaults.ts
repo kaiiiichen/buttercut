@@ -2,6 +2,7 @@ import { ButtercutDemoProjects } from "@/blocks/ButtercutDemoProjects";
 import { ButtercutHero } from "@/blocks/ButtercutHero";
 import { ButtercutIntegrationsPanel } from "@/blocks/ButtercutIntegrationsPanel";
 import { ButtercutNowPlayingBlock } from "@/blocks/ButtercutNowPlayingBlock";
+import { ButtercutStatusRow } from "@/blocks/ButtercutStatusRow";
 import { ButtercutWeatherBlock } from "@/blocks/ButtercutWeatherBlock";
 import { applyButtercutCustom } from "@/custom/register";
 import { registerButtercutBlock } from "./registry";
@@ -24,6 +25,7 @@ export function registerButtercutDefaultBlocks(): void {
   registerButtercutBlock("integrations", ButtercutIntegrationsPanel);
   registerButtercutBlock("now_playing", ButtercutNowPlayingBlock);
   registerButtercutBlock("weather", ButtercutWeatherBlock);
+  registerButtercutBlock("status", ButtercutStatusRow);
 
   applyButtercutCustom();
 }

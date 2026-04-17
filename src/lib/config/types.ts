@@ -11,7 +11,11 @@ export type ButtercutSocialLink = {
 
 /**
  * Home block IDs are open strings so users can register custom blocks.
- * Built-in IDs: "hero" | "demo_projects" | "integrations" | "now_playing" | "weather".
+ * Built-in IDs: "hero" | "status" | "now_playing" | "weather" |
+ *                "demo_projects" | "integrations".
+ * `status` is a convenience block that renders `now_playing` and
+ * `weather` side-by-side; use the individual ids if you want them
+ * stacked instead.
  */
 export type ButtercutHomeBlockId = string;
 

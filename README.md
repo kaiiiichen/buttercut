@@ -114,11 +114,11 @@ For long-form notes, `/notes` accepts both formats:
 
 Each integration is **off by default**. Enable in `site.config.ts`, then add any required env vars from `.env.example`.
 
-| Integration | `site.config.ts` keys                                  | Env required                          |
-| ----------- | ------------------------------------------------------ | ------------------------------------- |
-| GitHub stars | `integrations.github.enabled`                         | Optional `GITHUB_TOKEN` (raises limit) |
-| Last.fm     | `integrations.lastfm.enabled` + `username`             | `LASTFM_API_KEY`                      |
-| Weather     | `integrations.weather.enabled` + `lat`, `lon`, `label` | None (Open-Meteo, key-free)           |
+| Integration | Default | `site.config.ts` keys                                  | Env required                          |
+| ----------- | ------- | ------------------------------------------------------ | ------------------------------------- |
+| GitHub stars | **on** | `integrations.github.enabled`                         | Optional `GITHUB_TOKEN` (raises the 60 req/hr/IP limit) |
+| Last.fm     | off     | `integrations.lastfm.enabled` + `username`             | `LASTFM_API_KEY`                      |
+| Weather     | off     | `integrations.weather.enabled` + `lat`, `lon`, `label` | None (Open-Meteo, key-free)           |
 
 All fetch helpers return `null` on any failure, so a misconfigured integration degrades to a placeholder instead of breaking the page.
 
@@ -128,7 +128,7 @@ Under `content/demo/`:
 
 - `intro.md` — hero body (supports `**bold**`)
 - `about.md` — `/about` page body
-- `projects.json` — `{ tagline, projects[] }` where each project may set `repo` for inline GitHub stars
+- `projects.json` — `{ tagline, projects[] }`. Each project may set `repo` for inline GitHub stars, and when `href` is omitted it auto-resolves to `https://github.com/<repo>`
 - `notes/*.md` — each file becomes `/notes/<slug>` with optional frontmatter (`title`, `summary`, `date`)
 - `notes/*.mdx` — same URL, same frontmatter, but authored as MDX and listed in `src/lib/demo/mdx-notes.ts`
 

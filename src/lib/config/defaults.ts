@@ -14,8 +14,7 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
   home: {
     blocks: [
       { id: "hero", enabled: true },
-      { id: "now_playing", enabled: true },
-      { id: "weather", enabled: true },
+      { id: "status", enabled: true },
       { id: "demo_projects", enabled: true },
       { id: "integrations", enabled: true },
     ],
@@ -28,7 +27,10 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
     theme: {},
   },
   integrations: {
-    github: { enabled: false },
+    // GitHub stars use the public API (unauthenticated, 60 req/hr/IP, cached
+    // for an hour). Safe to keep on by default: every fetch has a null
+    // fallback, so a rate limit or outage never breaks a page.
+    github: { enabled: true },
     lastfm: { enabled: false },
     supabase: { enabled: false },
     sentry: { enabled: false },

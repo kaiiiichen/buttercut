@@ -7,6 +7,7 @@ describe("registerButtercutDefaultBlocks", () => {
     registerButtercutDefaultBlocks();
     for (const id of [
       "hero",
+      "status",
       "demo_projects",
       "integrations",
       "now_playing",
@@ -14,7 +15,7 @@ describe("registerButtercutDefaultBlocks", () => {
     ]) {
       expect(getButtercutBlock(id)).toBeDefined();
     }
-    expect(listButtercutBlocks().length).toBeGreaterThanOrEqual(5);
+    expect(listButtercutBlocks().length).toBeGreaterThanOrEqual(6);
   });
 
   it("is idempotent", () => {
