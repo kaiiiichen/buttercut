@@ -8,9 +8,12 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"],
 };
 
-// No remark/rehype plugins here — keeps the config serializable so
-// Turbopack can cache it. Users who need GFM etc. can add plugins
-// in their own fork.
+// Heading `id`s for `h2` / `h3` come from `ButtercutMdxH2` / `ButtercutMdxH3`
+// in `mdx-components.tsx` (github-slugger). We avoid `rehype-slug` here
+// because Turbopack requires serializable MDX options — function plugins
+// break the build (see kaichen.dev’s webpack-only MDX pipeline for the
+// alternative).
+
 const withMDX = createMDX({});
 
 export default withMDX(nextConfig);

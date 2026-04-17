@@ -166,6 +166,8 @@ Under `content/demo/`:
 
 Notes are compiled by `@next/mdx` at build time and rendered inside `ButtercutProse`.
 
+**Table of contents (kaichen.dev parity):** place `<TableOfContents />` in the MDX body **after** the opening frontmatter (and any local components), **immediately before** the first `##` section — the same placement documented in kaichen.dev’s `TableOfContents` source (`feat/notes-toc`). The `/notes/[slug]` route sets `id="note-content"` on the wrapping `<article>` so the client scanner can find `#note-content h2[id], h3[id]`. `h2` / `h3` get stable fragment ids from `ButtercutMdxH2` / `ButtercutMdxH3` (`github-slugger`). The widget stays hidden until at least **two** headings are found (`MIN_HEADINGS = 2`), matching the reference component.
+
 #### Inline markdown subset
 
 _Tutorial: [Step 4 — Authoring short copy](https://buttercut.kaichen.dev/guide#short-copy) (live token demos)._

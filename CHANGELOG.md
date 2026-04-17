@@ -6,6 +6,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.1.0...HEAD)
 
+### Added
+
+- **Note TOC from kaichen.dev.** Port of `components/notes/TableOfContents.tsx`
+  (`feat/notes-toc`) as `ButtercutNoteTableOfContents`, registered in
+  `mdx-components.tsx` under the same JSX tag **`TableOfContents`**. Demo
+  notes call it immediately before the first `##`, matching the reference
+  placement comment. The article shell exposes `id="note-content"` so the
+  scanner can target `#note-content h2[id], h3[id]`. Flat `/notes/[slug]`
+  routes use the pattern `/^\\/notes\\/[^/]+$/` (nested `/notes/a/b` on
+  kaichen.dev still matches the upstream regex). Accent styling uses
+  `var(--accent)` instead of fixed bronze hex so theme presets apply.
+  **`h2` / `h3`** in MDX get stable `id`s via `github-slugger` inside
+  `ButtercutMdxH2` / `ButtercutMdxH3` — we do **not** use `rehype-slug` in
+  `next.config.ts` because Turbopack requires serializable MDX options (same
+  constraint noted in kaichen.dev’s webpack MDX path).
+
 ### Removed
 
 - **Markdown note pipeline retired.** `/notes` is now MDX-only.

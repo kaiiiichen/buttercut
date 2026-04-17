@@ -1,4 +1,7 @@
 import type { MDXComponents } from "mdx/types";
+import { ButtercutHeadingSlugProvider } from "@/components/mdx/ButtercutHeadingSlugContext";
+import { ButtercutMdxH2, ButtercutMdxH3 } from "@/components/mdx/ButtercutMdxHeadings";
+import { ButtercutNoteTableOfContents } from "@/components/notes/ButtercutNoteTableOfContents";
 import { ButtercutProse } from "@/components/ButtercutProse";
 
 /**
@@ -19,6 +22,15 @@ import { ButtercutProse } from "@/components/ButtercutProse";
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
-    wrapper: ({ children }) => <ButtercutProse>{children}</ButtercutProse>,
+    h2: ButtercutMdxH2,
+    h3: ButtercutMdxH3,
+    // Same tag name as kaichen.dev note MDX — place after the hero block,
+    // immediately before the first `##` section.
+    TableOfContents: ButtercutNoteTableOfContents,
+    wrapper: ({ children }) => (
+      <ButtercutHeadingSlugProvider>
+        <ButtercutProse>{children}</ButtercutProse>
+      </ButtercutHeadingSlugProvider>
+    ),
   };
 }
