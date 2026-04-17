@@ -70,7 +70,7 @@ Understanding these pieces makes reviews faster:
 | `src/lib/blocks/register-defaults.ts` | Registers built-in blocks; calls `applyButtercutCustom()` from `src/custom/register.ts`. |
 | `src/lib/demo/mdx-notes.ts` | Literal dynamic imports for each `.mdx` note—required because bundlers cannot infer `import(\`./${slug}.mdx\`)`. |
 | `src/lib/markdown/inline.tsx` | Short-copy markdown (**bold**, `` `code` ``, links) with an explicit URL allow list. |
-| `src/lib/guide/anchors.ts` | Single source of truth for `/guide#fragment` ids. |
+| `src/lib/guide/anchors.ts` | Single source of truth for which `#…` anchor ids exist on `/guide`. |
 | `mdx-components.tsx` | Global MDX components (`ButtercutProse`, heading ids, `TableOfContents`). |
 
 ---
