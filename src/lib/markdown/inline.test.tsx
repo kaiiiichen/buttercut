@@ -1,4 +1,5 @@
 import { isValidElement, type ReactNode } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { renderButtercutInlineMarkdown } from "./inline";
 
@@ -77,5 +78,56 @@ describe("renderButtercutInlineMarkdown", () => {
     const nodes = renderButtercutInlineMarkdown("a `broken token");
     expect(childrenText(nodes)).toBe("a `broken token");
     expect(nodes.some((n) => nodeType(n) === "code")).toBe(false);
+  });
+});
+
+describe("renderButtercutInlineMarkdown — XSS hardening", () => {
+  // Any scheme that can execute script or inject content must NOT produce
+  // a real <a href>. The parser should fall back to plain text so the raw
+  // markdown is visible, but inert.
+  const hostile = [
+    "[x](javascript:alert(1))",
+    "[x](JavaScript:alert(1))",
+    "[x](data:text/html,<script>alert(1)</script>)",
+    "[x](vbscript:msgbox(1))",
+    "[x](file:///etc/passwd)",
+  ];
+
+  for (const src of hostile) {
+    it(`refuses to emit an anchor for ${JSON.stringify(src)}`, () => {
+      const nodes = renderButtercutInlineMarkdown(src);
+      // The only exploit surface is an `<a href>` (or equivalent attribute).
+      // Literal "javascript:" in a text node is inert; we actively *want*
+      // the raw markdown visible so authors see the broken link.
+      expect(nodes.some((n) => nodeType(n) === "a")).toBe(false);
+      const html = renderToStaticMarkup(<>{nodes}</>);
+      expect(html).not.toMatch(/<a\b/i);
+      expect(html).not.toMatch(/\shref\s*=/i);
+      expect(html).toContain("[x](");
+    });
+  }
+
+  it("escapes < and > in plain text (React default)", () => {
+    const nodes = renderButtercutInlineMarkdown(
+      "no <script>alert(1)</script> here",
+    );
+    const html = renderToStaticMarkup(<>{nodes}</>);
+    expect(html).not.toContain("<script>");
+    expect(html).toContain("&lt;script&gt;");
+  });
+
+  it("still accepts relative, fragment, and mailto links", () => {
+    const ok = [
+      "[a](/about)",
+      "[b](#section)",
+      "[c](page.html)",
+      "[d](mailto:hi@example.com)",
+      "[e](https://example.com)",
+    ];
+    for (const src of ok) {
+      const nodes = renderButtercutInlineMarkdown(src);
+      const link = nodes.find((n) => nodeType(n) === "a");
+      expect(link, `expected anchor for ${src}`).toBeDefined();
+    }
   });
 });

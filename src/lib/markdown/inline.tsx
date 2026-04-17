@@ -18,6 +18,22 @@ import type { ReactNode } from "react";
 const TOKEN_RE =
   /(\*\*[^*\n]+\*\*)|(`[^`\n]+`)|(\[[^\]\n]+\]\([^)\s]+\))/g;
 
+/**
+ * Allow relative paths (`/foo`, `#bar`, `foo.html`), mailto:, and http(s).
+ * Reject anything that looks like a script-capable URL scheme
+ * (`javascript:`, `data:`, `vbscript:`, `file:`, unknown custom schemes).
+ * When a link fails the check we fall back to emitting the raw markdown
+ * text, which is visually obvious ("oh, my link didn't render") and
+ * impossible to exploit.
+ */
+function isSafeHref(href: string): boolean {
+  const trimmed = href.trim();
+  if (trimmed.length === 0) return false;
+  // Schemeless → treat as a relative/fragment URL, always safe.
+  if (!/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(trimmed)) return true;
+  return /^(https?|mailto):/i.test(trimmed);
+}
+
 function renderToken(raw: string, key: number): ReactNode {
   const bold = raw.match(/^\*\*(.+)\*\*$/);
   if (bold) {
@@ -43,6 +59,11 @@ function renderToken(raw: string, key: number): ReactNode {
   const link = raw.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
   if (link) {
     const [, label, href] = link;
+    if (!isSafeHref(href)) {
+      // Fall through to raw text: better to show `[x](javascript:...)`
+      // as literal characters than to emit an exploitable anchor.
+      return raw;
+    }
     const external = /^https?:\/\//i.test(href);
     return (
       <a
