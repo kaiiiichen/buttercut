@@ -20,15 +20,31 @@ export function anchorFor(id) {
 }
 
 export function Tip({ tone = "accent", children }) {
-  const toneClass =
+  // Aside block, styled like kaichen.dev's <NoteBlock>: serif (Bitter)
+  // body at 0.9rem signals "annotation" against the surrounding sans
+  // (Nunito) prose. An uppercase mini-label in the accent colour makes
+  // it visually parseable before the reader even starts the sentence.
+  const toneLabel = tone === "warn" ? "Heads up" : "Note";
+  const containerClass =
     tone === "warn"
-      ? "border-amber-400/60 bg-amber-50 text-amber-900 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-200"
-      : "border-[var(--accent)]/40 bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] text-zinc-800 dark:text-zinc-200";
+      ? "border-amber-200 bg-amber-50 dark:border-amber-900/40 dark:bg-amber-950/20"
+      : "border-[var(--accent)]/30 bg-[color-mix(in_srgb,var(--accent)_6%,transparent)]";
+  const labelClass =
+    tone === "warn"
+      ? "text-amber-700 dark:text-amber-400"
+      : "text-[var(--accent)]";
   return (
     <aside
-      className={`not-prose my-5 rounded-[6px] border px-4 py-3 font-serif text-[15px] leading-relaxed ${toneClass}`}
+      className={`not-prose my-6 rounded-sm border px-5 py-4 ${containerClass}`}
     >
-      {children}
+      <div
+        className={`mb-2 font-nunito text-[0.7rem] font-semibold uppercase tracking-[0.12em] ${labelClass}`}
+      >
+        {toneLabel}
+      </div>
+      <div className="font-serif text-[0.9rem] leading-[1.85] text-zinc-700 dark:text-zinc-300 [&_a]:text-[var(--accent)] [&_a]:underline [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-zinc-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-jetbrains-mono [&_code]:text-[0.85em] dark:[&_code]:bg-zinc-800">
+        {children}
+      </div>
     </aside>
   );
 }
@@ -46,12 +62,12 @@ export function Step({ stepNumber, id, title, children }) {
   return (
     <section
       id={id}
-      className="not-prose my-8 scroll-mt-24 border-l-2 border-[var(--accent)]/60 pl-5"
+      className="not-prose my-10 scroll-mt-24 border-l-2 border-[var(--accent)]/60 pl-5"
     >
-      <p className="font-jetbrains-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+      <p className="font-nunito text-[0.8rem] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
         Step {stepNumber}
       </p>
-      <h3 className="group mt-1 flex items-baseline gap-2 font-serif text-2xl font-semibold leading-tight text-zinc-900 dark:text-zinc-100">
+      <h3 className="group mt-1.5 flex items-baseline gap-2 font-serif text-[1.45rem] font-semibold leading-[1.2] text-zinc-900 dark:text-zinc-100">
         <span>{title}</span>
         {id ? (
           <a
@@ -63,7 +79,7 @@ export function Step({ stepNumber, id, title, children }) {
           </a>
         ) : null}
       </h3>
-      <div className="mt-3 font-serif text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300 [&_a]:underline [&_a]:decoration-[var(--accent)]/60 [&_a]:underline-offset-4 [&_code]:rounded [&_code]:bg-zinc-100 [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-jetbrains-mono [&_code]:text-[0.85em] dark:[&_code]:bg-zinc-800">
+      <div className="mt-3 font-nunito text-[0.95rem] leading-[1.75] text-zinc-700 dark:text-zinc-300 [&>p]:mb-3 [&>p:last-child]:mb-0 [&_a]:text-[var(--accent)] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:opacity-70 [&_code]:rounded [&_code]:bg-zinc-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-jetbrains-mono [&_code]:text-[0.85em] dark:[&_code]:bg-zinc-800 [&_strong]:font-semibold [&_strong]:text-zinc-900 dark:[&_strong]:text-zinc-100 [&>ul]:my-3 [&>ul]:ml-6 [&>ul]:list-disc [&>ul>li]:my-1.5 [&>ol]:my-3 [&>ol]:ml-6 [&>ol]:list-decimal [&>ol>li]:my-1.5">
         {children}
       </div>
     </section>
@@ -75,11 +91,11 @@ export function CopyDemo({ source, rendered }) {
   // rendered output on the right. `rendered` is already-parsed JSX so
   // readers see the exact DOM shape the inline helper produces.
   return (
-    <div className="not-prose my-4 grid grid-cols-1 gap-2 rounded-[6px] border border-zinc-200 bg-zinc-50/60 p-3 text-[14px] md:grid-cols-[1fr_1fr] md:gap-4 dark:border-zinc-800 dark:bg-zinc-900/40">
-      <pre className="m-0 overflow-x-auto rounded-sm bg-zinc-100 px-3 py-2 font-jetbrains-mono text-[12.5px] leading-relaxed text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+    <div className="not-prose my-5 grid grid-cols-1 gap-2 rounded-sm border border-zinc-200 bg-zinc-50/60 p-3 md:grid-cols-[1fr_1fr] md:gap-4 dark:border-zinc-800 dark:bg-zinc-900/40">
+      <pre className="m-0 overflow-x-auto rounded-sm bg-zinc-100 px-3 py-2 font-jetbrains-mono text-[0.8rem] leading-[1.7] text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
         <code>{source}</code>
       </pre>
-      <div className="flex items-center font-serif leading-relaxed text-zinc-700 dark:text-zinc-300">
+      <div className="flex items-center font-nunito text-[0.95rem] leading-[1.75] text-zinc-700 dark:text-zinc-300 [&_code]:rounded [&_code]:bg-zinc-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-jetbrains-mono [&_code]:text-[0.85em] dark:[&_code]:bg-zinc-800">
         {rendered}
       </div>
     </div>
@@ -98,14 +114,14 @@ supports.
 
 <div className="not-prose mag-card my-6">
   <div className="mag-label">On this page</div>
-  <div className="grid grid-cols-1 gap-x-6 gap-y-1.5 font-serif text-[14px] md:grid-cols-2">
+  <div className="grid grid-cols-1 gap-x-6 gap-y-2 font-nunito text-[0.95rem] text-zinc-700 md:grid-cols-2 dark:text-zinc-300">
     {BUTTERCUT_GUIDE_ANCHORS.map((a) => (
       <a
         key={a.id}
         href={`#${a.id}`}
-        className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"
+        className="flex items-baseline gap-2 no-underline transition-colors hover:text-[var(--accent)]"
       >
-        <span className="font-jetbrains-mono text-[11px] text-zinc-400">
+        <span className="font-jetbrains-mono text-[0.75rem] text-zinc-400 dark:text-zinc-500">
           {String(a.stepNumber).padStart(2, "0")}
         </span>
         {a.title}

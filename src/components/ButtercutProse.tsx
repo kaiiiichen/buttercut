@@ -15,7 +15,7 @@ export function ButtercutProse({
   className?: string;
 }) {
   const classes = [
-    "buttercut-prose font-serif text-zinc-700 dark:text-zinc-300",
+    "buttercut-prose text-zinc-700 dark:text-zinc-300",
     className,
   ]
     .filter(Boolean)

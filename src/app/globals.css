@@ -223,95 +223,158 @@ body {
 .dark .hljs-params { color: #e6edf3; }
 .dark .hljs-meta { color: #e3b341; }
 
-/* ── Long-form typography (used by /about and /notes) ─────────── */
+/* ── Long-form typography (used by /about, /notes, /guide, /mdx-demo)
+      Mirrors the kaichen.dev notes style: sans (Nunito) body, serif
+      (Bitter) headings with an h2 section rule.
+
+      All selectors wrap their descendants in :where() to neutralise
+      specificity to 0,1,0 — that way any Tailwind utility on an inner
+      element (e.g. <h3 className="text-[1.45rem]">) still wins, and
+      authors can opt a subtree out by resetting className manually.
+      This is the same pattern Tailwind's .prose uses internally. ─── */
 .buttercut-prose {
-  line-height: 1.75;
-  font-size: 16px;
-}
-.buttercut-prose h1,
-.buttercut-prose h2,
-.buttercut-prose h3,
-.buttercut-prose h4 {
   font-family: var(--font-nunito);
+  font-weight: 400;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--foreground);
+}
+.buttercut-prose :where(h1, h2, h3, h4) {
+  font-family: var(--font-bitter);
   color: var(--foreground);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-  margin-top: 2.2em;
-  margin-bottom: 0.6em;
 }
-.buttercut-prose h1 { font-size: 1.9rem; }
-.buttercut-prose h2 { font-size: 1.35rem; }
-.buttercut-prose h3 { font-size: 1.1rem; }
-.buttercut-prose h4 { font-size: 1rem; }
-.buttercut-prose p {
-  margin: 0 0 1em;
+.buttercut-prose :where(h1) {
+  font-size: 1.8rem;
+  line-height: 1.2;
+  margin: 2rem 0 0.75rem;
 }
-.buttercut-prose ul,
-.buttercut-prose ol {
-  margin: 0 0 1em 1.25em;
+.buttercut-prose :where(h2) {
+  font-size: 1.3rem;
+  line-height: 1.3;
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+.buttercut-prose :where(h3) {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin: 1.5rem 0 0.4rem;
+}
+.buttercut-prose :where(h4) {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 1.25rem 0 0.4rem;
+}
+.buttercut-prose :where(p) {
+  margin: 0 0 1rem;
+}
+.buttercut-prose :where(ul, ol) {
+  margin: 0 0 1rem 1.5rem;
   padding: 0;
 }
-.buttercut-prose ul { list-style: disc; }
-.buttercut-prose ol { list-style: decimal; }
-.buttercut-prose li { margin: 0.25em 0; }
-.buttercut-prose a {
+.buttercut-prose :where(ul) { list-style: disc; }
+.buttercut-prose :where(ol) { list-style: decimal; }
+.buttercut-prose :where(li) {
+  margin: 0.375rem 0;
+}
+.buttercut-prose :where(a) {
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+  transition: opacity 150ms;
 }
-.buttercut-prose a:hover {
-  text-decoration-thickness: 2px;
+.buttercut-prose :where(a):hover {
+  opacity: 0.7;
 }
-.buttercut-prose strong {
+.buttercut-prose :where(strong) {
   color: var(--foreground);
   font-weight: 600;
 }
-.buttercut-prose em {
+.buttercut-prose :where(em) {
   font-style: italic;
 }
-.buttercut-prose code {
+.buttercut-prose :where(code) {
   font-family: var(--font-jetbrains-mono);
   font-size: 0.85em;
-  padding: 0.15em 0.35em;
-  background: rgba(161, 161, 170, 0.14);
-  border-radius: 3px;
-}
-.buttercut-prose pre {
-  font-family: var(--font-jetbrains-mono);
-  font-size: 0.85em;
-  padding: 1em 1.25em;
-  background: rgba(24, 24, 27, 0.04);
-  border: 1px solid var(--color-border-tertiary);
+  padding: 0.15em 0.45em;
+  background: rgb(244 244 245);
+  color: rgb(39 39 42);
   border-radius: 4px;
-  overflow-x: auto;
-  margin: 1em 0;
 }
-.buttercut-prose pre code {
+.dark .buttercut-prose :where(code) {
+  background: rgb(39 39 42);
+  color: rgb(228 228 231);
+}
+.buttercut-prose :where(pre) {
+  font-family: var(--font-jetbrains-mono);
+  font-size: 0.83rem;
+  line-height: 1.7;
+  padding: 1rem 1.25rem;
+  background: rgb(244 244 245);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 2px;
+  overflow-x: auto;
+  margin: 0 0 1.25rem;
+}
+.buttercut-prose :where(pre code) {
   background: transparent;
   padding: 0;
+  color: inherit;
+  font-size: inherit;
 }
-.dark .buttercut-prose pre {
-  background: rgba(255, 255, 255, 0.03);
+.dark .buttercut-prose :where(pre) {
+  background: rgb(24 24 27);
 }
-.dark .buttercut-prose code {
-  background: rgba(255, 255, 255, 0.08);
-}
-.buttercut-prose blockquote {
-  margin: 1em 0;
-  padding-left: 1em;
-  border-left: 3px solid var(--color-border-secondary);
-  color: #52525b;
+.buttercut-prose :where(blockquote) {
+  margin: 1.25rem 0;
+  padding-left: 1rem;
+  border-left: 4px solid var(--accent);
+  color: #71717a;
   font-style: italic;
 }
-.dark .buttercut-prose blockquote {
+.dark .buttercut-prose :where(blockquote) {
   color: #a1a1aa;
 }
-.buttercut-prose hr {
+.buttercut-prose :where(hr) {
   border: 0;
   border-top: 1px solid var(--color-border-tertiary);
-  margin: 2em 0;
+  margin: 2rem 0;
+}
+.buttercut-prose :where(table) {
+  width: 100%;
+  margin: 1.25rem 0;
+  border-collapse: collapse;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 2px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+.buttercut-prose :where(thead) {
+  background: rgb(250 250 250);
+}
+.dark .buttercut-prose :where(thead) {
+  background: rgb(24 24 27);
+}
+.buttercut-prose :where(th) {
+  padding: 0.625rem 1rem;
+  text-align: left;
+  font-family: var(--font-nunito);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #71717a;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+.buttercut-prose :where(td) {
+  padding: 0.625rem 1rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+.buttercut-prose :where(tr:last-child td) {
+  border-bottom: 0;
 }
 
 /* ── Reduced motion ───────────────────────────────────────────── */

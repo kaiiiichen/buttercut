@@ -11,18 +11,20 @@ export default function GuideLayout({ children }: { children: ReactNode }) {
   return (
     <article className="mx-auto max-w-[1180px] px-4 pt-16 md:px-12">
       <div className="mb-2 fade-up" style={{ animationDelay: "0ms" }}>
-        <p className="font-nunito text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
-          Tutorial
-        </p>
-        <h1 className="mt-2 font-nunito text-[36px] font-light leading-[1.1] tracking-tight text-zinc-900 dark:text-zinc-100 md:text-[48px]">
+        <div className="mb-1.5 flex items-center gap-2">
+          <span className="font-nunito text-[13px] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
+            Tutorial
+          </span>
+        </div>
+        <h1 className="font-serif text-[2.5rem] font-semibold leading-[1.15] tracking-[-0.01em] text-zinc-900 dark:text-zinc-100">
           Guide
         </h1>
-        <p className="mt-3 max-w-2xl font-serif text-sm leading-[1.8] text-zinc-400 dark:text-zinc-600">
+        <p className="mt-3 max-w-[52rem] font-nunito text-[16px] leading-[1.65] text-zinc-500 dark:text-zinc-400">
           Turn Buttercut into your personal site in about thirty minutes.
           Every step has a stable anchor so READMEs, commit messages, and
           JSDoc can link straight to the relevant walkthrough.
         </p>
-        <div className="mt-6 h-px w-full bg-zinc-200 dark:bg-zinc-800" />
+        <div className="mt-5 h-px w-full bg-zinc-200 dark:bg-zinc-800" />
       </div>
 
       <div className="fade-up" style={{ animationDelay: "60ms" }}>

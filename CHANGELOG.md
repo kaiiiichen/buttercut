@@ -15,6 +15,25 @@ pointer was using a root-relative fragment path (e.g.
 superseded in the same `[Unreleased]` by the full absolute URL
 below).
 
+### Changed
+
+- **Long-form typography rewritten to match `kaichen.dev` notes.**
+`.buttercut-prose` now runs body copy through **Nunito** at
+`0.95rem / 1.75`, headings through **Bitter** (h1 1.8rem, h2 1.3rem
+with a section underline, h3 1.1rem), and lists / tables / code
+blocks through the same scale kaichen.dev uses in its lecture
+notes. Every selector is wrapped in `:where()` so any inline
+Tailwind utility on an inner element (e.g. the `<Step>` h3 in
+`/guide`) still wins. Drops the old `font-serif text-[15px]`
+look that felt cramped.
+- **`/guide` inner vocabulary matches the new prose scale.**
+`<Tip>` renders as a kaichen.dev-style `<NoteBlock>` — uppercase
+accent mini-label over serif (Bitter) 0.9rem body. `<Step>`
+headings move to serif 1.45rem with an `.1em / 0.8rem` Nunito
+eyebrow and Nunito 0.95rem body (no more 15px serif). The TOC
+card, `<CopyDemo>` right pane, and header subtitle all run on
+the same Nunito 0.95rem / 16px sans scale.
+
 ### Added
 
 - **`/guide` picks up the editorial layout.** A new
