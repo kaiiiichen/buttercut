@@ -9,6 +9,7 @@ import {
   loadButtercutDemoNote,
 } from "@/lib/demo/load-demo-content";
 import { loadButtercutMdxNote, listButtercutMdxNoteSlugs } from "@/lib/demo/mdx-notes";
+import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
 import { renderButtercutMarkdown } from "@/lib/markdown/render";
 import { siteConfig } from "../../../../site.config";
 
@@ -118,7 +119,7 @@ export default async function NotePage(props: {
 
         {note.summary ? (
           <p className="mt-3 font-serif text-[0.9rem] leading-[1.8] text-zinc-400 dark:text-zinc-600">
-            {note.summary}
+            {renderButtercutInlineMarkdown(note.summary)}
           </p>
         ) : null}
 

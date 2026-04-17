@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { loadButtercutDemoContent } from "@/lib/demo/load-demo-content";
+import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
 import { siteConfig } from "../../../site.config";
 
 export const metadata: Metadata = {
@@ -76,7 +77,7 @@ export default async function NotesIndexPage() {
                   </p>
                   {note.summary ? (
                     <p className="mt-1 font-serif text-sm text-zinc-500 dark:text-zinc-500">
-                      {note.summary}
+                      {renderButtercutInlineMarkdown(note.summary)}
                     </p>
                   ) : null}
                 </div>

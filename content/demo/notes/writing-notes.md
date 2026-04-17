@@ -1,6 +1,6 @@
 ---
 title: Writing notes
-summary: How notes are parsed and rendered without MDX.
+summary: How notes are parsed by `marked` and rendered inside `ButtercutProse`.
 date: 2026-04-10
 ---
 

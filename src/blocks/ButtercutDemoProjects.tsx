@@ -1,6 +1,7 @@
 import { ButtercutGitHubStarBadge } from "@/components/ButtercutGitHubStarBadge";
 import type { ButtercutBlockProps } from "@/lib/blocks/registry";
 import type { ButtercutDemoProject } from "@/lib/demo/load-demo-content";
+import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
 
 function resolveRepo(p: ButtercutDemoProject): string | undefined {
   if (p.repo) return p.repo;
@@ -34,7 +35,7 @@ export function ButtercutDemoProjects({ config, demo }: ButtercutBlockProps) {
                 {repo ? <ButtercutGitHubStarBadge repo={repo} /> : null}
               </div>
               <p className="mt-1 pl-4 font-serif text-xs leading-snug text-zinc-500 dark:text-zinc-400">
-                {p.description}
+                {renderButtercutInlineMarkdown(p.description)}
               </p>
               <div className="mt-2 flex flex-wrap gap-1 pl-4">
                 {p.tags.map((tag) => (

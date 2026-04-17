@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ButtercutGitHubStarBadge } from "@/components/ButtercutGitHubStarBadge";
 import { loadButtercutDemoContent } from "@/lib/demo/load-demo-content";
+import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
 import { siteConfig } from "../../../site.config";
 
 export const metadata: Metadata = {
@@ -52,7 +53,7 @@ export default async function ProjectsPage() {
                 {repo ? <ButtercutGitHubStarBadge repo={repo} /> : null}
               </div>
               <p className="mt-2 font-serif text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                {p.description}
+                {renderButtercutInlineMarkdown(p.description)}
               </p>
               <div className="mt-3 flex flex-wrap gap-1">
                 {p.tags.map((tag) => (

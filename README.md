@@ -126,13 +126,30 @@ All fetch helpers return `null` on any failure, so a misconfigured integration d
 
 Under `content/demo/`:
 
-- `intro.md` — hero body (supports `**bold**`)
-- `about.md` — `/about` page body
-- `projects.json` — `{ tagline, projects[] }`. Each project may set `repo` for inline GitHub stars, and when `href` is omitted it auto-resolves to `https://github.com/<repo>`
-- `notes/*.md` — each file becomes `/notes/<slug>` with optional frontmatter (`title`, `summary`, `date`)
+- `intro.md` — hero body (inline markdown subset, see below)
+- `about.md` — `/about` page body (full markdown via `marked`)
+- `projects.json` — `{ tagline, projects[] }`. Each project may set `repo` for inline GitHub stars, and when `href` is omitted it auto-resolves to `https://github.com/<repo>`. `description` supports the inline subset.
+- `notes/*.md` — each file becomes `/notes/<slug>` with optional frontmatter (`title`, `summary`, `date`); `summary` supports the inline subset
 - `notes/*.mdx` — same URL, same frontmatter, but authored as MDX and listed in `src/lib/demo/mdx-notes.ts`
 
 `.md` notes render through [`marked`](https://marked.js.org/); `.mdx` notes are compiled by `@next/mdx` and rendered inside `ButtercutProse`.
+
+#### Inline markdown subset
+
+Short copy surfaces — hero intro, project descriptions, note summaries — are
+rendered through [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx)
+rather than a full markdown parser. It recognises exactly three tokens and
+emits real React nodes (no `dangerouslySetInnerHTML`):
+
+| Syntax            | Renders as                          |
+| ----------------- | ----------------------------------- |
+| `**bold**`        | `<strong>` with theme typography    |
+| `` `code` ``      | `<code>` chip with mono font        |
+| `[label](href)`   | `<a>`; external links open in a new tab |
+
+Anything else is emitted verbatim. Use `ButtercutProse` (or the regular `marked`
+path) when you need headings, lists, or block-level elements — this helper is
+intentionally minimal so author-owned snippets stay safe and predictable.
 
 ## Contributing
 

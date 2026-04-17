@@ -1,6 +1,6 @@
 ---
 title: Getting started with Buttercut
-summary: A short walkthrough of configuring the theme and turning on integrations.
+summary: A short walkthrough of `site.config.ts` and turning on optional integrations.
 date: 2026-04-01
 ---
 
