@@ -40,8 +40,6 @@ export type ButtercutDemoNoteSummary = {
   title: string;
   summary?: string;
   date?: string;
-  /** Which rendering path will serve this note. */
-  kind: "md" | "mdx";
 };
 
 /**
@@ -120,31 +118,6 @@ function normaliseAbout(raw: AboutFile | null): ButtercutDemoAbout {
   };
 }
 
-type NoteFrontmatter = {
-  title?: string;
-  summary?: string;
-  date?: string;
-};
-
-const FRONTMATTER_RE = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
-
-export function parseFrontmatter(raw: string): {
-  data: NoteFrontmatter;
-  content: string;
-} {
-  const m = raw.match(FRONTMATTER_RE);
-  if (!m) return { data: {}, content: raw };
-  const block = m[1];
-  const data: Record<string, string> = {};
-  for (const line of block.split(/\r?\n/)) {
-    const kv = line.match(/^([A-Za-z0-9_-]+)\s*:\s*(.*)$/);
-    if (!kv) continue;
-    const [, k, v] = kv;
-    data[k] = v.replace(/^['"]|['"]$/g, "").trim();
-  }
-  return { data, content: raw.slice(m[0].length) };
-}
-
 async function safeRead(p: string): Promise<string> {
   try {
     return await fs.readFile(p, "utf8");
@@ -158,7 +131,6 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
   const projectsPath = path.join(root, "content/demo/projects.json");
   const introPath = path.join(root, "content/demo/intro.md");
   const aboutPath = path.join(root, "content/demo/about.json");
-  const notesDir = path.join(root, "content/demo/notes");
 
   const [projectsRaw, introRaw, aboutRaw] = await Promise.all([
     fs.readFile(projectsPath, "utf8"),
@@ -175,57 +147,31 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
     about = EMPTY_ABOUT;
   }
 
-  let notes: ButtercutDemoNoteSummary[] = [];
-  try {
-    const files = await fs.readdir(notesDir);
-    const mdSummaries = await Promise.all(
-      files
-        .filter((f) => f.endsWith(".md"))
-        .map(async (f): Promise<ButtercutDemoNoteSummary> => {
-          const slug = f.replace(/\.md$/, "");
-          const raw = await fs.readFile(path.join(notesDir, f), "utf8");
-          const { data } = parseFrontmatter(raw);
+  // Note summaries are the `frontmatter` exports from each registered
+  // MDX module. The registry is the single source of truth — adding a
+  // file to `content/demo/notes/` does nothing until you register it
+  // in `src/lib/demo/mdx-notes.ts`. That keeps drafts out of prod.
+  const noteSummaries = await Promise.all(
+    Object.entries(BUTTERCUT_MDX_NOTES).map(
+      async ([slug, load]): Promise<ButtercutDemoNoteSummary> => {
+        try {
+          const mod = await load();
           return {
             slug,
-            title: data.title ?? slug,
-            summary: data.summary,
-            date: data.date,
-            kind: "md",
+            title: mod.frontmatter?.title ?? slug,
+            summary: mod.frontmatter?.summary,
+            date: mod.frontmatter?.date,
           };
-        }),
-    );
+        } catch {
+          return { slug, title: slug };
+        }
+      },
+    ),
+  );
 
-    // MDX summaries come from the registry, not the filesystem — users stay
-    // in control of which MDX files are published.
-    const mdxSummaries = await Promise.all(
-      Object.entries(BUTTERCUT_MDX_NOTES).map(
-        async ([slug, load]): Promise<ButtercutDemoNoteSummary> => {
-          try {
-            const mod = await load();
-            return {
-              slug,
-              title: mod.frontmatter?.title ?? slug,
-              summary: mod.frontmatter?.summary,
-              date: mod.frontmatter?.date,
-              kind: "mdx",
-            };
-          } catch {
-            return { slug, title: slug, kind: "mdx" };
-          }
-        },
-      ),
-    );
-
-    // Prefer the MDX entry if a slug somehow appears in both registries.
-    const byId = new Map<string, ButtercutDemoNoteSummary>();
-    for (const n of mdSummaries) byId.set(n.slug, n);
-    for (const n of mdxSummaries) byId.set(n.slug, n);
-    notes = Array.from(byId.values()).sort((a, b) =>
-      (b.date ?? "").localeCompare(a.date ?? ""),
-    );
-  } catch {
-    notes = [];
-  }
+  const notes = noteSummaries.sort((a, b) =>
+    (b.date ?? "").localeCompare(a.date ?? ""),
+  );
 
   return {
     tagline: parsed.tagline,
@@ -238,23 +184,3 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
 
 /** Matches a single path segment — letters, digits, dash, underscore only. */
 export const BUTTERCUT_SLUG_RE = /^[A-Za-z0-9_-]+$/;
-
-export async function loadButtercutDemoNote(
-  slug: string,
-): Promise<{ frontmatter: NoteFrontmatter; body: string } | null> {
-  if (!BUTTERCUT_SLUG_RE.test(slug)) return null;
-
-  const notesDir = path.resolve(process.cwd(), "content/demo/notes");
-  const file = path.resolve(notesDir, `${slug}.md`);
-  // Belt + suspenders: reject anything that resolved outside the notes dir
-  // even though the slug regex should already guarantee this.
-  if (!file.startsWith(notesDir + path.sep)) return null;
-
-  try {
-    const raw = await fs.readFile(file, "utf8");
-    const { data, content } = parseFrontmatter(raw);
-    return { frontmatter: data, body: content };
-  } catch {
-    return null;
-  }
-}

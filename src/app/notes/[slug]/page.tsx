@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import fs from "node:fs/promises";
-import path from "node:path";
 import { ButtercutProse } from "@/components/ButtercutProse";
+import { BUTTERCUT_SLUG_RE } from "@/lib/demo/load-demo-content";
 import {
-  BUTTERCUT_SLUG_RE,
-  loadButtercutDemoNote,
-} from "@/lib/demo/load-demo-content";
-import { loadButtercutMdxNote, listButtercutMdxNoteSlugs } from "@/lib/demo/mdx-notes";
+  loadButtercutMdxNote,
+  listButtercutMdxNoteSlugs,
+} from "@/lib/demo/mdx-notes";
 import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
-import { renderButtercutMarkdown } from "@/lib/markdown/render";
 import { siteConfig } from "../../../../site.config";
 
 // Only pre-rendered slugs are valid; anything else 404s immediately
@@ -18,23 +15,9 @@ import { siteConfig } from "../../../../site.config";
 export const dynamicParams = false;
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const mdDir = path.join(process.cwd(), "content/demo/notes");
-  const slugs = new Set<string>();
-
-  try {
-    const files = await fs.readdir(mdDir);
-    for (const f of files) {
-      if (f.endsWith(".md")) slugs.add(f.replace(/\.md$/, ""));
-    }
-  } catch {
-    // No markdown directory — MDX registry may still contribute slugs.
-  }
-
-  for (const slug of listButtercutMdxNoteSlugs()) {
-    if (BUTTERCUT_SLUG_RE.test(slug)) slugs.add(slug);
-  }
-
-  return Array.from(slugs).map((slug) => ({ slug }));
+  return listButtercutMdxNoteSlugs()
+    .filter((slug) => BUTTERCUT_SLUG_RE.test(slug))
+    .map((slug) => ({ slug }));
 }
 
 type NoteView = {
@@ -45,31 +28,19 @@ type NoteView = {
 };
 
 async function loadNoteView(slug: string): Promise<NoteView | null> {
-  // MDX takes precedence — it is the only path that supports JSX.
   const mdxMod = await loadButtercutMdxNote(slug);
-  if (mdxMod) {
-    const Content = mdxMod.default;
-    const fm = mdxMod.frontmatter ?? {};
-    return {
-      title: fm.title ?? slug,
-      summary: fm.summary,
-      date: fm.date,
-      body: (
-        <ButtercutProse>
-          <Content />
-        </ButtercutProse>
-      ),
-    };
-  }
-
-  const md = await loadButtercutDemoNote(slug);
-  if (!md) return null;
-  const html = renderButtercutMarkdown(md.body);
+  if (!mdxMod) return null;
+  const Content = mdxMod.default;
+  const fm = mdxMod.frontmatter ?? {};
   return {
-    title: md.frontmatter.title ?? slug,
-    summary: md.frontmatter.summary,
-    date: md.frontmatter.date,
-    body: <ButtercutProse html={html} />,
+    title: fm.title ?? slug,
+    summary: fm.summary,
+    date: fm.date,
+    body: (
+      <ButtercutProse>
+        <Content />
+      </ButtercutProse>
+    ),
   };
 }
 
@@ -93,8 +64,7 @@ export default async function NotePage(props: {
   if (!note) notFound();
 
   return (
-    <article className="mx-auto max-w-[1180px] px-4 py-16 md:px-12">
-      {/* Back button — kaichen.dev note header recipe (app/notes/cs61a/scheme-quote/page.mdx). */}
+    <article className="mx-auto max-w-[1360px] px-4 py-16 md:px-8">
       <div className="mb-5 fade-up" style={{ animationDelay: "0ms" }}>
         <Link
           href="/notes"
@@ -105,10 +75,7 @@ export default async function NotePage(props: {
         </Link>
       </div>
 
-      <div
-        className="mb-8 fade-up"
-        style={{ animationDelay: "40ms" }}
-      >
+      <div className="mb-8 fade-up" style={{ animationDelay: "40ms" }}>
         {note.date ? (
           <div className="mb-1.5 flex items-center gap-2">
             <span className="font-nunito text-[13px] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">

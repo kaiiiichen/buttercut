@@ -2,14 +2,14 @@ import type { ReactNode } from "react";
 
 /**
  * Wraps `/guide/page.mdx` in the same editorial shell as `/notes`,
- * `/about`, and `/projects`: a `max-w-[1180px]` container with a
+ * `/about`, and `/projects`: a `max-w-[1360px]` container with a
  * `fade-up` header, a serif subtitle, and a divider. The MDX content
  * itself is still constrained to a comfortable reading column by the
  * global MDX wrapper in `mdx-components.tsx`.
  */
 export default function GuideLayout({ children }: { children: ReactNode }) {
   return (
-    <article className="mx-auto max-w-[1180px] px-4 pt-16 md:px-12">
+    <article className="mx-auto max-w-[1360px] px-4 pt-16 md:px-8">
       <div className="mb-2 fade-up" style={{ animationDelay: "0ms" }}>
         <div className="mb-1.5 flex items-center gap-2">
           <span className="font-nunito text-[13px] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">

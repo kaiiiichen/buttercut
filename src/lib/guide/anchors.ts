@@ -42,7 +42,7 @@ export const BUTTERCUT_GUIDE_ANCHORS: readonly ButtercutGuideAnchor[] = [
   { id: "theme", title: "Pick a colour mood", stepNumber: 5 },
   { id: "home-blocks", title: "Reorder or hide home blocks", stepNumber: 6 },
   { id: "blocks", title: "Add or override a block", stepNumber: 7 },
-  { id: "notes", title: "Write notes in .md or .mdx", stepNumber: 8 },
+  { id: "notes", title: "Write notes in MDX", stepNumber: 8 },
   {
     id: "integrations",
     title: "Turn on optional integrations",

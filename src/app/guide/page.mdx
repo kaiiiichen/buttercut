@@ -150,7 +150,7 @@ buttercut/
 │   ├── intro.md                ← hero body
 │   ├── about.json              ← /about structured sections
 │   ├── projects.json           ← /projects cards
-│   └── notes/*.md | *.mdx
+│   └── notes/*.mdx            ← each one is a note
 ├── src/app/                    ← App Router routes
 ├── src/blocks/                 ← home-page sections (Buttercut*)
 ├── src/components/             ← shared UI
@@ -288,8 +288,8 @@ produce an exploitable anchor.
 
 <Tip>
   This is deliberately tiny. For headings, lists, or block-level
-  content write an `.md` or `.mdx` note — those go through `marked`
-  and `ButtercutProse` and support the full markdown grammar.
+  content write an `.mdx` note — those go through `@next/mdx` and
+  `ButtercutProse` and support the full markdown grammar plus JSX.
 </Tip>
 
 </Step>
@@ -376,26 +376,28 @@ without forking the whole block.
 
 <Step {...anchorFor("notes")}>
 
-Drop files into `content/demo/notes/`:
+Every note under `content/demo/notes/` is an `.mdx` file. Write
+plain markdown most of the time; drop to JSX when you need a
+component inline (callouts, charts, live demos).
 
-- `something.md` — picked up automatically. Frontmatter is
-  `title`, `summary`, `date`.
-- `something.mdx` — same frontmatter contract, plus JSX. Register
-  it with a single line in `src/lib/demo/mdx-notes.ts`:
+Add the file, then register it with a single line in
+`src/lib/demo/mdx-notes.ts`:
 
-  ```ts
-  export const BUTTERCUT_MDX_NOTES = {
-    "my-essay": () =>
-      import("../../../content/demo/notes/my-essay.mdx"),
-  };
-  ```
+```ts
+export const BUTTERCUT_MDX_NOTES = {
+  "my-essay": () =>
+    import("../../../content/demo/notes/my-essay.mdx"),
+};
+```
 
-Both share the same `/notes/[slug]` URL and card layout; MDX entries
-get a small `mdx` badge on the index.
+The registry is the authoritative list — `generateStaticParams`
+reads it directly, so anything unregistered returns 404 and no
+accidentally-published draft can leak to prod.
 
 <Tip>
-  Frontmatter in `.mdx` is just a regular export: `export const
-  frontmatter = { title: "...", summary: "...", date: "YYYY-MM-DD" }`.
+  Frontmatter is a regular export: `export const frontmatter = {
+  title: "...", summary: "...", date: "YYYY-MM-DD" }`. `summary`
+  supports the inline **bold** / `code` / `[link](url)` subset.
 </Tip>
 
 </Step>

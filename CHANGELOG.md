@@ -6,6 +6,38 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.1.0...HEAD)
 
+### Removed
+
+- **Markdown note pipeline retired.** `/notes` is now MDX-only.
+  `src/lib/markdown/render.ts`, the `marked` dependency, the
+  `parseFrontmatter` / `loadButtercutDemoNote` helpers on
+  `load-demo-content.ts`, and the `html` prop on `ButtercutProse`
+  are all gone. `content/demo/notes/getting-started.md` and
+  `writing-notes.md` were rewritten as `.mdx` with
+  `export const frontmatter` and registered in
+  `src/lib/demo/mdx-notes.ts`. Every registered note goes through
+  `@next/mdx` + `ButtercutProse`, so code blocks, tables, and
+  inline components all render through a single code path. The
+  `kind: "md" | "mdx"` discriminator on `ButtercutDemoNoteSummary`
+  was dropped — summaries only carry `slug / title / summary /
+  date` now.
+
+### Changed
+
+- **Container width bumped from 1180px → 1360px across the site.**
+  `/`, `/about`, `/projects`, `/notes`, `/notes/[slug]`, `/guide`,
+  and `ButtercutNav` share one `max-w-[1360px]` shell with a
+  trimmed `md:px-8` gutter (was `md:px-12`). Visibly less dead
+  space on wide monitors without pushing body copy past a
+  comfortable reading measure — the long-form `<p>` and `<li>`
+  scale inside `.buttercut-prose` is unchanged, so prose still
+  breathes at the same rhythm, but code blocks, tables, and the
+  hero layout get noticeably more room.
+- **`/guide` Step 8 rewritten for the MDX-only path.** Anchors are
+  unchanged (`/guide#notes` still points at the write-notes step),
+  but the body drops the `.md` vs `.mdx` fork and describes the
+  single MDX workflow + explicit registry.
+
 ### Fixed
 
 - **README tutorial links clickable on GitHub.** Every `_Tutorial:_`

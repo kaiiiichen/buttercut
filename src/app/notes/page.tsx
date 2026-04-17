@@ -16,7 +16,7 @@ export default async function NotesIndexPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[1180px] px-4 py-16 md:px-12">
+    <div className="mx-auto max-w-[1360px] px-4 py-16 md:px-8">
       {/* Header — mirrors kaichen.dev /notes */}
       <div
         className="mb-10 fade-up"
@@ -38,8 +38,10 @@ export default async function NotesIndexPage() {
 
       {notes.length === 0 ? (
         <p className="font-serif text-sm text-zinc-500 dark:text-zinc-400 fade-up" style={{ animationDelay: "60ms" }}>
-          No notes yet — add a markdown file under{" "}
-          <code className="font-jetbrains-mono text-xs">content/demo/notes/</code>.
+          No notes yet — add an `.mdx` file under{" "}
+          <code className="font-jetbrains-mono text-xs">content/demo/notes/</code>
+          {" "}and register it in{" "}
+          <code className="font-jetbrains-mono text-xs">src/lib/demo/mdx-notes.ts</code>.
         </p>
       ) : (
         <div
@@ -55,21 +57,11 @@ export default async function NotesIndexPage() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
-                  {(note.date || note.kind === "mdx") ? (
+                  {note.date ? (
                     <div className="mb-1.5 flex items-center gap-2">
-                      {note.date ? (
-                        <span className="font-nunito text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
-                          {note.date}
-                        </span>
-                      ) : null}
-                      {note.kind === "mdx" ? (
-                        <span
-                          title="Rendered from .mdx"
-                          className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-jetbrains-mono text-[10px] text-zinc-500 dark:bg-zinc-800/80 dark:text-zinc-400"
-                        >
-                          mdx
-                        </span>
-                      ) : null}
+                      <span className="font-nunito text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
+                        {note.date}
+                      </span>
                     </div>
                   ) : null}
                   <p

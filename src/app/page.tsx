@@ -10,7 +10,7 @@ export default async function Home() {
   const blocks = siteConfig.home.blocks.filter((b) => b.enabled);
 
   return (
-    <div className="mx-auto max-w-[1180px] space-y-14 px-4 py-16 md:px-12">
+    <div className="mx-auto max-w-[1360px] space-y-14 px-4 py-16 md:px-8">
       {blocks.map((block, index) => {
         const Component = getButtercutBlock(block.id);
         if (!Component) {

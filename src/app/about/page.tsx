@@ -23,7 +23,7 @@ export default async function AboutPage() {
   const hasRightColumn = hasExperience || hasVolunteering;
 
   return (
-    <div className="mx-auto max-w-[1180px] space-y-8 px-4 py-16 md:px-12">
+    <div className="mx-auto max-w-[1360px] space-y-8 px-4 py-16 md:px-8">
       <div className="fade-up" style={{ animationDelay: "0ms" }}>
         <h1 className="font-nunito text-[36px] font-light leading-[1.1] tracking-tight text-zinc-900 dark:text-zinc-100 md:text-[48px]">
           About

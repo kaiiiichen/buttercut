@@ -63,9 +63,9 @@ CI runs: `lint` → `typecheck` → `test` → `build`.
 | `src/lib/config`         | Defaults, merge helpers, types                    |
 | `src/lib/integrations`   | GitHub / Last.fm / weather helpers                |
 | `src/lib/demo`           | Loaders for `content/demo/`                       |
-| `src/lib/markdown`       | `marked`-based renderer used by `/notes`          |
+| `src/lib/markdown`       | Inline markdown subset used by block copy         |
 | `src/lib/theme`          | Runtime-safe brand token helpers                  |
-| `content/demo`           | Demo copy: `intro.md`, `about.json`, `projects.json`, `notes/*.md` |
+| `content/demo`           | Demo copy: `intro.md`, `about.json`, `projects.json`, `notes/*.mdx` |
 | `public`                 | Static assets                                     |
 
 ## Configuration
@@ -133,14 +133,11 @@ brand: {
 
 ### MDX
 
-_Tutorial: [Step 8 — Write notes in .md or .mdx](https://buttercut.kaichen.dev/guide#notes)._
+_Tutorial: [Step 8 — Write notes in MDX](https://buttercut.kaichen.dev/guide#notes)._
 
 `.mdx` pages work under `src/app/` out of the box (see `/mdx-demo`). Every MDX document is wrapped in `ButtercutProse` via `mdx-components.tsx`, so typography matches the rest of the theme.
 
-For long-form notes, `/notes` accepts both formats:
-
-- drop a `.md` file in `content/demo/notes/` and it is picked up automatically;
-- add a `.mdx` file next to it and register one line in `src/lib/demo/mdx-notes.ts`. Both kinds share the same frontmatter contract (`title`, `summary`, `date`) and the same `/notes/[slug]` URL shape. MDX entries are flagged with a small `mdx` badge on the index.
+Long-form notes under `/notes` are authored in MDX too. Add your file under `content/demo/notes/<slug>.mdx` and register a one-liner in `src/lib/demo/mdx-notes.ts` — the registry is the authoritative list, so drafts on disk stay unpublished until you opt them in. Every note exports a `frontmatter` constant with `title`, `summary`, and `date`.
 
 ### Optional integrations
 
@@ -165,10 +162,9 @@ Under `content/demo/`:
 - `intro.md` — hero body (inline markdown subset, see below)
 - `about.json` — `/about` page data: `{ intro, education[], experience[], volunteering[], focus[] }`. Every section is optional — empty arrays hide the card entirely. All string fields support the inline subset.
 - `projects.json` — `{ tagline, projects[] }`. Each project may set `repo` for inline GitHub stars, and when `href` is omitted it auto-resolves to `https://github.com/<repo>`. `description` and `tags[]` support the inline subset.
-- `notes/*.md` — each file becomes `/notes/<slug>` with optional frontmatter (`title`, `summary`, `date`); `summary` supports the inline subset
-- `notes/*.mdx` — same URL, same frontmatter, but authored as MDX and listed in `src/lib/demo/mdx-notes.ts`
+- `notes/*.mdx` — each file becomes `/notes/<slug>`. Every note exports `frontmatter = { title, summary, date }` and is registered in `src/lib/demo/mdx-notes.ts`; `summary` supports the inline subset
 
-`.md` notes render through [`marked`](https://marked.js.org/); `.mdx` notes are compiled by `@next/mdx` and rendered inside `ButtercutProse`.
+Notes are compiled by `@next/mdx` at build time and rendered inside `ButtercutProse`.
 
 #### Inline markdown subset
 

@@ -29,8 +29,18 @@ export type ButtercutMdxNoteLoader = () => Promise<ButtercutMdxNoteModule>;
  * MDX file. Anything missing is gracefully omitted.
  */
 export const BUTTERCUT_MDX_NOTES: Record<string, ButtercutMdxNoteLoader> = {
+  "getting-started": () =>
+    import(
+      "../../../content/demo/notes/getting-started.mdx"
+    ) as Promise<ButtercutMdxNoteModule>,
+  "writing-notes": () =>
+    import(
+      "../../../content/demo/notes/writing-notes.mdx"
+    ) as Promise<ButtercutMdxNoteModule>,
   "welcome-mdx": () =>
-    import("../../../content/demo/notes/welcome-mdx.mdx") as Promise<ButtercutMdxNoteModule>,
+    import(
+      "../../../content/demo/notes/welcome-mdx.mdx"
+    ) as Promise<ButtercutMdxNoteModule>,
 };
 
 export function listButtercutMdxNoteSlugs(): string[] {

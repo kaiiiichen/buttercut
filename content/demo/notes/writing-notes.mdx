@@ -1,0 +1,65 @@
+export const frontmatter = {
+  title: "Writing notes",
+  summary:
+    "How notes are authored in MDX and rendered inside `ButtercutProse`.",
+  date: "2026-04-10",
+};
+
+## MDX notes — one file, two levels of power
+
+Every note under `content/demo/notes/` is an `.mdx` file. Ninety-five
+percent of the time you write plain markdown and never touch JSX —
+headings, lists, tables, bold, italic, inline code, and fenced code
+blocks all just work.
+
+The remaining five percent is where MDX earns its keep: drop in a
+React component mid-paragraph and it renders inline, with full access
+to the theme's typography and color variables.
+
+## Frontmatter
+
+Every MDX note exports a `frontmatter` constant at the top:
+
+```tsx
+export const frontmatter = {
+  title: "Your headline",
+  summary: "Optional one-liner shown on /notes and in the detail header.",
+  date: "2026-04-10",
+};
+```
+
+`title` and `summary` flow into the `/notes` card, the
+`<title>` tag, and the page's kaichen.dev-style eyebrow + subtitle.
+`date` feeds the accent-colour label above the h1 and is used to
+sort the list.
+
+## Registration — a one-liner
+
+Buttercut keeps the note registry explicit because Next.js /
+Turbopack cannot statically analyse `` import(`./${slug}.mdx`) ``.
+Add your file, then a single line in
+`src/lib/demo/mdx-notes.ts`:
+
+```tsx
+export const BUTTERCUT_MDX_NOTES = {
+  "my-essay": () => import("../../../content/demo/notes/my-essay.mdx"),
+};
+```
+
+That's the only step. `generateStaticParams` reads the registry
+directly, so anything you haven't registered returns 404 — no
+accidentally-published drafts.
+
+## Inline code and emphasis
+
+Use backticks for `inline code`, **asterisks** for bold, and
+*single asterisks* for italics. Tables, fenced code blocks with
+language hints, and block quotes all render through the same
+`ButtercutProse` pipeline you see on `/guide`.
+
+## When to drop to JSX
+
+Reach for a component when plain markdown starts fighting you:
+bespoke callouts, live charts, a gated preview, or the welcome
+note's `<Callout>` helper. The note stays one file; your readers
+get something they can interact with.
