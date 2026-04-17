@@ -83,9 +83,32 @@ export const siteConfig = createSiteConfig({
 
 Values are sanitized before being written into a `<style>` tag — invalid or overlong entries are silently dropped.
 
+#### Colour presets
+
+Three hand-tuned moods ship with the theme. Spread one and override any token:
+
+```ts
+import { buttercutPreset } from "@/lib/theme/presets";
+
+brand: {
+  theme: { ...buttercutPreset("sunset"), accent: "#ff3366" },
+}
+```
+
+| Preset     | Mood                                | Accent (light → dark) | Background (light → dark) |
+| ---------- | ----------------------------------- | --------------------- | ------------------------- |
+| `sunset`   | Warm, editorial, paper-white        | `#ff6f3c` → `#ffa07a` | `#fff7ee` → `#1c140e`     |
+| `ocean`    | Cool blues, approachable corporate  | `#0b6ea4` → `#7dd3fc` | `#f2f7fb` → `#0b1e2b`     |
+| `terminal` | Monochrome green-on-black, night-only | `#10b981` → `#6ee7b7` | `#0a0a0a` → `#0a0a0a`     |
+
 ### MDX
 
-`.mdx` pages work under `src/app/` out of the box (see `/mdx-demo`). Every MDX document is wrapped in `ButtercutProse` via `mdx-components.tsx`, so typography matches the rest of the theme. Plain `.md` notes still render through `marked`.
+`.mdx` pages work under `src/app/` out of the box (see `/mdx-demo`). Every MDX document is wrapped in `ButtercutProse` via `mdx-components.tsx`, so typography matches the rest of the theme.
+
+For long-form notes, `/notes` accepts both formats:
+
+- drop a `.md` file in `content/demo/notes/` and it is picked up automatically;
+- add a `.mdx` file next to it and register one line in `src/lib/demo/mdx-notes.ts`. Both kinds share the same frontmatter contract (`title`, `summary`, `date`) and the same `/notes/[slug]` URL shape. MDX entries are flagged with a small `mdx` badge on the index.
 
 ### Optional integrations
 
@@ -107,8 +130,9 @@ Under `content/demo/`:
 - `about.md` — `/about` page body
 - `projects.json` — `{ tagline, projects[] }` where each project may set `repo` for inline GitHub stars
 - `notes/*.md` — each file becomes `/notes/<slug>` with optional frontmatter (`title`, `summary`, `date`)
+- `notes/*.mdx` — same URL, same frontmatter, but authored as MDX and listed in `src/lib/demo/mdx-notes.ts`
 
-`.md` notes render through [`marked`](https://marked.js.org/); `.mdx` pages go through `@next/mdx`.
+`.md` notes render through [`marked`](https://marked.js.org/); `.mdx` notes are compiled by `@next/mdx` and rendered inside `ButtercutProse`.
 
 ## Contributing
 

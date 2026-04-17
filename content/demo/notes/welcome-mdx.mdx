@@ -1,0 +1,64 @@
+export const frontmatter = {
+  title: "Writing notes in MDX",
+  summary:
+    "MDX notes share the same frontmatter contract as markdown, with JSX superpowers.",
+  date: "2026-04-12",
+};
+
+export function Callout({ tone = "accent", children }) {
+  const toneClass =
+    tone === "warn"
+      ? "border-amber-400/60 bg-amber-50 text-amber-900 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-200"
+      : "border-[var(--accent)]/40 bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] text-zinc-800 dark:text-zinc-200";
+  return (
+    <aside
+      className={`not-prose my-5 rounded-[6px] border px-4 py-3 font-serif text-[15px] leading-relaxed ${toneClass}`}
+    >
+      {children}
+    </aside>
+  );
+}
+
+## Why MDX?
+
+Plain markdown covers 95% of long-form writing. MDX fills the remaining 5%:
+runnable components, callouts, interactive demos, or bespoke layouts —
+all while keeping the familiar markdown syntax around them.
+
+<Callout>
+  This box is a **React component** declared at the top of the file and
+  used inline. You can drop in charts, auth gates, or a live code editor
+  the same way.
+</Callout>
+
+## The contract
+
+Every MDX note exports a `frontmatter` constant:
+
+```tsx
+export const frontmatter = {
+  title: "…",
+  summary: "…",
+  date: "YYYY-MM-DD",
+};
+```
+
+Register it once in `src/lib/demo/mdx-notes.ts` and it joins the rest of
+`/notes` — identical URL shape, identical card in the list, identical
+back-button. Your markdown authors keep writing `.md`; your designers
+pick up `.mdx` when they need components. Everyone stays on the same
+`/notes/[slug]` route.
+
+## Rendering path
+
+MDX is compiled to a React component at build time. The `[slug]` route
+loads the module on demand, reads its `frontmatter`, and renders the
+component inside the same `ButtercutProse` wrapper that markdown uses —
+so typography, links, code blocks, and syntax highlighting all come for
+free.
+
+<Callout tone="warn">
+  Only register notes you actually ship. The registry is the authoritative
+  list — `generateStaticParams` reads it directly, and anything unregistered
+  returns 404.
+</Callout>

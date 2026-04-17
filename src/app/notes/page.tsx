@@ -51,11 +51,21 @@ export default async function NotesIndexPage() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
-                  {note.date ? (
+                  {(note.date || note.kind === "mdx") ? (
                     <div className="mb-1.5 flex items-center gap-2">
-                      <span className="font-nunito text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
-                        {note.date}
-                      </span>
+                      {note.date ? (
+                        <span className="font-nunito text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
+                          {note.date}
+                        </span>
+                      ) : null}
+                      {note.kind === "mdx" ? (
+                        <span
+                          title="Rendered from .mdx"
+                          className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-jetbrains-mono text-[10px] text-zinc-500 dark:bg-zinc-800/80 dark:text-zinc-400"
+                        >
+                          mdx
+                        </span>
+                      ) : null}
                     </div>
                   ) : null}
                   <p

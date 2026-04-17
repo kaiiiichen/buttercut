@@ -1,4 +1,5 @@
 import { createSiteConfig } from "@/lib/config/create-site-config";
+// import { buttercutPreset } from "@/lib/theme/presets";
 
 /**
  * Buttercut theme configuration.
@@ -24,11 +25,16 @@ export const siteConfig = createSiteConfig({
     { id: "email", label: "Email", href: "mailto:hello@example.com" },
     { id: "docs", label: "Docs", href: "https://nextjs.org" },
   ],
-  // Uncomment to colour-theme your site without touching CSS:
-  // brand: {
-  //   theme: {
-  //     accent: "#ff6f3c",
-  //     accentDark: "#ffa07a",
+  // Pick a colour mood without writing CSS. Presets live in
+  // `src/lib/theme/presets.ts` — spread one and override any token:
+  //
+  //   brand: {
+  //     theme: { ...buttercutPreset("sunset"), accent: "#ff3366" },
   //   },
-  // },
+  //
+  // Or define the token set inline:
+  //
+  //   brand: {
+  //     theme: { accent: "#ff6f3c", accentDark: "#ffa07a" },
+  //   },
 });

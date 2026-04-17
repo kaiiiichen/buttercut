@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { BUTTERCUT_MDX_NOTES } from "./mdx-notes";
 
 export type ButtercutDemoProject = {
   name: string;
@@ -15,6 +16,8 @@ export type ButtercutDemoNoteSummary = {
   title: string;
   summary?: string;
   date?: string;
+  /** Which rendering path will serve this note. */
+  kind: "md" | "mdx";
 };
 
 export type ButtercutDemoContent = {
@@ -81,7 +84,7 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
   let notes: ButtercutDemoNoteSummary[] = [];
   try {
     const files = await fs.readdir(notesDir);
-    const summaries = await Promise.all(
+    const mdSummaries = await Promise.all(
       files
         .filter((f) => f.endsWith(".md"))
         .map(async (f): Promise<ButtercutDemoNoteSummary> => {
@@ -93,10 +96,39 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
             title: data.title ?? slug,
             summary: data.summary,
             date: data.date,
+            kind: "md",
           };
         }),
     );
-    notes = summaries.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
+
+    // MDX summaries come from the registry, not the filesystem — users stay
+    // in control of which MDX files are published.
+    const mdxSummaries = await Promise.all(
+      Object.entries(BUTTERCUT_MDX_NOTES).map(
+        async ([slug, load]): Promise<ButtercutDemoNoteSummary> => {
+          try {
+            const mod = await load();
+            return {
+              slug,
+              title: mod.frontmatter?.title ?? slug,
+              summary: mod.frontmatter?.summary,
+              date: mod.frontmatter?.date,
+              kind: "mdx",
+            };
+          } catch {
+            return { slug, title: slug, kind: "mdx" };
+          }
+        },
+      ),
+    );
+
+    // Prefer the MDX entry if a slug somehow appears in both registries.
+    const byId = new Map<string, ButtercutDemoNoteSummary>();
+    for (const n of mdSummaries) byId.set(n.slug, n);
+    for (const n of mdxSummaries) byId.set(n.slug, n);
+    notes = Array.from(byId.values()).sort((a, b) =>
+      (b.date ?? "").localeCompare(a.date ?? ""),
+    );
   } catch {
     notes = [];
   }
