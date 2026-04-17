@@ -37,7 +37,10 @@ Out of scope:
   its env vars are missing.
 - `buildButtercutThemeStyle` sanitises `brand.theme.*` tokens before they
   reach the document — invalid/overlong values are dropped silently.
-- No user content is rendered with `dangerouslySetInnerHTML` except the
-  sanitized theme style element.
+- Note slugs are matched against `/^[A-Za-z0-9_-]+$/` before any `fs`
+  read and the `/notes/[slug]` route pins `dynamicParams = false`, so
+  only pre-rendered files can be served.
+- Markdown is rendered with `marked` for author-owned content only;
+  `ButtercutProse` with `html=` is reserved for trusted input.
 
 Thanks for helping keep Buttercut safe.

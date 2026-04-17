@@ -8,6 +8,10 @@ import { loadButtercutDemoNote } from "@/lib/demo/load-demo-content";
 import { renderButtercutMarkdown } from "@/lib/markdown/render";
 import { siteConfig } from "../../../../site.config";
 
+// Only pre-rendered slugs are valid; anything else 404s immediately
+// rather than falling back to on-demand file reads.
+export const dynamicParams = false;
+
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const dir = path.join(process.cwd(), "content/demo/notes");
   try {

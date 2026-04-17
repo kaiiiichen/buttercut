@@ -3,15 +3,17 @@ import { ButtercutHero } from "@/blocks/ButtercutHero";
 import { ButtercutIntegrationsPanel } from "@/blocks/ButtercutIntegrationsPanel";
 import { ButtercutNowPlayingBlock } from "@/blocks/ButtercutNowPlayingBlock";
 import { ButtercutWeatherBlock } from "@/blocks/ButtercutWeatherBlock";
+import { applyButtercutCustom } from "@/custom/register";
 import { registerButtercutBlock } from "./registry";
 
 let registered = false;
 
 /**
- * Registers the built-in blocks, then pulls user registrations from
- * `src/custom/register.ts` so overrides always win over defaults.
+ * Registers the built-in blocks, then runs user registrations from
+ * `src/custom/register.ts#applyButtercutCustom` so overrides always
+ * take precedence over the same id emitted by the theme.
  *
- * Idempotent — safe to call from multiple entry points.
+ * Synchronous and idempotent — safe to call from every entry point.
  */
 export function registerButtercutDefaultBlocks(): void {
   if (registered) return;
@@ -23,7 +25,5 @@ export function registerButtercutDefaultBlocks(): void {
   registerButtercutBlock("now_playing", ButtercutNowPlayingBlock);
   registerButtercutBlock("weather", ButtercutWeatherBlock);
 
-  // Side-effect import — user registrations run after defaults so they
-  // can override built-ins with the same id.
-  void import("@/custom/register");
+  applyButtercutCustom();
 }

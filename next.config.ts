@@ -2,10 +2,10 @@ import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Allow `.mdx` files under `src/app` to be rendered as routes.
-  // Keep `md` out of pageExtensions so that plain markdown stays
-  // content-only (we render those through `marked`).
-  pageExtensions: ["ts", "tsx", "mdx"],
+  // `.mdx` under `src/app` becomes a route alongside `.ts/.tsx/.js/.jsx`.
+  // We intentionally omit `.md` so plain markdown stays content-only and
+  // is rendered through `marked` from `content/demo/`.
+  pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"],
 };
 
 // No remark/rehype plugins here — keeps the config serializable so

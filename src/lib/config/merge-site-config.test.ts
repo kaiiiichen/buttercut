@@ -26,4 +26,21 @@ describe("mergeSiteConfig", () => {
     expect(merged.integrations.github.enabled).toBe(true);
     expect(merged.integrations.lastfm.enabled).toBe(false);
   });
+
+  it("merges brand.theme on top of defaults, keeping unrelated brand fields", () => {
+    const merged = mergeSiteConfig({
+      brand: {
+        theme: { accent: "#ff6f3c" },
+      },
+    });
+    expect(merged.brand.theme).toEqual({ accent: "#ff6f3c" });
+    expect(merged.brand.avatar).toBe("/avatar-placeholder.svg");
+    expect(merged.brand.og.defaultImagePath).toBe("/og-default.svg");
+  });
+
+  it("leaves brand.theme as the default empty object when not provided", () => {
+    const merged = mergeSiteConfig({ brand: { avatar: "/a.svg" } });
+    expect(merged.brand.avatar).toBe("/a.svg");
+    expect(merged.brand.theme).toEqual({});
+  });
 });

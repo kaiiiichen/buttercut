@@ -1,13 +1,16 @@
 # `src/custom/`
 
-Drop your own components and registrations here. Anything imported from
-`src/custom/register.ts` is loaded once at startup, so it is the right
-place to:
+Drop your own components, helpers, and registrations here. Buttercut
+imports `applyButtercutCustom` from `src/custom/register.ts` exactly
+once, **after** the built-in blocks are registered, so anything you add
+there overrides a default with the same id.
 
-- replace a built-in block via `registerButtercutBlock("hero", MyHero)`;
-- add brand-new blocks that you then reference from `site.config.ts`'s
-  `home.blocks` by matching id;
+Typical uses:
+
+- replace a built-in block: `registerButtercutBlock("hero", MyHero)`;
+- add a brand-new block referenced by id in `site.config.ts`'s
+  `home.blocks`;
 - initialise local helpers you need at boot time.
 
-`src/custom/` is **not** touched by the theme's own refactors — you can
-keep this folder across Buttercut updates.
+`src/custom/` is intentionally outside the theme's refactor surface — it
+is meant to survive Buttercut updates without merge conflicts.

@@ -116,4 +116,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Please follow [CODE_OF_CONDUCT.md](CODE_
 
 ## License
 
-[MIT](LICENSE).
+[GPL-3.0-or-later](LICENSE). Same license as [kaichen.dev](https://github.com/kaichen/kaichen.dev).

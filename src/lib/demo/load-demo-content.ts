@@ -110,11 +110,20 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
   };
 }
 
+/** Matches a single path segment — letters, digits, dash, underscore only. */
+export const BUTTERCUT_SLUG_RE = /^[A-Za-z0-9_-]+$/;
+
 export async function loadButtercutDemoNote(
   slug: string,
 ): Promise<{ frontmatter: NoteFrontmatter; body: string } | null> {
-  const notesDir = path.join(process.cwd(), "content/demo/notes");
-  const file = path.join(notesDir, `${slug}.md`);
+  if (!BUTTERCUT_SLUG_RE.test(slug)) return null;
+
+  const notesDir = path.resolve(process.cwd(), "content/demo/notes");
+  const file = path.resolve(notesDir, `${slug}.md`);
+  // Belt + suspenders: reject anything that resolved outside the notes dir
+  // even though the slug regex should already guarantee this.
+  if (!file.startsWith(notesDir + path.sep)) return null;
+
   try {
     const raw = await fs.readFile(file, "utf8");
     const { data, content } = parseFrontmatter(raw);

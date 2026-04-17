@@ -21,4 +21,11 @@ export const siteConfig = createSiteConfig({
     { id: "github", label: "GitHub", href: "https://github.com" },
     { id: "docs", label: "Docs", href: "https://nextjs.org" },
   ],
+  // Uncomment to colour-theme your site without touching CSS:
+  // brand: {
+  //   theme: {
+  //     accent: "#ff6f3c",
+  //     accentDark: "#ffa07a",
+  //   },
+  // },
 });

@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <head>
         {buttercutThemeCss ? (
           <style
             id="buttercut-theme-overrides"
@@ -57,6 +57,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             dangerouslySetInnerHTML={{ __html: buttercutThemeCss }}
           />
         ) : null}
+      </head>
+      <body className="min-h-full flex flex-col font-sans">
         <Script id="buttercut-theme-init" strategy="beforeInteractive">
           {`(function(){try{var d=document.documentElement;var t=localStorage.getItem('buttercut-theme');var dark;if(t==='dark')dark=true;else if(t==='light')dark=false;else dark=window.matchMedia('(prefers-color-scheme: dark)').matches;d.classList.toggle('dark',dark);d.style.colorScheme=dark?'dark':'light';}catch(e){}})();`}
         </Script>
