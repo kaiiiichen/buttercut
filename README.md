@@ -288,7 +288,7 @@ Buttercut is a standard Next.js app — deploy on [Vercel](https://vercel.com/) 
 
 ## Changelog
 
-Human-readable history: [CHANGELOG.md](CHANGELOG.md) ([Keep a Changelog](https://keepachangelog.com/)). Current package version: **0.1.0**.
+Human-readable history: [CHANGELOG.md](CHANGELOG.md) ([Keep a Changelog](https://keepachangelog.com/)). Current package version: **0.2.0**.
 
 ---
 

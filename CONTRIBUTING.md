@@ -108,6 +108,26 @@ The **anchors reference test** (`src/lib/guide/anchors-refs.test.ts`) scans the 
 
 ---
 
+## Releases and GitHub template
+
+**Versioning:** `package.json` and [CHANGELOG.md](CHANGELOG.md) should stay aligned ([Semantic Versioning](https://semver.org/)). User-facing work belongs under `[Unreleased]` until a maintainer cuts a release.
+
+**Publishing a GitHub Release**
+
+1. Move `[Unreleased]` notes into a dated section (for example `[0.2.0] — YYYY-MM-DD`) and reset `[Unreleased]` with a compare link to the new tag.
+2. Bump `version` in `package.json` (and run `npm install` so `package-lock.json` matches).
+3. Ensure `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run build` pass on `main`.
+4. Create an annotated tag: `git tag -a v0.2.0 -m "v0.2.0"` then `git push origin v0.2.0`.
+5. On GitHub: **Releases** → **Draft a new release** → choose the tag, title `v0.2.0`, paste the section body from `CHANGELOG.md`.
+
+**Using this repository as a public template**
+
+- The repository must be **public** (or GitHub Enterprise rules apply).
+- In **Settings → General → Template repository**, enable **Template repository**. Visitors then see **Use this template** on the repo home page, which creates a **new** repository without carrying this repo’s git history as a fork.
+- Template users should replace demo copy under `content/demo/`, edit `site.config.ts`, and point `site.siteUrl` at their deployment. Optional: add topics such as `nextjs`, `portfolio`, `mdx`, `tailwindcss` on **Settings** to improve discovery.
+
+---
+
 ## Questions
 
 Open an issue if you are unsure whether an idea fits the project. Describe your goal and, for bugs, include reproduction steps or a minimal branch. That gets the fastest, most actionable replies.

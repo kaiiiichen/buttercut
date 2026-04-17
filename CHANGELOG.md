@@ -4,7 +4,9 @@ All notable changes to **Buttercut** are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.1.0...HEAD)
+## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.2.0...HEAD)
+
+## [0.2.0](https://github.com/kaiiiichen/buttercut/releases/tag/v0.2.0) — 2026-04-17
 
 ### Added
 
@@ -68,7 +70,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 pointer was using a root-relative fragment path (e.g.
 `/guide#content`) that GitHub resolved against its own origin and
 404ed. Now targets `src/app/guide/page.mdx` (an intermediate fix —
-superseded in the same `[Unreleased]` by the full absolute URL
+superseded in the same release by the full absolute URL
 below).
 
 ### Changed
@@ -176,6 +178,10 @@ under `src/` for `/guide#<id>` references and fails the pre-build
 `npm test` step on any id that isn't in `BUTTERCUT_GUIDE_ANCHORS`.
 Typos in anchor fragments now surface at `npm test` time instead of
 at click time.
+
+### Changed
+
+- **Documentation and GitHub metadata:** README shields.io badges; professional README copy; CONTRIBUTING / SECURITY / CODE_OF_CONDUCT / issue template updates; CONTRIBUTING table wording adjusted so `anchors-refs` tests do not match a documentation placeholder for Guide URL fragments.
 
 ## [0.1.0](https://github.com/kaiiiichen/buttercut/releases/tag/v0.1.0) — 2026-04-16
 
