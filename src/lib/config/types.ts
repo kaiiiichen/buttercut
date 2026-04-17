@@ -51,6 +51,20 @@ export type ButtercutIntegrationsConfig = {
 
 export type ButtercutIntegrationKey = keyof ButtercutIntegrationsConfig;
 
+/**
+ * Overrides any subset of Buttercut's CSS color tokens.
+ * `...Dark` variants apply inside `.dark`; omit to inherit the default.
+ * Any valid CSS color value works (hex, rgb, oklch, etc.).
+ */
+export type ButtercutThemeTokens = Partial<{
+  accent: string;
+  accentDark: string;
+  background: string;
+  backgroundDark: string;
+  foreground: string;
+  foregroundDark: string;
+}>;
+
 export type ButtercutSiteConfig = {
   site: {
     title: string;
@@ -68,6 +82,7 @@ export type ButtercutSiteConfig = {
     og: {
       defaultImagePath: string;
     };
+    theme?: ButtercutThemeTokens;
   };
   integrations: ButtercutIntegrationsConfig;
 };
@@ -77,7 +92,9 @@ export type ButtercutSiteConfigInput = Partial<{
   nav: ButtercutNavItem[];
   socials: ButtercutSocialLink[];
   home: Partial<Pick<ButtercutSiteConfig["home"], "blocks">>;
-  brand: Partial<ButtercutSiteConfig["brand"]>;
+  brand: Partial<ButtercutSiteConfig["brand"]> & {
+    theme?: ButtercutThemeTokens;
+  };
   integrations: Partial<{
     github: Partial<ButtercutGitHubIntegration>;
     lastfm: Partial<ButtercutLastfmIntegration>;

@@ -55,6 +55,9 @@ export function mergeSiteConfig(
         ...defaults.brand.og,
         ...input.brand?.og,
       },
+      theme: input.brand?.theme
+        ? { ...defaults.brand.theme, ...input.brand.theme }
+        : defaults.brand.theme,
     },
     integrations: mergeIntegrations(defaults.integrations, input.integrations),
   };

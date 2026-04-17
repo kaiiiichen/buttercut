@@ -1,0 +1,29 @@
+export const metadata = {
+  title: "MDX Demo — Buttercut",
+  description: "A demo MDX page. Duplicate this file to start your own.",
+};
+
+# MDX demo
+
+Buttercut supports `.mdx` pages out of the box — drop a `page.mdx`
+anywhere under `src/app/` and it becomes a route, just like a `page.tsx`.
+
+## Why MDX?
+
+- Author rich documents with normal Markdown.
+- Drop React components into prose where it matters.
+- All typography inherits the theme via `ButtercutProse`.
+
+## Example
+
+```tsx
+import { Callout } from "@/components/Callout";
+
+<Callout tone="info">
+  MDX lets you mix prose and interactive components freely.
+</Callout>
+```
+
+The registered wrapper wraps every MDX page in `ButtercutProse`, so
+headings, code blocks, and links match the rest of Buttercut without
+extra configuration.

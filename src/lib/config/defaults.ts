@@ -25,6 +25,7 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
     og: {
       defaultImagePath: "/og-default.svg",
     },
+    theme: {},
   },
   integrations: {
     github: { enabled: false },

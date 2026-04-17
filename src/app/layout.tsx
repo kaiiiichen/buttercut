@@ -15,8 +15,11 @@ import { ButtercutNav } from "@/components/ButtercutNav";
 import { ButtercutNavWaveOverlay } from "@/components/ButtercutNavWaveOverlay";
 import { ButtercutProviders } from "@/components/ButtercutProviders";
 import { ButtercutSubpageEnter } from "@/components/ButtercutSubpageEnter";
+import { buildButtercutThemeStyle } from "@/lib/theme/build-theme-style";
 import { siteConfig } from "../../site.config";
 import "./globals.css";
+
+const buttercutThemeCss = buildButtercutThemeStyle(siteConfig.brand.theme);
 
 export const metadata: Metadata = {
   title: siteConfig.site.title,
@@ -47,6 +50,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans">
+        {buttercutThemeCss ? (
+          <style
+            id="buttercut-theme-overrides"
+            // Only sanitized token values from buildButtercutThemeStyle reach here.
+            dangerouslySetInnerHTML={{ __html: buttercutThemeCss }}
+          />
+        ) : null}
         <Script id="buttercut-theme-init" strategy="beforeInteractive">
           {`(function(){try{var d=document.documentElement;var t=localStorage.getItem('buttercut-theme');var dark;if(t==='dark')dark=true;else if(t==='light')dark=false;else dark=window.matchMedia('(prefers-color-scheme: dark)').matches;d.classList.toggle('dark',dark);d.style.colorScheme=dark?'dark':'light';}catch(e){}})();`}
         </Script>

@@ -30,14 +30,17 @@ CI runs: `lint` → `typecheck` → `test` → `build`.
 | Path                     | Role                                              |
 | ------------------------ | ------------------------------------------------- |
 | `site.config.ts`         | Theme configuration (typed, with defaults)        |
-| `src/app`                | Next.js App Router — `/`, `/about`, `/projects`, `/notes[/:slug]` |
+| `mdx-components.tsx`     | Global MDX component overrides                    |
+| `src/app`                | Next.js App Router — `/`, `/about`, `/projects`, `/notes[/:slug]`, `/mdx-demo` |
 | `src/components`         | Shared UI (`ButtercutNav`, theme, prose, badges)  |
 | `src/blocks`             | Home sections (`Buttercut*` components)           |
+| `src/custom`             | User space for registrations & custom blocks      |
 | `src/lib/blocks`         | Block **registry** — register / override blocks   |
 | `src/lib/config`         | Defaults, merge helpers, types                    |
 | `src/lib/integrations`   | GitHub / Last.fm / weather helpers                |
 | `src/lib/demo`           | Loaders for `content/demo/`                       |
 | `src/lib/markdown`       | `marked`-based renderer used by `/about` & `/notes` |
+| `src/lib/theme`          | Runtime-safe brand token helpers                  |
 | `content/demo`           | Demo copy: `intro.md`, `about.md`, `projects.json`, `notes/*.md` |
 | `public`                 | Static assets                                     |
 
@@ -49,16 +52,40 @@ Edit **`site.config.ts`** for site metadata, navigation, social links, block ord
 
 Home blocks are keyed by string id and resolved from a registry. Built-in ids: `hero`, `demo_projects`, `integrations`, `now_playing`, `weather`.
 
-Swap a default or add your own by calling `registerButtercutBlock(id, component)` before the home page renders — a convenient place is `src/lib/blocks/register-defaults.ts` (or import your custom registration from there):
+Edit **`src/custom/register.ts`** (loaded automatically on startup) to override a default or add your own block without touching theme code:
 
 ```ts
 import { registerButtercutBlock } from "@/lib/blocks/registry";
-import { MyCustomHero } from "@/custom/MyCustomHero";
+import { MyCustomHero } from "./blocks/MyCustomHero";
 
-registerButtercutBlock("hero", MyCustomHero);
+registerButtercutBlock("hero", MyCustomHero);        // replace default
+registerButtercutBlock("changelog", ChangelogBlock); // new id for site.config.ts
 ```
 
 Each block receives `{ config, demo }` props. Built-in `ButtercutHero` also accepts a `slots` prop (`avatar`, `title`, `tagline`, `body`, `socials`) to override individual parts without forking the component.
+
+### Theming
+
+Override any of Buttercut's CSS color tokens from `site.config.ts` — no CSS edits needed:
+
+```ts
+export const siteConfig = createSiteConfig({
+  brand: {
+    theme: {
+      accent: "#ff6f3c",
+      accentDark: "#ffa07a",
+      background: "oklch(99% 0 0)",
+      backgroundDark: "#111",
+    },
+  },
+});
+```
+
+Values are sanitized before being written into a `<style>` tag — invalid or overlong entries are silently dropped.
+
+### MDX
+
+`.mdx` pages work under `src/app/` out of the box (see `/mdx-demo`). Every MDX document is wrapped in `ButtercutProse` via `mdx-components.tsx`, so typography matches the rest of the theme. Plain `.md` notes still render through `marked`.
 
 ### Optional integrations
 
@@ -81,7 +108,7 @@ Under `content/demo/`:
 - `projects.json` — `{ tagline, projects[] }` where each project may set `repo` for inline GitHub stars
 - `notes/*.md` — each file becomes `/notes/<slug>` with optional frontmatter (`title`, `summary`, `date`)
 
-Notes are rendered with [`marked`](https://marked.js.org/). MDX is an intended follow-up once Turbopack's MDX story stabilizes.
+`.md` notes render through [`marked`](https://marked.js.org/); `.mdx` pages go through `@next/mdx`.
 
 ## Contributing
 
@@ -89,4 +116,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Please follow [CODE_OF_CONDUCT.md](CODE_
 
 ## License
 
-Add a license file when you publish this repository publicly.
+[MIT](LICENSE).
