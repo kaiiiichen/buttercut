@@ -1,9 +1,5 @@
 # Buttercut
 
-*Friendly nickname: **Butternut** — same theme, extra warmth.*
-
-Hi there — welcome.
-
 **Buttercut** is a personal-site theme for [Next.js](https://nextjs.org/) (App Router, React 19) that wants you to ship something beautiful *without* wrestling the codebase every weekend. One typed **`site.config.ts`** ties together navigation, brand, home sections, and optional integrations; your words live in **`content/demo/`** as Markdown, JSON, and MDX. Clone it, run it, and you already get a full portfolio: home, about, projects, notes, and a built-in **Guide** that walks you from zero to deployed. No API keys are required for the default demo — optional Last.fm, weather, and GitHub touches **fail open** when you have not wired them yet, so your site stays calm and usable.
 
 If you care about **maintainability** (registry-based blocks, explicit MDX note registration, tests that keep docs honest) and **editorial polish** (Nunito, Bitter, JetBrains Mono; light and dark; motion that does not steal the show), we built this for you. Come on in.
