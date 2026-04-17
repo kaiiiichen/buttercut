@@ -1,1 +1,8 @@
 blank_issues_enabled: true
+contact_links:
+  - name: Guide (in-app tutorial)
+    url: https://buttercut.kaichen.dev/guide
+    about: Step-by-step setup — clone, config, content, deploy.
+  - name: README
+    url: https://github.com/kaiiiichen/buttercut#readme
+    about: Feature overview, scripts, and documentation map.

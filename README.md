@@ -15,20 +15,16 @@
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot&logoColor=white)](https://github.com/kaiiiichen/buttercut/network/updates)
 [![site](https://img.shields.io/badge/site-buttercut.kaichen.dev-D4A574?logo=googlechrome&logoColor=white)](https://buttercut.kaichen.dev)
 
-*Friendly nickname: **Butternut** — same theme, extra warmth.*
+**Buttercut** is a production-oriented personal-site theme for [Next.js](https://nextjs.org/) (App Router, React 19). One typed **`site.config.ts`** drives navigation, brand, home sections, and optional integrations; copy lives under **`content/demo/`** as Markdown, JSON, and MDX. Clone it, run it, and you get a full portfolio out of the box: home, about, projects, notes, and an in-repo **Guide** from first clone to deployment. The default demo needs no API keys — optional Last.fm, weather, and GitHub integrations **fail open** when unconfigured, so pages stay stable.
 
-Hi there — welcome.
-
-**Buttercut** is a personal-site theme for [Next.js](https://nextjs.org/) (App Router, React 19) that wants you to ship something beautiful *without* wrestling the codebase every weekend. One typed **`site.config.ts`** ties together navigation, brand, home sections, and optional integrations; your words live in **`content/demo/`** as Markdown, JSON, and MDX. Clone it, run it, and you already get a full portfolio: home, about, projects, notes, and a built-in **Guide** that walks you from zero to deployed. No API keys are required for the default demo — optional Last.fm, weather, and GitHub touches **fail open** when you have not wired them yet, so your site stays calm and usable.
-
-If you care about **maintainability** (registry-based blocks, explicit MDX note registration, tests that keep docs honest) and **editorial polish** (Nunito, Bitter, JetBrains Mono; light and dark; motion that does not steal the show), we built this for you. Come on in.
+It targets **maintainability** (registry-based blocks, explicit MDX note registration, tests that keep documentation accurate) and **editorial polish** (Nunito, Bitter, JetBrains Mono; light and dark; restrained motion).
 
 ---
 
 ## Contents
 
-- [Why Buttercut might feel like home](#why-buttercut-might-feel-like-home)
-- [What you get on day one](#what-you-get-on-day-one)
+- [Why Buttercut](#why-buttercut)
+- [What's included](#whats-included)
 - [Live demo and stack](#live-demo-and-stack)
 - [Quick start](#quick-start)
 - [Philosophy](#philosophy)
@@ -50,7 +46,7 @@ If you care about **maintainability** (registry-based blocks, explicit MDX note 
 
 ---
 
-## Why Buttercut might feel like home
+## Why Buttercut
 
 - **Real pages, not a promise.** Home, About, Projects, Notes, and an in-repo **Guide** are already wired, styled, and tested — you are not staring at an empty layout wondering what to build first.
 - **It runs the moment you clone.** `npm install` and `npm run dev` are enough to see the whole experience. Integrations show gentle placeholders until you add credentials; nothing crashes the shell.
@@ -62,7 +58,7 @@ If you care about **maintainability** (registry-based blocks, explicit MDX note 
 
 ---
 
-## What you get on day one
+## What's included
 
 | Area | What you get |
 | ---- | -------------- |
@@ -84,7 +80,7 @@ If you care about **maintainability** (registry-based blocks, explicit MDX note 
 
 ## Quick start
 
-You belong here. Take the guided tour: [Step 1 — Clone and run](https://buttercut.kaichen.dev/guide#clone-and-run).
+Start with the tutorial: [Step 1 — Clone and run](https://buttercut.kaichen.dev/guide#clone-and-run).
 
 ```bash
 git clone https://github.com/kaiiiichen/buttercut.git
@@ -100,8 +96,8 @@ Open [http://localhost:3000](http://localhost:3000). You do not need a `.env` fi
 ## Philosophy
 
 1. **Simple changes stay in config.** Title, nav, socials, block order, and theme tokens belong in `site.config.ts` and `content/demo/` — not in a fork of half the theme.
-2. **Deep changes have a hook.** Register or replace blocks in `src/custom/register.ts` so upstream theme updates can still merge without tears.
-3. **Integrations are optional by design.** If an API key or username is missing, the UI explains the gap instead of throwing — your deploy keeps smiling.
+2. **Deep changes have a hook.** Register or replace blocks in `src/custom/register.ts` so upstream theme updates can still merge cleanly.
+3. **Integrations are optional by design.** If an API key or username is missing, the UI explains the gap instead of throwing — the deployment still renders.
 4. **Trusted author content.** Inline markdown and MDX are for **your** copy in the repo, not arbitrary public user input. Treat `content/demo` like source code.
 
 ---

@@ -40,6 +40,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- **README, CONTRIBUTING, CODE_OF_CONDUCT intro, and SECURITY defensive
+  sections rewritten** for clarity and onboarding: “why Buttercut”,
+  feature tour, documentation map, fork/deploy, full scripts table,
+  CONTRIBUTING architecture snapshot and change-type checklist; SECURITY
+  now describes MDX notes + inline markdown instead of retired `marked`
+  paths.
+
 - **Editorial shell matches kaichen.dev horizontal rhythm again.**
   Main content uses `max-w-[1180px]` with `px-4 md:px-12 py-16` — the
   same numbers as `kaichen.dev` (`app/page.tsx`, `app/notes/layout.tsx`,

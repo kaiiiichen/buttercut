@@ -1,5 +1,7 @@
 # Contributor Covenant Code of Conduct
 
+Buttercut is maintained in the open. Whether you are filing your first issue, polishing documentation, or proposing a feature, we want collaboration to stay respectful, constructive, and focused on improving the theme for everyone who ships a site with it. The standards below are adapted from the Contributor Covenant and apply to all project spaces.
+
 ## Our pledge
 
 We as members, contributors, and leaders pledge to make participation in our
