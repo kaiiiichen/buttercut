@@ -9,15 +9,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 - **README tutorial links clickable on GitHub.** Every `_Tutorial:_`
-  pointer now targets `src/app/guide/page.mdx` (a real file GitHub can
-  navigate to) instead of `/guide#id`, which GitHub was resolving
-  against its own origin and 404ing. The deployed-site fragment is
-  preserved alongside in backticks (e.g. `/guide#content`), so the
-  reverse-ref test still guards against typos and readers on a live
-  deployment still see the exact URL.
+  pointer was using a root-relative fragment path (e.g.
+  `/guide#content`) that GitHub resolved against its own origin and
+  404ed. Now targets `src/app/guide/page.mdx` (an intermediate fix —
+  superseded in the same `[Unreleased]` by the full absolute URL
+  below).
 
 ### Changed
 
+- **README tutorial links now point at the deployed reference demo**
+  at [`buttercut.kaichen.dev`](https://buttercut.kaichen.dev). All 9
+  Tutorial pointers resolve to absolute URLs
+  (`https://buttercut.kaichen.dev/guide#…`) that work from GitHub,
+  feed readers, and the deployed site alike. The preamble explains
+  the Fork UX convention: downstream forks may either leave the
+  pointers upstream or find-and-replace with their own URL.
+- **Demo site identity.** `site.config.ts` now declares
+  `siteUrl: "https://buttercut.kaichen.dev"`. The `/guide` Step 2
+  code example swaps the author-specific `title` / `siteUrl` pair
+  for neutral `"Your Name"` / `"https://yourdomain.com"` placeholders
+  so visitors read it as a template, not someone's personal site.
 - **Documented stable `/guide` anchors for cross-references.** README
   section headings and JSDoc on `renderButtercutInlineMarkdown` /
   `ButtercutContentConfig` now link to `#clone-and-run`, `#site-config`,

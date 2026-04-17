@@ -10,7 +10,7 @@ export const siteConfig = createSiteConfig({
     title: "Buttercut",
     description:
       "Demo preview — configure `site.config.ts` and `content/demo/` for your site.",
-    siteUrl: "http://localhost:3000",
+    siteUrl: "https://buttercut.kaichen.dev",
   },
   nav: [
     { label: "About", href: "/about" },
