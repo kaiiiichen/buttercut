@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { ButtercutSocialIcons } from "@/components/ButtercutSocialIcons";
 import type { ButtercutBlockProps } from "@/lib/blocks/registry";
+import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
 
 export type ButtercutHeroSlots = {
   avatar?: ReactNode;
@@ -16,21 +17,6 @@ function splitIntroParagraphs(text: string): string[] {
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean);
-}
-
-function renderInlineMarkdown(text: string): ReactNode[] {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((part, i) => {
-    const bold = part.match(/^\*\*(.+)\*\*$/);
-    if (bold) {
-      return (
-        <strong key={i} className="font-semibold text-zinc-900 dark:text-zinc-100">
-          {bold[1]}
-        </strong>
-      );
-    }
-    return <span key={i}>{part}</span>;
-  });
 }
 
 export function ButtercutHero({
@@ -70,7 +56,7 @@ export function ButtercutHero({
         {slots?.body ?? (
           <div className="space-y-3 font-serif text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
             {paragraphs.map((p, idx) => (
-              <p key={idx}>{renderInlineMarkdown(p)}</p>
+              <p key={idx}>{renderButtercutInlineMarkdown(p)}</p>
             ))}
           </div>
         )}
