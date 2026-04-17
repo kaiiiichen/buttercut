@@ -49,6 +49,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Matches kaichen.dev's editorial scale — makes the whole theme feel like
+     print rather than dashboard UI. Override in a project stylesheet if needed. */
+  font-size: 120%;
 }
 
 body {
@@ -121,6 +124,18 @@ body {
   animation: fade-up 0.4s ease forwards;
 }
 
+/* Ticker slide (used by Now Playing / listening line) */
+@keyframes slide-out-left {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(-10px); opacity: 0; }
+}
+@keyframes slide-in-right {
+  from { transform: translateX(10px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.slide-exit { animation: slide-out-left 200ms ease forwards; }
+.slide-enter { animation: slide-in-right 250ms ease forwards; }
+
 /* Non-home subpage veil + content entrance */
 .subpage-enter {
   position: relative;
@@ -168,6 +183,31 @@ body {
   from { background-position-x: 0px; }
   to   { background-position-x: 20px; }
 }
+
+/* ── Highlight.js syntax theme (used inside .buttercut-prose pre code) ── */
+.hljs { color: #24292e; background: transparent; }
+.hljs-keyword, .hljs-operator { color: #d73a49; font-weight: bold; }
+.hljs-string, .hljs-doctag { color: #032f62; }
+.hljs-comment, .hljs-quote { color: #6a737d; font-style: italic; }
+.hljs-title, .hljs-section { color: #6f42c1; font-weight: bold; }
+.hljs-variable, .hljs-template-variable, .hljs-attr { color: #005cc5; }
+.hljs-number, .hljs-literal { color: #005cc5; }
+.hljs-built_in, .hljs-builtin-name { color: #e36209; }
+.hljs-type, .hljs-class .hljs-title { color: #6f42c1; }
+.hljs-params { color: #24292e; }
+.hljs-meta { color: #735c0f; }
+
+.dark .hljs { color: #e6edf3; }
+.dark .hljs-keyword, .dark .hljs-operator { color: #ff7b72; }
+.dark .hljs-string, .dark .hljs-doctag { color: #a5d6ff; }
+.dark .hljs-comment, .dark .hljs-quote { color: #8b949e; }
+.dark .hljs-title, .dark .hljs-section { color: #d2a8ff; font-weight: bold; }
+.dark .hljs-variable, .dark .hljs-template-variable, .dark .hljs-attr { color: #79c0ff; }
+.dark .hljs-number, .dark .hljs-literal { color: #79c0ff; }
+.dark .hljs-built_in, .dark .hljs-builtin-name { color: #ffa657; }
+.dark .hljs-type, .dark .hljs-class .hljs-title { color: #d2a8ff; }
+.dark .hljs-params { color: #e6edf3; }
+.dark .hljs-meta { color: #e3b341; }
 
 /* ── Long-form typography (used by /about and /notes) ─────────── */
 .buttercut-prose {

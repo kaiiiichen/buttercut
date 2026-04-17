@@ -46,29 +46,47 @@ export default async function NotePage(props: {
   const html = renderButtercutMarkdown(note.body);
 
   return (
-    <article className="mx-auto max-w-[760px] px-4 py-16 md:px-8">
-      <Link
-        href="/notes"
-        className="font-nunito text-xs uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-      >
-        ← Notes
-      </Link>
-      <header className="mt-6 mb-10 border-b border-zinc-200 pb-6 dark:border-zinc-800">
-        <h1 className="font-nunito text-4xl font-light tracking-tight text-zinc-900 dark:text-zinc-100">
+    <article className="mx-auto max-w-[1180px] px-4 py-16 md:px-12">
+      {/* Header — mirrors kaichen.dev /notes/cs61a */}
+      <div className="mb-12 fade-up" style={{ animationDelay: "0ms" }}>
+        {/* Pill back button — identical to kaichen.dev */}
+        <div className="mb-5">
+          <Link
+            href="/notes"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)] px-3 py-1 font-nunito text-[0.8rem] text-[var(--accent)] transition-colors duration-150 hover:bg-[var(--accent)] hover:text-white dark:hover:text-zinc-900"
+          >
+            <span aria-hidden="true">←</span>
+            <span>Notes</span>
+          </Link>
+        </div>
+
+        {note.frontmatter.date ? (
+          <div className="mb-2.5 flex items-center gap-2.5">
+            <span className="font-nunito text-sm font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
+              {note.frontmatter.date}
+            </span>
+          </div>
+        ) : null}
+
+        <h1 className="font-serif text-[2.5rem] font-semibold leading-[1.15] tracking-[-0.01em] text-zinc-900 dark:text-zinc-100">
           {note.frontmatter.title ?? slug}
         </h1>
-        {note.frontmatter.date ? (
-          <p className="mt-2 font-nunito text-xs uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
-            {note.frontmatter.date}
-          </p>
-        ) : null}
+
         {note.frontmatter.summary ? (
-          <p className="mt-3 max-w-xl font-serif text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="mt-3 font-serif text-[0.9rem] leading-[1.8] text-zinc-400 dark:text-zinc-600">
             {note.frontmatter.summary}
           </p>
         ) : null}
-      </header>
-      <ButtercutProse html={html} />
+
+        <div className="mt-6 h-px w-full bg-zinc-200 dark:bg-zinc-800" />
+      </div>
+
+      {/* Body — constrained reading width */}
+      <div className="fade-up" style={{ animationDelay: "60ms" }}>
+        <div className="mx-auto max-w-[760px]">
+          <ButtercutProse html={html} />
+        </div>
+      </div>
     </article>
   );
 }

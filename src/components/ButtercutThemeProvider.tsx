@@ -44,6 +44,9 @@ export function ButtercutThemeProvider({ children }: { children: ReactNode }) {
         const s = localStorage.getItem(STORAGE_KEY) as ButtercutTheme | null;
         if (s === "light" || s === "dark" || s === "system") {
           setThemeState(s);
+        } else {
+          // Matches kaichen.dev — no stored preference defaults to dark.
+          setThemeState("dark");
         }
       } catch {
         /* ignore */

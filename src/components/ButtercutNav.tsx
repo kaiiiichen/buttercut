@@ -106,7 +106,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
       <div
         className={`md:hidden overflow-hidden bg-[var(--background)] transition-all duration-300 ease-in-out ${
           isOpen
-            ? "max-h-96 opacity-100 border-t border-zinc-200 dark:border-zinc-800"
+            ? "max-h-64 opacity-100 border-t border-zinc-200 dark:border-zinc-800"
             : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >

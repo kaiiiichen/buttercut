@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { ButtercutSocialIcons } from "@/components/ButtercutSocialIcons";
 import type { ButtercutBlockProps } from "@/lib/blocks/registry";
 
 export type ButtercutHeroSlots = {
@@ -73,21 +74,7 @@ export function ButtercutHero({
             ))}
           </div>
         )}
-        {slots?.socials ?? (
-          <div className="flex flex-wrap gap-4 pt-2">
-            {config.socials.map((s) => (
-              <a
-                key={s.id}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-nunito text-sm text-zinc-600 underline underline-offset-4 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
-        )}
+        {slots?.socials ?? <ButtercutSocialIcons socials={config.socials} />}
       </div>
     </section>
   );
