@@ -16,7 +16,7 @@ export const siteConfig = createSiteConfig({
     { label: "About", href: "/about" },
     { label: "Projects", href: "/projects" },
     { label: "Notes", href: "/notes" },
-    { label: "MDX", href: "/mdx-demo" },
+    { label: "Guide", href: "/guide" },
   ],
   socials: [
     { id: "github", label: "GitHub", href: "https://github.com" },

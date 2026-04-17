@@ -1,0 +1,308 @@
+export const metadata = {
+  title: "Guide — Buttercut",
+  description:
+    "Step-by-step tutorial: turn Buttercut into your personal site in ~30 minutes.",
+};
+
+export function Tip({ tone = "accent", children }) {
+  const toneClass =
+    tone === "warn"
+      ? "border-amber-400/60 bg-amber-50 text-amber-900 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-200"
+      : "border-[var(--accent)]/40 bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] text-zinc-800 dark:text-zinc-200";
+  return (
+    <aside
+      className={`not-prose my-5 rounded-[6px] border px-4 py-3 font-serif text-[15px] leading-relaxed ${toneClass}`}
+    >
+      {children}
+    </aside>
+  );
+}
+
+export function Step({ n, title, children }) {
+  return (
+    <section className="not-prose my-8 border-l-2 border-[var(--accent)]/60 pl-5">
+      <p className="font-jetbrains-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        Step {n}
+      </p>
+      <h3 className="mt-1 font-serif text-2xl font-semibold leading-tight text-zinc-900 dark:text-zinc-100">
+        {title}
+      </h3>
+      <div className="mt-3 font-serif text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300 [&_a]:underline [&_a]:decoration-[var(--accent)]/60 [&_a]:underline-offset-4 [&_code]:rounded [&_code]:bg-zinc-100 [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-jetbrains-mono [&_code]:text-[0.85em] dark:[&_code]:bg-zinc-800">
+        {children}
+      </div>
+    </section>
+  );
+}
+
+# Guide
+
+Turn Buttercut into your personal site in about thirty minutes. This
+page itself is an `.mdx` file living at `src/app/guide/page.mdx` —
+a working example of everything the theme supports.
+
+<Tip>
+  Nothing in this guide needs a third-party key. You get the full
+  preview — hero, projects with live GitHub stars, notes, MDX — on a
+  fresh clone with zero environment variables.
+</Tip>
+
+## What you are getting
+
+- A typed `site.config.ts` as the single source of truth.
+- A home page assembled from small, swappable blocks (hero, status
+  row, projects, integrations panel) listed in `home.blocks`.
+- `/about`, `/projects`, `/notes` routes driven by `content/demo/`.
+- MDX support for long-form writing at `/notes` and anywhere else
+  under `src/app/`.
+- Integrations (GitHub stars, Last.fm, Weather) that stay silent
+  unless you turn them on.
+
+## Map of the repo
+
+```text
+buttercut/
+├── site.config.ts              ← start here
+├── content/demo/               ← your copy lives here
+│   ├── intro.md                ← hero body
+│   ├── about.md
+│   ├── projects.json
+│   └── notes/*.md | *.mdx
+├── src/app/                    ← App Router routes
+├── src/blocks/                 ← home-page sections (Buttercut*)
+├── src/components/             ← shared UI
+├── src/custom/                 ← your overrides (survives updates)
+└── src/lib/
+    ├── config/                 ← types + defaults
+    ├── theme/                  ← tokens + colour presets
+    └── integrations/           ← github / lastfm / weather
+```
+
+<Step n={1} title="Clone and run">
+
+```bash
+git clone https://github.com/kaiiiichen/buttercut.git my-site
+cd my-site
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). You should see
+the Buttercut demo — it already reads your live GitHub stars because
+`integrations.github` is on by default.
+
+</Step>
+
+<Step n={2} title="Fill in site.config.ts">
+
+```tsx
+import { createSiteConfig } from "@/lib/config/create-site-config";
+
+export const siteConfig = createSiteConfig({
+  site: {
+    title: "Kai Chen",
+    description: "Personal site, notes, projects.",
+    siteUrl: "https://kaichen.dev",
+  },
+  nav: [
+    { label: "About", href: "/about" },
+    { label: "Projects", href: "/projects" },
+    { label: "Notes", href: "/notes" },
+    { label: "Guide", href: "/guide" },
+  ],
+  socials: [
+    { id: "github", label: "GitHub", href: "https://github.com/yourhandle" },
+    { id: "x", label: "X", href: "https://x.com/yourhandle" },
+    { id: "email", label: "Email", href: "mailto:you@example.com" },
+  ],
+});
+```
+
+Only override what differs from defaults — everything else is filled
+in from `src/lib/config/defaults.ts`. Social icons in the hero are
+picked by `id` (`github`, `linkedin`, `x`, `email`, `docs`); an
+unknown id falls back to showing the label as text.
+
+</Step>
+
+<Step n={3} title="Swap the content in content/demo/">
+
+- **Hero body** — edit `content/demo/intro.md`. Supports inline
+  **bold**, `code`, and `[links](url)`.
+- **About page** — edit `content/demo/about.md`. Plain markdown,
+  renders through `marked` inside `ButtercutProse`.
+- **Projects** — edit `content/demo/projects.json`. Every entry can
+  set `repo` for a live star count. `href` auto-resolves to
+  `https://github.com/<repo>` when omitted:
+
+  ```json
+  {
+    "name": "buttercut",
+    "description": "This theme.",
+    "repo": "kaiiiichen/buttercut",
+    "tags": ["Next.js", "TypeScript"]
+  }
+  ```
+
+- **Avatar** — drop a square image in `public/` and point
+  `brand.avatar` at it in `site.config.ts` (defaults to
+  `/avatar-placeholder.svg`).
+
+</Step>
+
+<Step n={4} title="Pick a colour mood">
+
+```tsx
+import { buttercutPreset } from "@/lib/theme/presets";
+
+brand: {
+  theme: { ...buttercutPreset("sunset"), accent: "#ff3366" },
+}
+```
+
+Three presets ship out of the box: `sunset`, `ocean`, `terminal`.
+Spread one and override any token, or define the whole token set
+inline:
+
+```tsx
+brand: {
+  theme: {
+    accent: "#0b6ea4",
+    accentDark: "#7dd3fc",
+    background: "#f2f7fb",
+    backgroundDark: "#0b1e2b",
+    foreground: "#0b2a3c",
+    foregroundDark: "#e2f1fb",
+  },
+}
+```
+
+Values are sanitised before being written into a `<style>` tag —
+anything outside the safe CSS-colour charset is silently dropped,
+so the page never crashes on a typo.
+
+</Step>
+
+<Step n={5} title="Reorder or hide home blocks">
+
+The home page renders `home.blocks` in order, top to bottom, showing
+only the entries whose `enabled` is `true`:
+
+```tsx
+home: {
+  blocks: [
+    { id: "hero", enabled: true },
+    { id: "status", enabled: true },       // Listening + Location side-by-side
+    { id: "demo_projects", enabled: true },
+    { id: "integrations", enabled: false }, // hide the debug panel
+  ],
+}
+```
+
+Built-in ids: `hero`, `status`, `now_playing`, `weather`,
+`demo_projects`, `integrations`. Drop `status` and list `now_playing`
+and `weather` separately if you want the two cards stacked instead
+of side-by-side.
+
+</Step>
+
+<Step n={6} title="Add or override a block">
+
+Put your own components under `src/custom/` — that directory is
+reserved for user code and survives theme updates. A runnable example
+lives at `src/custom/blocks/MyHero.tsx`; flip the switch in
+`src/custom/register.ts`:
+
+```ts
+import { registerButtercutBlock } from "@/lib/blocks/registry";
+import { MyHero } from "./blocks/MyHero";
+
+export function applyButtercutCustom(): void {
+  registerButtercutBlock("hero", MyHero);           // override default
+  registerButtercutBlock("changelog", Changelog);   // brand-new id
+}
+```
+
+Any new id can then appear in `home.blocks`. The built-in
+`ButtercutHero` also accepts a `slots` prop (`avatar`, `title`,
+`tagline`, `body`, `socials`) if you just want to swap one piece
+without forking the whole block.
+
+</Step>
+
+<Step n={7} title="Write notes in .md or .mdx">
+
+Drop files into `content/demo/notes/`:
+
+- `something.md` — picked up automatically. Frontmatter is
+  `title`, `summary`, `date`.
+- `something.mdx` — same frontmatter contract, plus JSX. Register
+  it with a single line in `src/lib/demo/mdx-notes.ts`:
+
+  ```ts
+  export const BUTTERCUT_MDX_NOTES = {
+    "my-essay": () =>
+      import("../../../content/demo/notes/my-essay.mdx"),
+  };
+  ```
+
+Both share the same `/notes/[slug]` URL and card layout; MDX entries
+get a small `mdx` badge on the index.
+
+<Tip>
+  Frontmatter in `.mdx` is just a regular export: `export const
+  frontmatter = { title: "...", summary: "...", date: "YYYY-MM-DD" }`.
+</Tip>
+
+</Step>
+
+<Step n={8} title="Turn on optional integrations">
+
+Each integration is off unless you configure it. Add flags in
+`site.config.ts`, then environment variables from `.env.example`:
+
+```tsx
+integrations: {
+  github:  { enabled: true },                  // on by default
+  lastfm:  { enabled: true, username: "kai" }, // needs LASTFM_API_KEY
+  weather: { enabled: true, lat: 37.87, lon: -122.26, label: "Berkeley" },
+}
+```
+
+Every fetch has a null fallback, so a rate limit or outage never
+breaks a page — you get a placeholder card instead.
+
+</Step>
+
+<Step n={9} title="Deploy">
+
+Buttercut is a regular Next.js 16 app:
+
+```bash
+npm run build
+```
+
+On Vercel, import the repo and set any integration env vars in the
+project settings. Everything on `/`, `/about`, `/projects`,
+`/notes`, `/notes/[slug]`, and `/guide` pre-renders statically with a
+one-hour revalidate for live star counts.
+
+</Step>
+
+## Where to dig deeper
+
+- **Theme tokens and presets** — `src/lib/theme/presets.ts`,
+  `src/lib/theme/build-theme-style.ts`.
+- **Block registry** — `src/lib/blocks/registry.ts`,
+  `src/lib/blocks/register-defaults.ts`.
+- **Inline markdown** — the hero body supports **bold**, `code`,
+  and `[links](url)` via `src/lib/markdown/inline.tsx`. Same helper
+  is available for any block that renders short author copy.
+- **MDX renderer** — `mdx-components.tsx` wires every `.mdx` page
+  into `ButtercutProse`; override it there to add global components
+  (callouts, charts, embeds).
+
+<Tip tone="warn">
+  Keep your edits in `site.config.ts`, `content/demo/`, and
+  `src/custom/`. If you only change those three surfaces, future
+  `git pull` of the theme repo stays a conflict-free merge.
+</Tip>
