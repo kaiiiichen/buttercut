@@ -14,6 +14,20 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `#content`, `#short-copy`, `#theme`, `#home-blocks`, `#blocks`,
   `#notes`, `#integrations`, and `#deploy`. Source → README →
   `/guide` now form a proper triangle instead of three isolated docs.
+- **Single source of truth for `/guide` anchors**
+  (`src/lib/guide/anchors.ts`). The in-app "On this page" TOC,
+  `<Step>` headings (via `anchorFor(id)` spread), and the post-build
+  smoke test all read from `BUTTERCUT_GUIDE_ANCHORS` — adding or
+  renaming a step is now a one-file edit.
+
+### Added
+
+- **Reverse anchor-ref test** (`src/lib/guide/anchors-refs.test.ts`):
+  scans `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, and every file
+  under `src/` for `/guide#<id>` references and fails the pre-build
+  `npm test` step on any id that isn't in `BUTTERCUT_GUIDE_ANCHORS`.
+  Typos in anchor fragments now surface at `npm test` time instead of
+  at click time.
 
 ## [0.1.0] — 2026-04-16
 

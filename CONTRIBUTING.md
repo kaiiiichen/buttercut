@@ -64,11 +64,12 @@ three layers in the **same PR**:
   extend the Vitest suite in `inline.test.tsx`, refresh the
   `README.md` "Inline markdown subset" section, and adjust the live
   examples in `/guide#short-copy`.
-- **New `/guide` step** → pick a kebab-case id, add `<Step id="..." />`
-  in `page.mdx`, include it in the "On this page" TOC, append it to
-  `BUTTERCUT_GUIDE_ANCHORS` in
-  `src/app/guide/guide-anchors.smoke.test.ts`, and log the addition
-  under "Changed" in `CHANGELOG.md`.
+- **New `/guide` step** → append an entry to `BUTTERCUT_GUIDE_ANCHORS`
+  in `src/lib/guide/anchors.ts` (`id`, `title`, `stepNumber` — the
+  single source of truth), drop `<Step {...anchorFor("id")}>` into
+  `src/app/guide/page.mdx`, and log the addition under "Changed" in
+  `CHANGELOG.md`. The TOC, permalink, smoke test, and reverse-ref
+  test all pick up the new id automatically from that one edit.
 - **User-visible integration** → update `.env.example`, the README
   "Optional integrations" section, and `/guide#integrations`.
 
@@ -81,8 +82,10 @@ make, not one.
 - Keep changes focused and easy to review.
 - Update `.env.example` / `README.md` when optional env vars or user-facing behavior changes.
 - If you add a feature behind `site.config.ts`, include sensible defaults so zero-key builds keep working.
-- If your change renames or removes a `/guide` anchor, bump the list in
-  `guide-anchors.smoke.test.ts` **and** update every `README.md` /
-  JSDoc reference — the CI smoke step will catch stale ids.
+- If your change renames or removes a `/guide` anchor, update
+  `BUTTERCUT_GUIDE_ANCHORS` in `src/lib/guide/anchors.ts` **and**
+  every `README.md` / JSDoc reference — the anchors-refs test
+  (`src/lib/guide/anchors-refs.test.ts`) catches stale ids in `npm
+  test`, and the smoke step catches missing ids post-build.
 - Note user-facing changes in `CHANGELOG.md` under `[Unreleased]`
   following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
