@@ -6,6 +6,16 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- **README tutorial links clickable on GitHub.** Every `_Tutorial:_`
+  pointer now targets `src/app/guide/page.mdx` (a real file GitHub can
+  navigate to) instead of `/guide#id`, which GitHub was resolving
+  against its own origin and 404ing. The deployed-site fragment is
+  preserved alongside in backticks (e.g. `/guide#content`), so the
+  reverse-ref test still guards against typos and readers on a live
+  deployment still see the exact URL.
+
 ### Changed
 
 - **Documented stable `/guide` anchors for cross-references.** README

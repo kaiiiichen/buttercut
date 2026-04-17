@@ -19,7 +19,7 @@
 
 ## Quick start
 
-_Tutorial: [Step 1 — Clone and run](/guide#clone-and-run)._
+_Tutorial: [Step 1 — Clone and run](src/app/guide/page.mdx) (`/guide#clone-and-run`)._
 
 ```bash
 cd buttercut
@@ -29,10 +29,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000). **No API keys are required** to run the demo — every integration block is off by default and renders a graceful placeholder when disabled.
 
-> Cross-references below like [`/guide#content`](/guide#content) point at
-> permanent anchors in the in-app tutorial at `src/app/guide/page.mdx`.
-> They resolve on any deployment of this theme; on GitHub they show the
-> intended target path.
+> **Tutorial links** point at `src/app/guide/page.mdx` so they click
+> through on GitHub. Once the theme is deployed, the same steps live at
+> the stable fragment URL shown in parentheses (e.g. `/guide#content`).
+> Both forms come from the same registry at `src/lib/guide/anchors.ts`.
 
 ## Scripts
 
@@ -68,13 +68,13 @@ CI runs: `lint` → `typecheck` → `test` → `build`.
 
 ## Configuration
 
-_Tutorial: [Step 2 — Fill in site.config.ts](/guide#site-config)._
+_Tutorial: [Step 2 — Fill in site.config.ts](src/app/guide/page.mdx) (`/guide#site-config`)._
 
 Edit **`site.config.ts`** for site metadata, navigation, social links, block order, brand assets, and integration toggles. Defaults live in `src/lib/config/defaults.ts`; `mergeSiteConfig` merges your overrides.
 
 ### Extending home blocks
 
-_Tutorial: [Step 6 — Reorder or hide home blocks](/guide#home-blocks) · [Step 7 — Add or override a block](/guide#blocks)._
+_Tutorial: [Step 6 — Reorder or hide home blocks](src/app/guide/page.mdx) (`/guide#home-blocks`) · [Step 7 — Add or override a block](src/app/guide/page.mdx) (`/guide#blocks`)._
 
 Home blocks are keyed by string id and resolved from a registry. Built-in ids: `hero`, `demo_projects`, `integrations`, `now_playing`, `weather`.
 
@@ -92,7 +92,7 @@ Each block receives `{ config, demo }` props. Built-in `ButtercutHero` also acce
 
 ### Theming
 
-_Tutorial: [Step 5 — Pick a colour mood](/guide#theme)._
+_Tutorial: [Step 5 — Pick a colour mood](src/app/guide/page.mdx) (`/guide#theme`)._
 
 Override any of Buttercut's CSS color tokens from `site.config.ts` — no CSS edits needed:
 
@@ -131,7 +131,7 @@ brand: {
 
 ### MDX
 
-_Tutorial: [Step 8 — Write notes in .md or .mdx](/guide#notes)._
+_Tutorial: [Step 8 — Write notes in .md or .mdx](src/app/guide/page.mdx) (`/guide#notes`)._
 
 `.mdx` pages work under `src/app/` out of the box (see `/mdx-demo`). Every MDX document is wrapped in `ButtercutProse` via `mdx-components.tsx`, so typography matches the rest of the theme.
 
@@ -142,7 +142,7 @@ For long-form notes, `/notes` accepts both formats:
 
 ### Optional integrations
 
-_Tutorial: [Step 9 — Turn on optional integrations](/guide#integrations)._
+_Tutorial: [Step 9 — Turn on optional integrations](src/app/guide/page.mdx) (`/guide#integrations`)._
 
 Each integration is **off by default**. Enable in `site.config.ts`, then add any required env vars from `.env.example`.
 
@@ -156,7 +156,7 @@ All fetch helpers return `null` on any failure, so a misconfigured integration d
 
 ### Content
 
-_Tutorial: [Step 3 — Swap the content in content/demo/](/guide#content)._
+_Tutorial: [Step 3 — Swap the content in content/demo/](src/app/guide/page.mdx) (`/guide#content`)._
 
 Under `content/demo/`:
 
@@ -170,7 +170,7 @@ Under `content/demo/`:
 
 #### Inline markdown subset
 
-_Tutorial: [Step 4 — Authoring short copy](/guide#short-copy) (live token demos)._
+_Tutorial: [Step 4 — Authoring short copy](src/app/guide/page.mdx) (`/guide#short-copy`, live token demos)._
 
 Short copy surfaces — hero intro, project descriptions, note summaries — are
 rendered through [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx)
