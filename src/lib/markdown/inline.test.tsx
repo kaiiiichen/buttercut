@@ -131,3 +131,46 @@ describe("renderButtercutInlineMarkdown — XSS hardening", () => {
     }
   });
 });
+
+describe("renderButtercutInlineMarkdown — allowedLinkSchemes option", () => {
+  it("rejects tel: by default", () => {
+    const nodes = renderButtercutInlineMarkdown("[call](tel:+15551234567)");
+    expect(nodes.some((n) => nodeType(n) === "a")).toBe(false);
+  });
+
+  it("accepts tel: when opted in via allowedLinkSchemes", () => {
+    const nodes = renderButtercutInlineMarkdown("[call](tel:+15551234567)", {
+      allowedLinkSchemes: ["http", "https", "mailto", "tel"],
+    });
+    const link = nodes.find((n) => nodeType(n) === "a");
+    expect(link).toBeDefined();
+    const props = (link as unknown as RenderedChild).props;
+    expect(props.href).toBe("tel:+15551234567");
+  });
+
+  it("accepts sms: when opted in", () => {
+    const nodes = renderButtercutInlineMarkdown("[txt](sms:+15551234567)", {
+      allowedLinkSchemes: ["sms"],
+    });
+    expect(nodes.some((n) => nodeType(n) === "a")).toBe(true);
+  });
+
+  it("hard-deny list overrides allowedLinkSchemes — javascript stays blocked", () => {
+    // Even if a misconfigured site explicitly lists `javascript`, the helper
+    // must refuse. This is the promise of "safe default + extensible".
+    const nodes = renderButtercutInlineMarkdown("[x](javascript:alert(1))", {
+      allowedLinkSchemes: ["http", "https", "javascript"],
+    });
+    expect(nodes.some((n) => nodeType(n) === "a")).toBe(false);
+  });
+
+  it("empty allow list still permits schemeless (relative/fragment) links", () => {
+    const nodes = renderButtercutInlineMarkdown("[home](/)", {
+      allowedLinkSchemes: [],
+    });
+    const link = nodes.find((n) => nodeType(n) === "a");
+    expect(link).toBeDefined();
+    const props = (link as unknown as RenderedChild).props;
+    expect(props.href).toBe("/");
+  });
+});

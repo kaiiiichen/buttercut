@@ -165,6 +165,21 @@ Anything else is emitted verbatim. Use `ButtercutProse` (or the regular `marked`
 path) when you need headings, lists, or block-level elements — this helper is
 intentionally minimal so author-owned snippets stay safe and predictable.
 
+By default only `http`, `https`, and `mailto` links become real `<a href>`
+anchors; any other scheme falls back to raw text. Extend the allow list from
+`site.config.ts` when you need e.g. `tel:` or `sms:`:
+
+```ts
+export const siteConfig = createSiteConfig({
+  content: {
+    allowedLinkSchemes: ["http", "https", "mailto", "tel", "sms"],
+  },
+});
+```
+
+A hard-deny list — `javascript`, `data`, `vbscript`, `file` — always overrides
+this setting, so you can't accidentally opt into a known-exploitable scheme.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Please follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).

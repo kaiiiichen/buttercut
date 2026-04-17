@@ -56,7 +56,11 @@ export function ButtercutHero({
         {slots?.body ?? (
           <div className="space-y-3 font-serif text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
             {paragraphs.map((p, idx) => (
-              <p key={idx}>{renderButtercutInlineMarkdown(p)}</p>
+              <p key={idx}>
+                {renderButtercutInlineMarkdown(p, {
+                  allowedLinkSchemes: config.content.allowedLinkSchemes,
+                })}
+              </p>
             ))}
           </div>
         )}

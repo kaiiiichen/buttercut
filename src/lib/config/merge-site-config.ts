@@ -60,5 +60,12 @@ export function mergeSiteConfig(
         : defaults.brand.theme,
     },
     integrations: mergeIntegrations(defaults.integrations, input.integrations),
+    content: {
+      ...defaults.content,
+      ...input.content,
+      allowedLinkSchemes:
+        input.content?.allowedLinkSchemes ??
+        defaults.content.allowedLinkSchemes,
+    },
   };
 }

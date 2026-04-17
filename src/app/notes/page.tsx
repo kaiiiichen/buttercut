@@ -11,6 +11,9 @@ export const metadata: Metadata = {
 
 export default async function NotesIndexPage() {
   const { notes } = await loadButtercutDemoContent();
+  const inlineOpts = {
+    allowedLinkSchemes: siteConfig.content.allowedLinkSchemes,
+  };
 
   return (
     <div className="mx-auto max-w-[1180px] px-4 py-16 md:px-12">
@@ -77,7 +80,7 @@ export default async function NotesIndexPage() {
                   </p>
                   {note.summary ? (
                     <p className="mt-1 font-serif text-sm text-zinc-500 dark:text-zinc-500">
-                      {renderButtercutInlineMarkdown(note.summary)}
+                      {renderButtercutInlineMarkdown(note.summary, inlineOpts)}
                     </p>
                   ) : null}
                 </div>

@@ -11,6 +11,7 @@ function resolveRepo(p: ButtercutDemoProject): string | undefined {
 
 export function ButtercutDemoProjects({ config, demo }: ButtercutBlockProps) {
   const showStars = config.integrations.github.enabled;
+  const inlineOpts = { allowedLinkSchemes: config.content.allowedLinkSchemes };
   return (
     <section className="mag-card">
       <div className="mag-label">Demo projects</div>
@@ -35,7 +36,7 @@ export function ButtercutDemoProjects({ config, demo }: ButtercutBlockProps) {
                 {repo ? <ButtercutGitHubStarBadge repo={repo} /> : null}
               </div>
               <p className="mt-1 pl-4 font-serif text-xs leading-snug text-zinc-500 dark:text-zinc-400">
-                {renderButtercutInlineMarkdown(p.description)}
+                {renderButtercutInlineMarkdown(p.description, inlineOpts)}
               </p>
               <div className="mt-2 flex flex-wrap gap-1 pl-4">
                 {p.tags.map((tag) => (
@@ -43,7 +44,7 @@ export function ButtercutDemoProjects({ config, demo }: ButtercutBlockProps) {
                     key={tag}
                     className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-nunito text-[10px] text-zinc-500 dark:bg-zinc-800/80 dark:text-zinc-400"
                   >
-                    {renderButtercutInlineMarkdown(tag)}
+                    {renderButtercutInlineMarkdown(tag, inlineOpts)}
                   </span>
                 ))}
               </div>

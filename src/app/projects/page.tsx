@@ -17,6 +17,9 @@ function inferRepo(href: string): string | undefined {
 export default async function ProjectsPage() {
   const demo = await loadButtercutDemoContent();
   const showStars = siteConfig.integrations.github.enabled;
+  const inlineOpts = {
+    allowedLinkSchemes: siteConfig.content.allowedLinkSchemes,
+  };
 
   return (
     <div className="mx-auto max-w-[900px] px-4 py-16 md:px-8">
@@ -53,7 +56,7 @@ export default async function ProjectsPage() {
                 {repo ? <ButtercutGitHubStarBadge repo={repo} /> : null}
               </div>
               <p className="mt-2 font-serif text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                {renderButtercutInlineMarkdown(p.description)}
+                {renderButtercutInlineMarkdown(p.description, inlineOpts)}
               </p>
               <div className="mt-3 flex flex-wrap gap-1">
                 {p.tags.map((tag) => (
@@ -61,7 +64,7 @@ export default async function ProjectsPage() {
                     key={tag}
                     className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-nunito text-[10px] text-zinc-500 dark:bg-zinc-800/80 dark:text-zinc-400"
                   >
-                    {renderButtercutInlineMarkdown(tag)}
+                    {renderButtercutInlineMarkdown(tag, inlineOpts)}
                   </span>
                 ))}
               </div>

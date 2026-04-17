@@ -36,4 +36,9 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
     sentry: { enabled: false },
     weather: { enabled: false },
   },
+  content: {
+    // Inline markdown helper only emits <a href> for these schemes (plus
+    // any schemeless/relative/fragment URL). See `src/lib/markdown/inline.tsx`.
+    allowedLinkSchemes: ["http", "https", "mailto"],
+  },
 };

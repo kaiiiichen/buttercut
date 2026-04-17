@@ -18,23 +18,47 @@ import type { ReactNode } from "react";
 const TOKEN_RE =
   /(\*\*[^*\n]+\*\*)|(`[^`\n]+`)|(\[[^\]\n]+\]\([^)\s]+\))/g;
 
+/** Schemes that are always rejected, even if the user lists them. */
+const HARD_DENY_SCHEMES = new Set(["javascript", "data", "vbscript", "file"]);
+
+export const BUTTERCUT_DEFAULT_LINK_SCHEMES: readonly string[] = [
+  "http",
+  "https",
+  "mailto",
+];
+
+export type RenderInlineMarkdownOptions = {
+  /**
+   * URL schemes (without the trailing colon) to accept as safe. Defaults to
+   * `BUTTERCUT_DEFAULT_LINK_SCHEMES`. The `HARD_DENY_SCHEMES` list always
+   * takes precedence, so a misconfigured site can't accidentally opt into
+   * `javascript:` or `data:`.
+   */
+  allowedLinkSchemes?: readonly string[];
+};
+
 /**
- * Allow relative paths (`/foo`, `#bar`, `foo.html`), mailto:, and http(s).
- * Reject anything that looks like a script-capable URL scheme
- * (`javascript:`, `data:`, `vbscript:`, `file:`, unknown custom schemes).
- * When a link fails the check we fall back to emitting the raw markdown
- * text, which is visually obvious ("oh, my link didn't render") and
- * impossible to exploit.
+ * Allow relative paths (`/foo`, `#bar`, `foo.html`) unconditionally, and any
+ * scheme explicitly listed in `allowedLinkSchemes` that isn't on the hard
+ * deny list. Rejected links fall back to raw markdown text — visible to the
+ * author, inert to the browser.
  */
-function isSafeHref(href: string): boolean {
+function isSafeHref(href: string, allowed: readonly string[]): boolean {
   const trimmed = href.trim();
   if (trimmed.length === 0) return false;
   // Schemeless → treat as a relative/fragment URL, always safe.
-  if (!/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(trimmed)) return true;
-  return /^(https?|mailto):/i.test(trimmed);
+  const schemeMatch = trimmed.match(/^([a-zA-Z][a-zA-Z0-9+.-]*):/);
+  if (!schemeMatch) return true;
+  const scheme = schemeMatch[1].toLowerCase();
+  if (HARD_DENY_SCHEMES.has(scheme)) return false;
+  return allowed.some((s) => s.toLowerCase() === scheme);
 }
 
-function renderToken(raw: string, key: number): ReactNode {
+function renderToken(
+  raw: string,
+  key: number,
+  allowed: readonly string[],
+): ReactNode {
   const bold = raw.match(/^\*\*(.+)\*\*$/);
   if (bold) {
     return (
@@ -59,7 +83,7 @@ function renderToken(raw: string, key: number): ReactNode {
   const link = raw.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
   if (link) {
     const [, label, href] = link;
-    if (!isSafeHref(href)) {
+    if (!isSafeHref(href, allowed)) {
       // Fall through to raw text: better to show `[x](javascript:...)`
       // as literal characters than to emit an exploitable anchor.
       return raw;
@@ -80,7 +104,11 @@ function renderToken(raw: string, key: number): ReactNode {
   return raw;
 }
 
-export function renderButtercutInlineMarkdown(text: string): ReactNode[] {
+export function renderButtercutInlineMarkdown(
+  text: string,
+  options?: RenderInlineMarkdownOptions,
+): ReactNode[] {
+  const allowed = options?.allowedLinkSchemes ?? BUTTERCUT_DEFAULT_LINK_SCHEMES;
   const nodes: ReactNode[] = [];
   let lastIndex = 0;
   let key = 0;
@@ -92,7 +120,7 @@ export function renderButtercutInlineMarkdown(text: string): ReactNode[] {
         <span key={`t${key++}`}>{text.slice(lastIndex, start)}</span>,
       );
     }
-    nodes.push(renderToken(match[0], key++));
+    nodes.push(renderToken(match[0], key++, allowed));
     lastIndex = start + match[0].length;
   }
 

@@ -43,4 +43,24 @@ describe("mergeSiteConfig", () => {
     expect(merged.brand.avatar).toBe("/a.svg");
     expect(merged.brand.theme).toEqual({});
   });
+
+  it("exposes a sensible default for content.allowedLinkSchemes", () => {
+    const merged = mergeSiteConfig({});
+    expect(merged.content.allowedLinkSchemes).toEqual([
+      "http",
+      "https",
+      "mailto",
+    ]);
+  });
+
+  it("replaces content.allowedLinkSchemes when provided", () => {
+    const merged = mergeSiteConfig({
+      content: { allowedLinkSchemes: ["https", "mailto", "tel"] },
+    });
+    expect(merged.content.allowedLinkSchemes).toEqual([
+      "https",
+      "mailto",
+      "tel",
+    ]);
+  });
 });

@@ -119,7 +119,9 @@ export default async function NotePage(props: {
 
         {note.summary ? (
           <p className="mt-3 font-serif text-[0.9rem] leading-[1.8] text-zinc-400 dark:text-zinc-600">
-            {renderButtercutInlineMarkdown(note.summary)}
+            {renderButtercutInlineMarkdown(note.summary, {
+              allowedLinkSchemes: siteConfig.content.allowedLinkSchemes,
+            })}
           </p>
         ) : null}
 
