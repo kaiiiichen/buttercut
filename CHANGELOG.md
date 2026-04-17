@@ -6,7 +6,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-_Nothing yet — changes land here before the next release._
+### Changed
+
+- **Documented stable `/guide` anchors for cross-references.** README
+  section headings and JSDoc on `renderButtercutInlineMarkdown` /
+  `ButtercutContentConfig` now link to `#clone-and-run`, `#site-config`,
+  `#content`, `#short-copy`, `#theme`, `#home-blocks`, `#blocks`,
+  `#notes`, `#integrations`, and `#deploy`. Source → README →
+  `/guide` now form a proper triangle instead of three isolated docs.
 
 ## [0.1.0] — 2026-04-16
 
@@ -58,7 +65,11 @@ demo content that runs with zero third-party keys.
 - **Routes** (`src/app/`): `/`, `/about`, `/projects`,
   `/notes` + `/notes/[slug]`, `/mdx-demo`, `/guide` (10-step tutorial
   authored as MDX with inline `Tip`, `Step`, and `CopyDemo`
-  components).
+  components; ships an "On this page" TOC and 10 stable section
+  anchors — `#clone-and-run`, `#site-config`, `#content`,
+  `#short-copy`, `#theme`, `#home-blocks`, `#blocks`, `#notes`,
+  `#integrations`, `#deploy` — for deep-linking from README, code,
+  and commit messages).
 - **Engineering baseline**: `lint`, `typecheck`, `test`, `build` scripts;
   CI runs all four; `vitest` suite of 63 tests covering config merge,
   inline markdown (including XSS hardening), theme style rendering,
