@@ -15,6 +15,18 @@ pointer was using a root-relative fragment path (e.g.
 superseded in the same `[Unreleased]` by the full absolute URL
 below).
 
+### Added
+
+- **Synthetic GitHub Activity heatmap** on `/projects`
+(`src/components/ButtercutGitHubActivity.tsx`). A client component
+that mirrors the `kaichen.dev` contributions grid — 52 weeks × 7
+days with month labels, a hover-scale animation, and a portal
+tooltip — but generated from a seeded `mulberry32` PRNG so a fresh
+clone shows something interesting with **zero API keys and zero
+network calls**. Weekdays lean active, weekends lean quiet, the
+seed is stable across reloads, and the total row is clearly marked
+`demo data` so no visitor mistakes it for real contributions.
+
 ### Changed
 
 - `**/about` and `/projects` now mirror the `kaichen.dev` editorial

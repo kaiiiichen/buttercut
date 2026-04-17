@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ButtercutGitHubActivity } from "@/components/ButtercutGitHubActivity";
 import { ButtercutGitHubStarBadge } from "@/components/ButtercutGitHubStarBadge";
 import { loadButtercutDemoContent } from "@/lib/demo/load-demo-content";
 import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
@@ -94,6 +95,13 @@ export default async function ProjectsPage() {
           })}
         </div>
       )}
+
+      <div className="mt-14 fade-up" style={{ animationDelay: "120ms" }}>
+        <div className="mag-label">GitHub Activity</div>
+        <div className="overflow-x-auto">
+          <ButtercutGitHubActivity />
+        </div>
+      </div>
     </div>
   );
 }
