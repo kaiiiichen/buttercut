@@ -13,6 +13,7 @@
   - [MDX](#mdx)
   - [Optional integrations](#optional-integrations)
   - [Content](#content) · [Inline markdown subset](#inline-markdown-subset)
+- [Changelog](#changelog)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -179,6 +180,12 @@ export const siteConfig = createSiteConfig({
 
 A hard-deny list — `javascript`, `data`, `vbscript`, `file` — always overrides
 this setting, so you can't accidentally opt into a known-exploitable scheme.
+
+## Changelog
+
+Notable changes are tracked in [CHANGELOG.md](CHANGELOG.md), following
+[Keep a Changelog](https://keepachangelog.com/). The current release is
+**0.1.0**.
 
 ## Contributing
 
