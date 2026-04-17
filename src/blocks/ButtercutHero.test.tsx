@@ -10,7 +10,13 @@ const demo: ButtercutDemoContent = {
     "Buttercut is a **theme-first** Next.js starter: one typed `site.config.ts`, " +
     "demo content under `content/demo/`, and [integrations](https://example.com) " +
     "that stay off until you configure them.",
-  about: "",
+  about: {
+    intro: "",
+    education: [],
+    experience: [],
+    volunteering: [],
+    focus: [],
+  },
   projects: [],
   notes: [],
 };

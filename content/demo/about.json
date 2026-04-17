@@ -1,0 +1,48 @@
+{
+  "intro": "Replace this block with a one-paragraph bio. Inline markdown works — **bold**, `code`, and [links](https://example.com). Every field below is optional; empty arrays hide the entire section.",
+  "education": [
+    {
+      "years": "2022 – Present",
+      "institution": "Demo University",
+      "role": "BSc, Your Major",
+      "sub": "Optional extra line — honours, concentration, residential college, etc.",
+      "activities": "Optional: student societies, TA roles, clubs, comma-separated."
+    },
+    {
+      "years": "Summer 2024",
+      "institution": "Demo Summer Program",
+      "role": "Topic of study",
+      "sub": "Grade or outcome",
+      "activities": null
+    }
+  ],
+  "experience": [
+    {
+      "years": "2024 – Present",
+      "meta": "City, Country · Remote",
+      "role": "Your Role Title",
+      "org": "Demo Organization",
+      "desc": "A short, concrete description of what you actually did. Inline `code` and **bold** are supported."
+    },
+    {
+      "years": "Summer 2023",
+      "meta": "City, Country · On-site",
+      "role": "Previous Role",
+      "org": "Another Organization",
+      "desc": "Another two or three sentences of impact-oriented copy."
+    }
+  ],
+  "volunteering": [
+    {
+      "years": "2023 – Present",
+      "role": "Volunteer Role",
+      "org": "Demo Cause",
+      "desc": "Optional one-line description of the work."
+    }
+  ],
+  "focus": [
+    { "term": "Now", "code": "SUBJECT-101", "name": "Current Course or Focus Area" },
+    { "term": "Now", "code": "SUBJECT-202", "name": "Another one" },
+    { "term": "Next", "code": "SUBJECT-303", "name": "What you are picking up next" }
+  ]
+}

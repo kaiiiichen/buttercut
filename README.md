@@ -63,9 +63,9 @@ CI runs: `lint` → `typecheck` → `test` → `build`.
 | `src/lib/config`         | Defaults, merge helpers, types                    |
 | `src/lib/integrations`   | GitHub / Last.fm / weather helpers                |
 | `src/lib/demo`           | Loaders for `content/demo/`                       |
-| `src/lib/markdown`       | `marked`-based renderer used by `/about` & `/notes` |
+| `src/lib/markdown`       | `marked`-based renderer used by `/notes`          |
 | `src/lib/theme`          | Runtime-safe brand token helpers                  |
-| `content/demo`           | Demo copy: `intro.md`, `about.md`, `projects.json`, `notes/*.md` |
+| `content/demo`           | Demo copy: `intro.md`, `about.json`, `projects.json`, `notes/*.md` |
 | `public`                 | Static assets                                     |
 
 ## Configuration
@@ -163,7 +163,7 @@ _Tutorial: [Step 3 — Swap the content in content/demo/](https://buttercut.kaic
 Under `content/demo/`:
 
 - `intro.md` — hero body (inline markdown subset, see below)
-- `about.md` — `/about` page body (full markdown via `marked`)
+- `about.json` — `/about` page data: `{ intro, education[], experience[], volunteering[], focus[] }`. Every section is optional — empty arrays hide the card entirely. All string fields support the inline subset.
 - `projects.json` — `{ tagline, projects[] }`. Each project may set `repo` for inline GitHub stars, and when `href` is omitted it auto-resolves to `https://github.com/<repo>`. `description` and `tags[]` support the inline subset.
 - `notes/*.md` — each file becomes `/notes/<slug>` with optional frontmatter (`title`, `summary`, `date`); `summary` supports the inline subset
 - `notes/*.mdx` — same URL, same frontmatter, but authored as MDX and listed in `src/lib/demo/mdx-notes.ts`

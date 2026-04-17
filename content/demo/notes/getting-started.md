@@ -14,7 +14,7 @@ Edit `site.config.ts` to change the title, navigation, socials, and block order.
 
 - `intro.md` — hero copy
 - `projects.json` — tagline + project list
-- `about.md` — the `/about` page
+- `about.json` — structured `/about` page (intro, education, experience, volunteering, focus)
 - `notes/*.md` — notes listed on `/notes` and rendered at `/notes/[slug]`
 
 ## Turn on an integration

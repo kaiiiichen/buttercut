@@ -44,10 +44,52 @@ export type ButtercutDemoNoteSummary = {
   kind: "md" | "mdx";
 };
 
+/**
+ * Structured data for the /about page. Every section is optional — empty
+ * arrays hide their card entirely, so authors can keep only the parts that
+ * apply to them. Inline markdown is supported in every string field.
+ */
+export type ButtercutDemoAbout = {
+  intro: string;
+  education: ButtercutDemoEducation[];
+  experience: ButtercutDemoExperience[];
+  volunteering: ButtercutDemoVolunteering[];
+  focus: ButtercutDemoFocus[];
+};
+
+export type ButtercutDemoEducation = {
+  years: string;
+  institution: string;
+  role: string;
+  sub?: string | null;
+  activities?: string | null;
+};
+
+export type ButtercutDemoExperience = {
+  years: string;
+  meta?: string | null;
+  role: string;
+  org: string;
+  desc?: string | null;
+};
+
+export type ButtercutDemoVolunteering = {
+  years: string;
+  role: string;
+  org: string;
+  desc?: string | null;
+};
+
+export type ButtercutDemoFocus = {
+  term: string;
+  code: string;
+  name: string;
+};
+
 export type ButtercutDemoContent = {
   tagline: string;
   intro: string;
-  about: string;
+  about: ButtercutDemoAbout;
   projects: ButtercutDemoProject[];
   notes: ButtercutDemoNoteSummary[];
 };
@@ -56,6 +98,27 @@ type ProjectsFile = {
   tagline: string;
   projects: ButtercutDemoProjectInput[];
 };
+
+type AboutFile = Partial<ButtercutDemoAbout>;
+
+const EMPTY_ABOUT: ButtercutDemoAbout = {
+  intro: "",
+  education: [],
+  experience: [],
+  volunteering: [],
+  focus: [],
+};
+
+function normaliseAbout(raw: AboutFile | null): ButtercutDemoAbout {
+  if (!raw) return EMPTY_ABOUT;
+  return {
+    intro: typeof raw.intro === "string" ? raw.intro.trim() : "",
+    education: Array.isArray(raw.education) ? raw.education : [],
+    experience: Array.isArray(raw.experience) ? raw.experience : [],
+    volunteering: Array.isArray(raw.volunteering) ? raw.volunteering : [],
+    focus: Array.isArray(raw.focus) ? raw.focus : [],
+  };
+}
 
 type NoteFrontmatter = {
   title?: string;
@@ -94,7 +157,7 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
   const root = process.cwd();
   const projectsPath = path.join(root, "content/demo/projects.json");
   const introPath = path.join(root, "content/demo/intro.md");
-  const aboutPath = path.join(root, "content/demo/about.md");
+  const aboutPath = path.join(root, "content/demo/about.json");
   const notesDir = path.join(root, "content/demo/notes");
 
   const [projectsRaw, introRaw, aboutRaw] = await Promise.all([
@@ -104,6 +167,13 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
   ]);
 
   const parsed = JSON.parse(projectsRaw) as ProjectsFile;
+
+  let about: ButtercutDemoAbout;
+  try {
+    about = normaliseAbout(aboutRaw ? (JSON.parse(aboutRaw) as AboutFile) : null);
+  } catch {
+    about = EMPTY_ABOUT;
+  }
 
   let notes: ButtercutDemoNoteSummary[] = [];
   try {
@@ -160,7 +230,7 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
   return {
     tagline: parsed.tagline,
     intro: introRaw.trim(),
-    about: aboutRaw.trim(),
+    about,
     projects: parsed.projects.map(normaliseButtercutProject),
     notes,
   };

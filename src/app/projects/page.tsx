@@ -15,63 +15,85 @@ function inferRepo(href: string): string | undefined {
 }
 
 export default async function ProjectsPage() {
-  const demo = await loadButtercutDemoContent();
+  const { projects, tagline } = await loadButtercutDemoContent();
   const showStars = siteConfig.integrations.github.enabled;
   const inlineOpts = {
     allowedLinkSchemes: siteConfig.content.allowedLinkSchemes,
   };
 
   return (
-    <div className="mx-auto max-w-[900px] px-4 py-16 md:px-8">
-      <header className="mb-10">
-        <p className="font-nunito text-xs uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+    <div className="mx-auto max-w-[1180px] px-4 py-16 md:px-12">
+      <div className="mb-12 fade-up" style={{ animationDelay: "0ms" }}>
+        <h1 className="font-nunito text-[36px] font-light leading-[1.1] tracking-tight text-zinc-900 dark:text-zinc-100 md:text-[48px]">
           Projects
-        </p>
-        <h1 className="mt-2 font-nunito text-4xl font-light tracking-tight text-zinc-900 dark:text-zinc-100">
-          Selected work
         </h1>
-        <p className="mt-3 max-w-xl font-serif text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
-          Demo content loaded from{" "}
-          <code className="rounded bg-zinc-100 px-1 py-0.5 font-jetbrains-mono text-xs dark:bg-zinc-800">
-            content/demo/projects.json
-          </code>
-          .
+        <p className="mt-3 font-serif text-sm leading-[1.8] text-zinc-400 dark:text-zinc-600">
+          {renderButtercutInlineMarkdown(tagline, inlineOpts)}
         </p>
-      </header>
+        <div className="mt-6 h-px w-full bg-zinc-200 dark:bg-zinc-800" />
+      </div>
 
-      <ul className="space-y-5">
-        {demo.projects.map((p) => {
-          const repo = showStars ? p.repo ?? inferRepo(p.href) : undefined;
-          return (
-            <li key={p.name} className="mag-card">
-              <div className="flex flex-wrap items-center gap-3">
-                <a
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-serif text-xl font-semibold italic text-zinc-900 transition-colors hover:text-[var(--accent)] dark:text-zinc-100"
-                >
-                  {p.name}
-                </a>
-                {repo ? <ButtercutGitHubStarBadge repo={repo} /> : null}
-              </div>
-              <p className="mt-2 font-serif text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                {renderButtercutInlineMarkdown(p.description, inlineOpts)}
-              </p>
-              <div className="mt-3 flex flex-wrap gap-1">
-                {p.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-nunito text-[10px] text-zinc-500 dark:bg-zinc-800/80 dark:text-zinc-400"
-                  >
-                    {renderButtercutInlineMarkdown(tag, inlineOpts)}
+      {projects.length === 0 ? (
+        <p
+          className="fade-up font-serif text-sm text-zinc-500 dark:text-zinc-400"
+          style={{ animationDelay: "60ms" }}
+        >
+          No projects yet — edit{" "}
+          <code className="font-jetbrains-mono text-xs">
+            content/demo/projects.json
+          </code>{" "}
+          to fill this page in.
+        </p>
+      ) : (
+        <div
+          className="fade-up grid grid-cols-1 gap-6 md:grid-cols-2"
+          style={{ animationDelay: "60ms" }}
+        >
+          {projects.map((p) => {
+            const repo = showStars ? p.repo ?? inferRepo(p.href) : undefined;
+            return (
+              <a
+                key={p.name}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mag-card group block no-underline"
+                style={{ textDecoration: "none" }}
+              >
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <span className="shrink-0 -translate-x-1 text-xs text-[var(--accent)] opacity-0 transition-all duration-150 group-hover:translate-x-0 group-hover:opacity-100">
+                    ↗
                   </span>
-                ))}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+                  <p className="font-serif text-[20px] font-semibold italic text-zinc-800 transition-colors duration-150 group-hover:text-[var(--accent)] dark:text-zinc-200">
+                    {p.name}
+                  </p>
+                  {repo ? <ButtercutGitHubStarBadge repo={repo} /> : null}
+                </div>
+
+                <p className="mb-3 pl-4 font-serif text-[13px] leading-[1.7] text-zinc-500 dark:text-zinc-500">
+                  {renderButtercutInlineMarkdown(p.description, inlineOpts)}
+                </p>
+
+                <div className="flex items-center justify-between pl-4">
+                  <div className="flex flex-wrap gap-1">
+                    {p.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-nunito text-[10px] text-zinc-500 dark:bg-zinc-800/80 dark:text-zinc-400"
+                      >
+                        {renderButtercutInlineMarkdown(tag, inlineOpts)}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="ml-2 shrink-0 font-nunito text-[11px] text-zinc-300 transition-colors duration-150 group-hover:text-[var(--accent)] dark:text-zinc-700">
+                    GitHub ↗
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

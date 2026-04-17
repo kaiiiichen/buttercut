@@ -136,8 +136,8 @@ buttercut/
 ├── site.config.ts              ← start here
 ├── content/demo/               ← your copy lives here
 │   ├── intro.md                ← hero body
-│   ├── about.md
-│   ├── projects.json
+│   ├── about.json              ← /about structured sections
+│   ├── projects.json           ← /projects cards
 │   └── notes/*.md | *.mdx
 ├── src/app/                    ← App Router routes
 ├── src/blocks/                 ← home-page sections (Buttercut*)
@@ -200,8 +200,12 @@ unknown id falls back to showing the label as text.
 
 - **Hero body** — edit `content/demo/intro.md`. Supports inline
   **bold**, `code`, and `[links](url)`.
-- **About page** — edit `content/demo/about.md`. Plain markdown,
-  renders through `marked` inside `ButtercutProse`.
+- **About page** — edit `content/demo/about.json`. Structured
+  sections (`intro`, `education[]`, `experience[]`, `volunteering[]`,
+  `focus[]`) render into the editorial two-column layout. Every
+  section is optional; empty arrays hide that card entirely. All
+  string fields support the inline **bold** / `code` / `[link](url)`
+  subset.
 - **Projects** — edit `content/demo/projects.json`. Every entry can
   set `repo` for a live star count. `href` auto-resolves to
   `https://github.com/<repo>` when omitted:
@@ -272,9 +276,8 @@ produce an exploitable anchor.
 
 <Tip>
   This is deliberately tiny. For headings, lists, or block-level
-  content use `content/demo/about.md` or an `.mdx` note — those go
-  through `marked` and `ButtercutProse` and support the full
-  markdown grammar.
+  content write an `.md` or `.mdx` note — those go through `marked`
+  and `ButtercutProse` and support the full markdown grammar.
 </Tip>
 
 </Step>
