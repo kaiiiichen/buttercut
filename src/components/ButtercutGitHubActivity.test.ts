@@ -43,4 +43,26 @@ describe("ButtercutGitHubActivity — synthetic data generator", () => {
       }
     }
   });
+
+  it("produces different data on consecutive days when the seed rotates", () => {
+    // Emulates the `seed="daily"` code path: derive a seed from the
+    // UTC date, generate, then roll the date forward one day and check
+    // the resulting grids are not identical.
+    const dateToSeed = (d: Date) =>
+      d
+        .toISOString()
+        .slice(0, 10)
+        .split("-")
+        .reduce((acc, p) => acc * 31 + Number(p), 0) >>> 0;
+
+    const today = FIXED_NOW;
+    const tomorrow = new Date(FIXED_NOW);
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+
+    const a = generate(52, dateToSeed(today), today);
+    const b = generate(52, dateToSeed(tomorrow), tomorrow);
+
+    const flat = (x: typeof a) => x.weeks.flatMap((w) => w.map((d) => d.count));
+    expect(flat(a)).not.toEqual(flat(b));
+  });
 });

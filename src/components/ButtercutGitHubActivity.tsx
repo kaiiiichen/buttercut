@@ -8,10 +8,15 @@ type Day = { date: string; count: number };
 type Props = {
   /**
    * Deterministic seed for the PRNG. Changing it reshuffles the whole
-   * year of synthetic data. Defaults to a fixed constant so the same
-   * visitor sees a stable heatmap across reloads.
+   * year of synthetic data.
+   *
+   * - A number is used directly.
+   * - `"daily"` (default) derives a new seed from today's UTC date, so
+   *   the heatmap rotates once per calendar day without ever leaving
+   *   the client — zero keys, zero network, zero bot.
+   * - `"fixed"` pins every visitor to the same stable seed forever.
    */
-  seed?: number;
+  seed?: number | "daily" | "fixed";
   /** Number of weekly columns — GitHub itself shows 52 + a partial current week. */
   weeks?: number;
   /**
@@ -20,6 +25,29 @@ type Props = {
    */
   now?: Date;
 };
+
+const FIXED_SEED = 0x1f3b5c9a;
+
+/**
+ * Turn an ISO date like `2026-04-17` into a stable 32-bit integer. The
+ * three digit groups (year / month / day) are folded with a 31× rolling
+ * multiply, so neighbouring days land far apart in seed-space and the
+ * whole heatmap reshuffles rather than only changing a column.
+ */
+function dailySeedFromDate(d: Date): number {
+  const iso = new Date(
+    Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()),
+  )
+    .toISOString()
+    .slice(0, 10);
+  return iso.split("-").reduce((acc, part) => acc * 31 + Number(part), 0) >>> 0;
+}
+
+function resolveSeed(seed: Props["seed"], now: Date): number {
+  if (typeof seed === "number") return seed >>> 0;
+  if (seed === "fixed") return FIXED_SEED;
+  return dailySeedFromDate(now);
+}
 
 const MONTHS = [
   "Jan",
@@ -176,7 +204,7 @@ const CLIENT_SNAPSHOT = () => true;
 const SERVER_SNAPSHOT = () => false;
 
 export function ButtercutGitHubActivity({
-  seed = 0x1f3b5c9a,
+  seed = "daily",
   weeks: weekCount = 52,
   now,
 }: Props) {
@@ -191,10 +219,10 @@ export function ButtercutGitHubActivity({
     rect: DOMRect;
   } | null>(null);
 
-  const { weeks, total } = useMemo(
-    () => generateSyntheticWeeks(weekCount, seed, now ?? new Date()),
-    [weekCount, seed, now],
-  );
+  const { weeks, total } = useMemo(() => {
+    const anchor = now ?? new Date();
+    return generateSyntheticWeeks(weekCount, resolveSeed(seed, anchor), anchor);
+  }, [weekCount, seed, now]);
 
   useEffect(() => {
     const clear = () => setHoveredInfo(null);
@@ -299,7 +327,13 @@ export function ButtercutGitHubActivity({
         style={{ fontSize: 11 }}
       >
         {total.toLocaleString()} synthetic contributions in the last year ·{" "}
-        <span className="text-zinc-300 dark:text-zinc-700">demo data</span>
+        <span className="text-zinc-300 dark:text-zinc-700">
+          {seed === "fixed"
+            ? "demo data"
+            : typeof seed === "number"
+              ? "demo data · custom seed"
+              : "demo data · reshuffles daily"}
+        </span>
       </p>
     </div>
   );

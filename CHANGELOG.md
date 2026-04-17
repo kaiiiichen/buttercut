@@ -17,15 +17,28 @@ below).
 
 ### Added
 
+- **`/guide` picks up the editorial layout.** A new
+`src/app/guide/layout.tsx` wraps the MDX tutorial in the same
+`max-w-[1180px]` shell as `/notes`, `/about`, and `/projects` — a
+`fade-up` header with a `Tutorial` eyebrow label, a big nunito h1,
+a serif subtitle, and a divider — while the MDX content below
+stays in a comfortable 760px reading column. The `# Guide` heading
+and preamble were moved out of `page.mdx` into the layout to
+avoid duplication. The "On this page" TOC block was upgraded to a
+`mag-card` + `mag-label` so it speaks the same vocabulary as the
+section labels across the rest of the theme.
 - **Synthetic GitHub Activity heatmap** on `/projects`
 (`src/components/ButtercutGitHubActivity.tsx`). A client component
 that mirrors the `kaichen.dev` contributions grid — 52 weeks × 7
 days with month labels, a hover-scale animation, and a portal
 tooltip — but generated from a seeded `mulberry32` PRNG so a fresh
 clone shows something interesting with **zero API keys and zero
-network calls**. Weekdays lean active, weekends lean quiet, the
-seed is stable across reloads, and the total row is clearly marked
-`demo data` so no visitor mistakes it for real contributions.
+network calls**. Weekdays lean active, weekends lean quiet, and
+the total row is clearly marked `demo data` so no visitor mistakes
+it for real contributions. The seed defaults to `"daily"` — a
+stable 32-bit integer derived from the UTC date — so the heatmap
+reshuffles once per calendar day. Pass `seed="fixed"` for the
+old always-identical behaviour or any number for a custom pin.
 
 ### Changed
 

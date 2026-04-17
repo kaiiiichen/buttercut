@@ -86,11 +86,9 @@ export function CopyDemo({ source, rendered }) {
   );
 }
 
-# Guide
-
-Turn Buttercut into your personal site in about thirty minutes. This
-page itself is an `.mdx` file living at `src/app/guide/page.mdx` —
-a working example of everything the theme supports.
+This page itself is an `.mdx` file living at
+`src/app/guide/page.mdx` — a working example of everything the theme
+supports.
 
 <Tip>
   Nothing in this guide needs a third-party key. You get the full
@@ -98,24 +96,22 @@ a working example of everything the theme supports.
   fresh clone with zero environment variables.
 </Tip>
 
-## On this page
-
-Every step below has a stable anchor so READMEs, code comments, and
-commit messages can link straight to the relevant walkthrough:
-
-<div className="not-prose my-4 grid grid-cols-1 gap-x-6 gap-y-1.5 rounded-[6px] border border-zinc-200 p-4 font-serif text-[14px] md:grid-cols-2 dark:border-zinc-800">
-  {BUTTERCUT_GUIDE_ANCHORS.map((a) => (
-    <a
-      key={a.id}
-      href={`#${a.id}`}
-      className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"
-    >
-      <span className="font-jetbrains-mono text-[11px] text-zinc-400">
-        {String(a.stepNumber).padStart(2, "0")}
-      </span>
-      {a.title}
-    </a>
-  ))}
+<div className="not-prose mag-card my-6">
+  <div className="mag-label">On this page</div>
+  <div className="grid grid-cols-1 gap-x-6 gap-y-1.5 font-serif text-[14px] md:grid-cols-2">
+    {BUTTERCUT_GUIDE_ANCHORS.map((a) => (
+      <a
+        key={a.id}
+        href={`#${a.id}`}
+        className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"
+      >
+        <span className="font-jetbrains-mono text-[11px] text-zinc-400">
+          {String(a.stepNumber).padStart(2, "0")}
+        </span>
+        {a.title}
+      </a>
+    ))}
+  </div>
 </div>
 
 ## What you are getting
