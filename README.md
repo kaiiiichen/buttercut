@@ -19,6 +19,8 @@
 
 ## Quick start
 
+_Tutorial: [Step 1 — Clone and run](/guide#clone-and-run)._
+
 ```bash
 cd buttercut
 npm install
@@ -26,6 +28,11 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). **No API keys are required** to run the demo — every integration block is off by default and renders a graceful placeholder when disabled.
+
+> Cross-references below like [`/guide#content`](/guide#content) point at
+> permanent anchors in the in-app tutorial at `src/app/guide/page.mdx`.
+> They resolve on any deployment of this theme; on GitHub they show the
+> intended target path.
 
 ## Scripts
 
@@ -61,9 +68,13 @@ CI runs: `lint` → `typecheck` → `test` → `build`.
 
 ## Configuration
 
+_Tutorial: [Step 2 — Fill in site.config.ts](/guide#site-config)._
+
 Edit **`site.config.ts`** for site metadata, navigation, social links, block order, brand assets, and integration toggles. Defaults live in `src/lib/config/defaults.ts`; `mergeSiteConfig` merges your overrides.
 
 ### Extending home blocks
+
+_Tutorial: [Step 6 — Reorder or hide home blocks](/guide#home-blocks) · [Step 7 — Add or override a block](/guide#blocks)._
 
 Home blocks are keyed by string id and resolved from a registry. Built-in ids: `hero`, `demo_projects`, `integrations`, `now_playing`, `weather`.
 
@@ -80,6 +91,8 @@ registerButtercutBlock("changelog", ChangelogBlock); // new id for site.config.t
 Each block receives `{ config, demo }` props. Built-in `ButtercutHero` also accepts a `slots` prop (`avatar`, `title`, `tagline`, `body`, `socials`) to override individual parts without forking the component.
 
 ### Theming
+
+_Tutorial: [Step 5 — Pick a colour mood](/guide#theme)._
 
 Override any of Buttercut's CSS color tokens from `site.config.ts` — no CSS edits needed:
 
@@ -118,6 +131,8 @@ brand: {
 
 ### MDX
 
+_Tutorial: [Step 8 — Write notes in .md or .mdx](/guide#notes)._
+
 `.mdx` pages work under `src/app/` out of the box (see `/mdx-demo`). Every MDX document is wrapped in `ButtercutProse` via `mdx-components.tsx`, so typography matches the rest of the theme.
 
 For long-form notes, `/notes` accepts both formats:
@@ -126,6 +141,8 @@ For long-form notes, `/notes` accepts both formats:
 - add a `.mdx` file next to it and register one line in `src/lib/demo/mdx-notes.ts`. Both kinds share the same frontmatter contract (`title`, `summary`, `date`) and the same `/notes/[slug]` URL shape. MDX entries are flagged with a small `mdx` badge on the index.
 
 ### Optional integrations
+
+_Tutorial: [Step 9 — Turn on optional integrations](/guide#integrations)._
 
 Each integration is **off by default**. Enable in `site.config.ts`, then add any required env vars from `.env.example`.
 
@@ -139,6 +156,8 @@ All fetch helpers return `null` on any failure, so a misconfigured integration d
 
 ### Content
 
+_Tutorial: [Step 3 — Swap the content in content/demo/](/guide#content)._
+
 Under `content/demo/`:
 
 - `intro.md` — hero body (inline markdown subset, see below)
@@ -150,6 +169,8 @@ Under `content/demo/`:
 `.md` notes render through [`marked`](https://marked.js.org/); `.mdx` notes are compiled by `@next/mdx` and rendered inside `ButtercutProse`.
 
 #### Inline markdown subset
+
+_Tutorial: [Step 4 — Authoring short copy](/guide#short-copy) (live token demos)._
 
 Short copy surfaces — hero intro, project descriptions, note summaries — are
 rendered through [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx)

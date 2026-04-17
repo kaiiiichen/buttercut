@@ -71,6 +71,9 @@ export type ButtercutThemeTokens = Partial<{
 
 /**
  * Content-level knobs that affect how author copy is parsed and rendered.
+ *
+ * @see `/guide#short-copy` — the in-app tutorial has worked examples and
+ *      notes on extending the URL allow list.
  */
 export type ButtercutContentConfig = {
   /**

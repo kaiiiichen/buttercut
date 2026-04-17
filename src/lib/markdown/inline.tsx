@@ -14,6 +14,11 @@ import type { ReactNode } from "react";
  *
  * Intended for trusted, author-owned copy (e.g. `content/demo/*.md`).
  * Do **not** pass user-submitted content through here without escaping.
+ *
+ * @see {@link https://github.com/kaiiiichen/buttercut#inline-markdown-subset README — Inline markdown subset}
+ * @see `/guide#short-copy` — the in-app tutorial has a live side-by-side
+ *      demo of all three tokens, plus the `content.allowedLinkSchemes`
+ *      knob for extending the URL whitelist.
  */
 const TOKEN_RE =
   /(\*\*[^*\n]+\*\*)|(`[^`\n]+`)|(\[[^\]\n]+\]\([^)\s]+\))/g;
