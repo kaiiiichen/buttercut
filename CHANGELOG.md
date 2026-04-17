@@ -17,6 +17,22 @@ below).
 
 ### Changed
 
+- **`/notes/[slug]` header matches kaichen.dev notes exactly.**
+Flips h1 from 2.5rem Bitter / tracking-tight to 1.8rem Bitter /
+1.2, drops the subtitle from serif 0.9rem / zinc-400 to Nunito
+16px / 1.65 / zinc-500 with `max-w-[52rem]`, tightens the
+eyebrow to 13px, and pulls the header margins (`mb-8`, `mt-5`,
+`mb-1.5`) onto the kaichen.dev recipe. The back button stays as
+the rounded-full accent pill already in use on `/notes/[slug]`.
+- **MDX container architecture refactored.** `mdx-components.tsx`
+no longer imposes a `max-w-[760px]` shell on every MDX page —
+each route now owns its own container width. `/notes/[slug]`
+drops its nested 760px wrapper and flows the full 1180px like
+kaichen.dev's note pages (so wide code blocks and tables look
+right). `/guide` keeps its 1180px editorial shell. A new
+`src/app/mdx-demo/layout.tsx` restores the narrow 760px reading
+column on `/mdx-demo` so the drop-in example route keeps its
+comfortable single-column look.
 - **Long-form typography rewritten to match `kaichen.dev` notes.**
 `.buttercut-prose` now runs body copy through **Nunito** at
 `0.95rem / 1.75`, headings through **Bitter** (h1 1.8rem, h2 1.3rem

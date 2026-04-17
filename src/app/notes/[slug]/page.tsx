@@ -94,42 +94,46 @@ export default async function NotePage(props: {
 
   return (
     <article className="mx-auto max-w-[1180px] px-4 py-16 md:px-12">
-      <div className="mb-12 fade-up" style={{ animationDelay: "0ms" }}>
-        <div className="mb-5">
-          <Link
-            href="/notes"
-            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)] px-3 py-1 font-nunito text-[0.8rem] text-[var(--accent)] transition-colors duration-150 hover:bg-[var(--accent)] hover:text-white dark:hover:text-zinc-900"
-          >
-            <span aria-hidden="true">←</span>
-            <span>Notes</span>
-          </Link>
-        </div>
+      {/* Back button — kaichen.dev note header recipe (app/notes/cs61a/scheme-quote/page.mdx). */}
+      <div className="mb-5 fade-up" style={{ animationDelay: "0ms" }}>
+        <Link
+          href="/notes"
+          className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)] px-3 py-1 font-nunito text-[0.8rem] text-[var(--accent)] transition-colors duration-150 hover:bg-[var(--accent)] hover:text-white dark:hover:text-zinc-900"
+        >
+          <span aria-hidden="true">←</span>
+          <span>Notes</span>
+        </Link>
+      </div>
 
+      <div
+        className="mb-8 fade-up"
+        style={{ animationDelay: "40ms" }}
+      >
         {note.date ? (
-          <div className="mb-2.5 flex items-center gap-2.5">
-            <span className="font-nunito text-sm font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
+          <div className="mb-1.5 flex items-center gap-2">
+            <span className="font-nunito text-[13px] font-semibold uppercase tracking-[0.1em] text-[var(--accent)]">
               {note.date}
             </span>
           </div>
         ) : null}
 
-        <h1 className="font-serif text-[2.5rem] font-semibold leading-[1.15] tracking-[-0.01em] text-zinc-900 dark:text-zinc-100">
+        <h1 className="m-0 font-serif text-[1.8rem] font-semibold leading-[1.2] text-zinc-900 dark:text-zinc-100">
           {note.title}
         </h1>
 
         {note.summary ? (
-          <p className="mt-3 font-serif text-[0.9rem] leading-[1.8] text-zinc-400 dark:text-zinc-600">
+          <p className="mt-3 max-w-[52rem] font-nunito text-[16px] leading-[1.65] text-zinc-500 dark:text-zinc-400">
             {renderButtercutInlineMarkdown(note.summary, {
               allowedLinkSchemes: siteConfig.content.allowedLinkSchemes,
             })}
           </p>
         ) : null}
 
-        <div className="mt-6 h-px w-full bg-zinc-200 dark:bg-zinc-800" />
+        <div className="mt-5 h-px w-full bg-zinc-200 dark:bg-zinc-800" />
       </div>
 
-      <div className="fade-up" style={{ animationDelay: "60ms" }}>
-        <div className="mx-auto max-w-[760px]">{note.body}</div>
+      <div className="fade-up" style={{ animationDelay: "80ms" }}>
+        {note.body}
       </div>
     </article>
   );
