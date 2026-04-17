@@ -1,8 +1,23 @@
+import { BUTTERCUT_GUIDE_ANCHORS } from "@/lib/guide/anchors";
+
 export const metadata = {
   title: "Guide — Buttercut",
   description:
     "Step-by-step tutorial: turn Buttercut into your personal site in ~30 minutes.",
 };
+
+export function anchorFor(id) {
+  // Central lookup so every Step below can just pass its id — keeps the
+  // `n` and `title` literals out of page.mdx and pinned to the shared
+  // registry in src/lib/guide/anchors.ts.
+  const match = BUTTERCUT_GUIDE_ANCHORS.find((a) => a.id === id);
+  if (!match) {
+    throw new Error(
+      `[guide] Unknown anchor id "${id}". Add it to BUTTERCUT_GUIDE_ANCHORS first.`,
+    );
+  }
+  return match;
+}
 
 export function Tip({ tone = "accent", children }) {
   const toneClass =
@@ -18,18 +33,23 @@ export function Tip({ tone = "accent", children }) {
   );
 }
 
-export function Step({ n, id, title, children }) {
+export function Step({ stepNumber, id, title, children }) {
   // `id` is a stable slug — linked from README, JSDoc, and anywhere else
   // that wants to drop a user at the right section. `scroll-mt-24` gives
   // sticky nav (and browser-chrome on mobile) room to breathe above the
   // heading when the fragment target lands.
+  //
+  // Consumers below pass `{...anchorFor("id")}` so `stepNumber`, `id`,
+  // and `title` all come from `BUTTERCUT_GUIDE_ANCHORS` — that keeps
+  // the step count, order, and TOC labels pinned to the single source
+  // of truth in `src/lib/guide/anchors.ts`.
   return (
     <section
       id={id}
       className="not-prose my-8 scroll-mt-24 border-l-2 border-[var(--accent)]/60 pl-5"
     >
       <p className="font-jetbrains-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
-        Step {n}
+        Step {stepNumber}
       </p>
       <h3 className="group mt-1 flex items-baseline gap-2 font-serif text-2xl font-semibold leading-tight text-zinc-900 dark:text-zinc-100">
         <span>{title}</span>
@@ -84,16 +104,18 @@ Every step below has a stable anchor so READMEs, code comments, and
 commit messages can link straight to the relevant walkthrough:
 
 <div className="not-prose my-4 grid grid-cols-1 gap-x-6 gap-y-1.5 rounded-[6px] border border-zinc-200 p-4 font-serif text-[14px] md:grid-cols-2 dark:border-zinc-800">
-  <a href="#clone-and-run" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">01</span> Clone and run</a>
-  <a href="#site-config" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">02</span> Fill in site.config.ts</a>
-  <a href="#content" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">03</span> Swap content/demo/</a>
-  <a href="#short-copy" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">04</span> Authoring short copy</a>
-  <a href="#theme" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">05</span> Pick a colour mood</a>
-  <a href="#home-blocks" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">06</span> Reorder home blocks</a>
-  <a href="#blocks" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">07</span> Add or override a block</a>
-  <a href="#notes" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">08</span> Write notes in .md / .mdx</a>
-  <a href="#integrations" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">09</span> Turn on integrations</a>
-  <a href="#deploy" className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"><span className="font-jetbrains-mono text-[11px] text-zinc-400">10</span> Deploy</a>
+  {BUTTERCUT_GUIDE_ANCHORS.map((a) => (
+    <a
+      key={a.id}
+      href={`#${a.id}`}
+      className="flex items-baseline gap-2 no-underline hover:text-[var(--accent)]"
+    >
+      <span className="font-jetbrains-mono text-[11px] text-zinc-400">
+        {String(a.stepNumber).padStart(2, "0")}
+      </span>
+      {a.title}
+    </a>
+  ))}
 </div>
 
 ## What you are getting
@@ -127,7 +149,7 @@ buttercut/
     └── integrations/           ← github / lastfm / weather
 ```
 
-<Step n={1} id="clone-and-run" title="Clone and run">
+<Step {...anchorFor("clone-and-run")}>
 
 ```bash
 git clone https://github.com/kaiiiichen/buttercut.git my-site
@@ -142,7 +164,7 @@ the Buttercut demo — it already reads your live GitHub stars because
 
 </Step>
 
-<Step n={2} id="site-config" title="Fill in site.config.ts">
+<Step {...anchorFor("site-config")}>
 
 ```tsx
 import { createSiteConfig } from "@/lib/config/create-site-config";
@@ -174,7 +196,7 @@ unknown id falls back to showing the label as text.
 
 </Step>
 
-<Step n={3} id="content" title="Swap the content in content/demo/">
+<Step {...anchorFor("content")}>
 
 - **Hero body** — edit `content/demo/intro.md`. Supports inline
   **bold**, `code`, and `[links](url)`.
@@ -199,7 +221,7 @@ unknown id falls back to showing the label as text.
 
 </Step>
 
-<Step n={4} id="short-copy" title="Authoring short copy">
+<Step {...anchorFor("short-copy")}>
 
 Every short-copy surface in the theme — the hero intro, project
 `description` and `tags[]`, and note `summary` frontmatter — runs
@@ -257,7 +279,7 @@ produce an exploitable anchor.
 
 </Step>
 
-<Step n={5} id="theme" title="Pick a colour mood">
+<Step {...anchorFor("theme")}>
 
 ```tsx
 import { buttercutPreset } from "@/lib/theme/presets";
@@ -290,7 +312,7 @@ so the page never crashes on a typo.
 
 </Step>
 
-<Step n={6} id="home-blocks" title="Reorder or hide home blocks">
+<Step {...anchorFor("home-blocks")}>
 
 The home page renders `home.blocks` in order, top to bottom, showing
 only the entries whose `enabled` is `true`:
@@ -313,7 +335,7 @@ of side-by-side.
 
 </Step>
 
-<Step n={7} id="blocks" title="Add or override a block">
+<Step {...anchorFor("blocks")}>
 
 Put your own components under `src/custom/` — that directory is
 reserved for user code and survives theme updates. A runnable example
@@ -337,7 +359,7 @@ without forking the whole block.
 
 </Step>
 
-<Step n={8} id="notes" title="Write notes in .md or .mdx">
+<Step {...anchorFor("notes")}>
 
 Drop files into `content/demo/notes/`:
 
@@ -363,7 +385,7 @@ get a small `mdx` badge on the index.
 
 </Step>
 
-<Step n={9} id="integrations" title="Turn on optional integrations">
+<Step {...anchorFor("integrations")}>
 
 Each integration is off unless you configure it. Add flags in
 `site.config.ts`, then environment variables from `.env.example`:
@@ -381,7 +403,7 @@ breaks a page — you get a placeholder card instead.
 
 </Step>
 
-<Step n={10} id="deploy" title="Deploy">
+<Step {...anchorFor("deploy")}>
 
 Buttercut is a regular Next.js 16 app:
 
