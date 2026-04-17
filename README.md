@@ -1,5 +1,24 @@
 # Buttercut
 
+[![CI](https://img.shields.io/github/actions/workflow/status/kaiiiichen/buttercut/ci.yml?branch=main&logo=github&label=CI)](https://github.com/kaiiiichen/buttercut/actions/workflows/ci.yml)
+[![tests](https://img.shields.io/badge/tests-Vitest-6E9F18?logo=vitest&logoColor=white)](https://vitest.dev/)
+[![lint](https://img.shields.io/badge/lint-ESLint-4B32C3?logo=eslint&logoColor=white)](https://eslint.org/)
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Node.js](https://img.shields.io/badge/node.js-20.x-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+
+[![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
+[![license](https://img.shields.io/badge/license-GPL%203.0-007ec6?logo=gnu&logoColor=white)](./LICENSE)
+[![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot&logoColor=white)](https://github.com/kaiiiichen/buttercut/network/updates)
+[![site](https://img.shields.io/badge/site-buttercut.kaichen.dev-D4A574?logo=googlechrome&logoColor=white)](https://buttercut.kaichen.dev)
+
+*Friendly nickname: **Butternut** — same theme, extra warmth.*
+
+Hi there — welcome.
+
 **Buttercut** is a personal-site theme for [Next.js](https://nextjs.org/) (App Router, React 19) that wants you to ship something beautiful *without* wrestling the codebase every weekend. One typed **`site.config.ts`** ties together navigation, brand, home sections, and optional integrations; your words live in **`content/demo/`** as Markdown, JSON, and MDX. Clone it, run it, and you already get a full portfolio: home, about, projects, notes, and a built-in **Guide** that walks you from zero to deployed. No API keys are required for the default demo — optional Last.fm, weather, and GitHub touches **fail open** when you have not wired them yet, so your site stays calm and usable.
 
 If you care about **maintainability** (registry-based blocks, explicit MDX note registration, tests that keep docs honest) and **editorial polish** (Nunito, Bitter, JetBrains Mono; light and dark; motion that does not steal the show), we built this for you. Come on in.
