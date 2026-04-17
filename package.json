@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:smoke": "vitest run --dir src/app/guide"
   },
   "dependencies": {
     "@fontsource/bitter": "^5.2.10",
