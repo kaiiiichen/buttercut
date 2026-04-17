@@ -2,6 +2,20 @@
 
 **Buttercut** is a configurable, theme-oriented [Next.js](https://nextjs.org/) (App Router) starter: one typed `site.config.ts`, demo content under `content/demo/`, and optional integrations that stay off until you configure them.
 
+## Contents
+
+- [Quick start](#quick-start)
+- [Scripts](#scripts)
+- [Project layout](#project-layout)
+- [Configuration](#configuration)
+  - [Extending home blocks](#extending-home-blocks)
+  - [Theming](#theming) · [Colour presets](#colour-presets)
+  - [MDX](#mdx)
+  - [Optional integrations](#optional-integrations)
+  - [Content](#content) · [Inline markdown subset](#inline-markdown-subset)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Quick start
 
 ```bash
