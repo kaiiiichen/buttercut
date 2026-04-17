@@ -128,7 +128,7 @@ Under `content/demo/`:
 
 - `intro.md` — hero body (inline markdown subset, see below)
 - `about.md` — `/about` page body (full markdown via `marked`)
-- `projects.json` — `{ tagline, projects[] }`. Each project may set `repo` for inline GitHub stars, and when `href` is omitted it auto-resolves to `https://github.com/<repo>`. `description` supports the inline subset.
+- `projects.json` — `{ tagline, projects[] }`. Each project may set `repo` for inline GitHub stars, and when `href` is omitted it auto-resolves to `https://github.com/<repo>`. `description` and `tags[]` support the inline subset.
 - `notes/*.md` — each file becomes `/notes/<slug>` with optional frontmatter (`title`, `summary`, `date`); `summary` supports the inline subset
 - `notes/*.mdx` — same URL, same frontmatter, but authored as MDX and listed in `src/lib/demo/mdx-notes.ts`
 

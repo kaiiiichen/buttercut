@@ -61,7 +61,7 @@ export default async function ProjectsPage() {
                     key={tag}
                     className="rounded-sm bg-zinc-100 px-1.5 py-0.5 font-nunito text-[10px] text-zinc-500 dark:bg-zinc-800/80 dark:text-zinc-400"
                   >
-                    {tag}
+                    {renderButtercutInlineMarkdown(tag)}
                   </span>
                 ))}
               </div>
