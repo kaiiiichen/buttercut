@@ -3,6 +3,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import Script from "next/script";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import "@fontsource/nunito/300.css";
 import "@fontsource/nunito/400.css";
 import "@fontsource/nunito/600.css";
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <ButtercutSubpageEnter>{children}</ButtercutSubpageEnter>
           </main>
         </ButtercutProviders>
+        <Analytics />
       </body>
     </html>
   );
