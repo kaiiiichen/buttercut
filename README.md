@@ -1,5 +1,13 @@
 # Buttercut
 
+## Deploy
+
+Import [this GitHub repository](https://github.com/kaiiiichen/buttercut) into Vercel and go live without cloning locally first — you can wire env and domains in the Vercel dashboard after import.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkaiiiichen%2Fbuttercut)
+
+---
+
 [![CI](https://img.shields.io/github/actions/workflow/status/kaiiiichen/buttercut/ci.yml?branch=main&logo=github&label=CI)](https://github.com/kaiiiichen/buttercut/actions/workflows/ci.yml)
 [![tests](https://img.shields.io/badge/tests-Vitest-6E9F18?logo=vitest&logoColor=white)](https://vitest.dev/)
 [![lint](https://img.shields.io/badge/lint-ESLint-4B32C3?logo=eslint&logoColor=white)](https://eslint.org/)
@@ -10,7 +18,6 @@
 [![Tailwind](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Node.js](https://img.shields.io/badge/node.js-20.x-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
 [![license](https://img.shields.io/badge/license-GPL%203.0-007ec6?logo=gnu&logoColor=white)](./LICENSE)
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot&logoColor=white)](https://github.com/kaiiiichen/buttercut/network/updates)
 [![site](https://img.shields.io/badge/site-buttercut.kaichen.dev-D4A574?logo=googlechrome&logoColor=white)](https://buttercut.kaichen.dev)
@@ -23,6 +30,7 @@ It targets **maintainability** (registry-based blocks, explicit MDX note registr
 
 ## Contents
 
+- [Deploy](#deploy)
 - [Why Buttercut](#why-buttercut)
 - [What's included](#whats-included)
 - [Live demo and stack](#live-demo-and-stack)
@@ -282,7 +290,7 @@ CI runs: `lint` → `typecheck` → `test` → `build` → `test:smoke`.
 
 Guide: [Step 10 — Deploy](https://buttercut.kaichen.dev/guide#deploy).
 
-Buttercut is a standard Next.js app — deploy on [Vercel](https://vercel.com/) or any Node host. Set `site.siteUrl` in `site.config.ts` to your production URL for metadata and OG. Replace demo placeholder copy in `content/demo/` and adjust `nav` / `socials` to match your identity.
+Buttercut is a standard Next.js app — use the **[Deploy](#deploy)** section above for a one-click Vercel import, or deploy on [Vercel](https://vercel.com/) manually or on any Node host. Set `site.siteUrl` in `site.config.ts` to your production URL for metadata and OG. Replace demo placeholder copy in `content/demo/` and adjust `nav` / `socials` to match your identity.
 
 ---
 
