@@ -23,3 +23,6 @@ coverage/
 
 # os
 .DS_Store
+
+# cursor — local agent skills (not committed)
+.cursor/skills/
