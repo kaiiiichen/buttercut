@@ -224,7 +224,7 @@ CI: `lint` → `typecheck` → `test` → `build`.
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md) — current package version **0.2.0**; see `[Unreleased]` for the latest kaichen.dev parity work.
+[CHANGELOG.md](CHANGELOG.md) — current package version **0.3.0** (kaichen.dev core UI parity; MDX extension routes removed).
 
 ---
 
