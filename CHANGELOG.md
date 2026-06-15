@@ -6,6 +6,39 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.2.0...HEAD)
 
+### Added
+
+- **kaichen.dev design parity pass.** Home hero layout (avatar column + socials,
+  JumpText greeting, subtitle lines), Listening and Location cards with the
+  same UI shells as [kaichen.dev](https://kaichen.dev), shared
+  `ButtercutPinnedProjectLink`, optional `ButtercutGwwcBadge`
+  (`brand.showGwwcBadge`), Signal + contact-guidance social row, `/misc`
+  placeholder page, `sitemap.ts` / `robots.ts`, and API stubs under
+  `src/app/api/` (weather, Spotify, GitHub contributions).
+- **Demo content fields** `greeting` and `subtitles` in `projects.json`.
+
+### Removed
+
+- **Notes, Guide, and MDX demo routes** (`/notes`, `/guide`, `/mdx-demo`) and all long-form MDX
+  infrastructure (`@next/mdx`, `ButtercutProse`, `mdx-notes`, Bitter font, guide anchors,
+  smoke tests). Buttercut now matches kaichen.dev's core route set only.
+
+### Changed
+
+- **Core pages use Nunito** for UI copy (matching kaichen.dev).
+- **Default theme** is light when no preference is stored (matches kaichen.dev).
+- **Nav** uses accent underline active states (wave overlay removed).
+- **Hero intro** — two-line personal blurb added in the middle of `content/demo/intro.md`, keeping the original theme-first copy.
+- **Weather card** — generic location label (`San Francisco · CA`) instead of "Based in Berkeley".
+- **README, CONTRIBUTING, `.env.example`** rewritten for the slimmed-down framework.
+
+### Fixed
+
+- **About intro** renders multiple paragraphs when separated by blank lines.
+- **Inline markdown links** use zinc decoration + bronze hover like kaichen.dev.
+- **GitHub Activity** loads live data when `GITHUB_TOKEN` is set; otherwise
+  shows a labelled synthetic demo graph.
+
 ## [0.2.0](https://github.com/kaiiiichen/buttercut/releases/tag/v0.2.0) — 2026-04-17
 
 ### Added

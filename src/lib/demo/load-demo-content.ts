@@ -1,6 +1,5 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { BUTTERCUT_MDX_NOTES } from "./mdx-notes";
 
 export type ButtercutDemoProject = {
   name: string;
@@ -34,13 +33,6 @@ export function normaliseButtercutProject(
 ): ButtercutDemoProject {
   return { ...p, href: resolveProjectHref(p) };
 }
-
-export type ButtercutDemoNoteSummary = {
-  slug: string;
-  title: string;
-  summary?: string;
-  date?: string;
-};
 
 /**
  * Structured data for the /about page. Every section is optional — empty
@@ -86,14 +78,17 @@ export type ButtercutDemoFocus = {
 
 export type ButtercutDemoContent = {
   tagline: string;
+  greeting: string;
+  subtitles: string[];
   intro: string;
   about: ButtercutDemoAbout;
   projects: ButtercutDemoProject[];
-  notes: ButtercutDemoNoteSummary[];
 };
 
 type ProjectsFile = {
   tagline: string;
+  greeting?: string;
+  subtitles?: string[];
   projects: ButtercutDemoProjectInput[];
 };
 
@@ -147,40 +142,14 @@ export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> 
     about = EMPTY_ABOUT;
   }
 
-  // Note summaries are the `frontmatter` exports from each registered
-  // MDX module. The registry is the single source of truth — adding a
-  // file to `content/demo/notes/` does nothing until you register it
-  // in `src/lib/demo/mdx-notes.ts`. That keeps drafts out of prod.
-  const noteSummaries = await Promise.all(
-    Object.entries(BUTTERCUT_MDX_NOTES).map(
-      async ([slug, load]): Promise<ButtercutDemoNoteSummary> => {
-        try {
-          const mod = await load();
-          return {
-            slug,
-            title: mod.frontmatter?.title ?? slug,
-            summary: mod.frontmatter?.summary,
-            date: mod.frontmatter?.date,
-          };
-        } catch {
-          return { slug, title: slug };
-        }
-      },
-    ),
-  );
-
-  const notes = noteSummaries.sort((a, b) =>
-    (b.date ?? "").localeCompare(a.date ?? ""),
-  );
-
   return {
     tagline: parsed.tagline,
+    greeting: typeof parsed.greeting === "string" ? parsed.greeting.trim() : "Hello :)",
+    subtitles: Array.isArray(parsed.subtitles)
+      ? parsed.subtitles.filter((line): line is string => typeof line === "string")
+      : [],
     intro: introRaw.trim(),
     about,
     projects: parsed.projects.map(normaliseButtercutProject),
-    notes,
   };
 }
-
-/** Matches a single path segment — letters, digits, dash, underscore only. */
-export const BUTTERCUT_SLUG_RE = /^[A-Za-z0-9_-]+$/;

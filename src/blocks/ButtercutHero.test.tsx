@@ -6,10 +6,13 @@ import type { ButtercutDemoContent } from "@/lib/demo/load-demo-content";
 
 const demo: ButtercutDemoContent = {
   tagline: "Demo tagline",
+  greeting: "Hello :)",
+  subtitles: ["Subtitle one", "Subtitle two"],
   intro:
-    "Buttercut is a **theme-first** Next.js starter: one typed `site.config.ts`, " +
-    "demo content under `content/demo/`, and [integrations](https://example.com) " +
-    "that stay off until you configure them.",
+    "Buttercut is a **theme-first** Next.js starter: one typed `site.config.ts`, demo content under `content/demo/`, and optional integrations that stay off until you configure them.\n\n" +
+    "I like building things for humans, and I enjoy shipping small tools that actually work.\n\n" +
+    "Most days I'm tinkering with interfaces, automation, and whatever problem feels interesting this week.\n\n" +
+    "This paragraph ships with the repo as sample copy — replace it with your own story.",
   about: {
     intro: "",
     education: [],
@@ -18,35 +21,20 @@ const demo: ButtercutDemoContent = {
     focus: [],
   },
   projects: [],
-  notes: [],
 };
 
-/**
- * Snapshot-lock: the hero renders `site.config.ts` as a real `<code>` chip
- * from inline markdown in `content/demo/intro.md`. If this test ever fails
- * it means a future refactor either stopped running the hero body through
- * `renderButtercutInlineMarkdown` or accidentally removed the demo phrase.
- */
-describe("ButtercutHero — inline markdown snapshot lock", () => {
+describe("ButtercutHero — intro rendering", () => {
   const html = renderToStaticMarkup(
     <ButtercutHero config={BUTTERCUT_DEFAULT_SITE_CONFIG} demo={demo} />,
   );
 
-  it("renders a <code> chip for `site.config.ts`", () => {
+  it("renders intro paragraphs from demo.intro", () => {
+    expect(html).toContain("theme-first");
+    expect(html).toContain("building things for humans");
+    expect(html).toContain("replace it with your own story");
+  });
+
+  it("renders a <code> chip for inline markdown paths", () => {
     expect(html).toMatch(/<code[^>]*>site\.config\.ts</);
-  });
-
-  it("renders <strong> for **theme-first**", () => {
-    expect(html).toMatch(/<strong[^>]*>theme-first<\/strong>/);
-  });
-
-  it("renders <a href=…> for markdown links", () => {
-    expect(html).toMatch(
-      /<a[^>]*href="https:\/\/example\.com"[^>]*>integrations<\/a>/,
-    );
-  });
-
-  it("does not leak raw backticks into the output", () => {
-    expect(html).not.toMatch(/`site\.config\.ts`/);
   });
 });

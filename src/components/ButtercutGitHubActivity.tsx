@@ -193,7 +193,7 @@ function getMonthLabels(
  * query — so a fresh clone of Buttercut shows something interesting
  * immediately, with zero API keys and zero network calls.
  *
- * @see https://buttercut.kaichen.dev/guide#integrations for how to
+ * @see README — GitHub integration and `GITHUB_TOKEN` setup.
  * swap this for a real contributions API when you're ready.
  */
 // Subscribe to nothing; the snapshot mismatch between server ("false") and
@@ -218,11 +218,33 @@ export function ButtercutGitHubActivity({
     count: number;
     rect: DOMRect;
   } | null>(null);
+  const [liveWeeks, setLiveWeeks] = useState<Day[][] | null>(null);
+  const [liveTotal, setLiveTotal] = useState(0);
+  const [useLive, setUseLive] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/github/contributions")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { weeks?: Day[][]; totalContributions?: number } | null) => {
+        if (cancelled || !data?.weeks?.length) return;
+        setLiveWeeks(data.weeks);
+        if (data.totalContributions) setLiveTotal(data.totalContributions);
+        setUseLive(true);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const { weeks, total } = useMemo(() => {
+    if (useLive && liveWeeks) {
+      return { weeks: liveWeeks, total: liveTotal };
+    }
     const anchor = now ?? new Date();
     return generateSyntheticWeeks(weekCount, resolveSeed(seed, anchor), anchor);
-  }, [weekCount, seed, now]);
+  }, [weekCount, seed, now, useLive, liveWeeks, liveTotal]);
 
   useEffect(() => {
     const clear = () => setHoveredInfo(null);
@@ -326,14 +348,20 @@ export function ButtercutGitHubActivity({
         className="mt-2 font-jetbrains-mono text-zinc-400 dark:text-zinc-600"
         style={{ fontSize: 11 }}
       >
-        {total.toLocaleString()} synthetic contributions in the last year ·{" "}
-        <span className="text-zinc-300 dark:text-zinc-700">
-          {seed === "fixed"
-            ? "demo data"
-            : typeof seed === "number"
-              ? "demo data · custom seed"
-              : "demo data · reshuffles daily"}
-        </span>
+        {useLive
+          ? `${total.toLocaleString()} contributions in the last year`
+          : (
+            <>
+              {total.toLocaleString()} synthetic contributions in the last year ·{" "}
+              <span className="text-zinc-300 dark:text-zinc-700">
+                {seed === "fixed"
+                  ? "demo data"
+                  : typeof seed === "number"
+                    ? "demo data · custom seed"
+                    : "demo data · set GITHUB_TOKEN for live graph"}
+              </span>
+            </>
+          )}
       </p>
     </div>
   );

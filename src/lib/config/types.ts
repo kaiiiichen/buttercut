@@ -26,6 +26,8 @@ export type ButtercutHomeBlock = {
 
 export type ButtercutGitHubIntegration = {
   enabled: boolean;
+  /** GitHub profile login for pinned repos + contribution graph */
+  login?: string;
   /** Optional repos (owner/name). Used to show star counts inline. */
   repos?: string[];
 };
@@ -72,8 +74,7 @@ export type ButtercutThemeTokens = Partial<{
 /**
  * Content-level knobs that affect how author copy is parsed and rendered.
  *
- * @see `/guide#short-copy` — the in-app tutorial has worked examples and
- *      notes on extending the URL allow list.
+ * @see README — inline markdown and `allowedLinkSchemes` in `site.config.ts`.
  */
 export type ButtercutContentConfig = {
   /**
@@ -104,6 +105,8 @@ export type ButtercutSiteConfig = {
   brand: {
     avatar: string;
     logo?: string;
+    /** Optional GWWC-style pledge badge beside the hero title */
+    showGwwcBadge?: boolean;
     og: {
       defaultImagePath: string;
     };

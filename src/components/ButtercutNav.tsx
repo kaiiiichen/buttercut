@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { ButtercutNavItem, ButtercutSiteConfig } from "@/lib/config/types";
 import { ButtercutThemeToggle } from "./ButtercutThemeToggle";
@@ -9,17 +10,36 @@ function isExternal(href: string): boolean {
   return /^https?:\/\//i.test(href);
 }
 
+function isNavActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/** Active nav — accent text + 2px underline; hover — text highlight only */
+function navLinkClassName(active: boolean) {
+  const base = "text-sm transition-colors duration-150 border-b-2 pb-0.5";
+  if (active) {
+    return `${base} text-[#C4894F] dark:text-[#D9A870] border-[#C4894F] dark:border-[#D9A870]`;
+  }
+  return `${base} text-zinc-500 dark:text-zinc-400 border-transparent hover:text-[#C4894F] dark:hover:text-[#D9A870]`;
+}
+
 function NavLink({
   item,
+  pathname,
   onClick,
   className,
   style,
 }: {
   item: ButtercutNavItem;
+  pathname: string;
   onClick?: () => void;
   className?: string;
   style?: React.CSSProperties;
 }) {
+  const active = !isExternal(item.href) && isNavActive(pathname, item.href);
+  const cls = className ?? navLinkClassName(active);
+
   if (isExternal(item.href)) {
     return (
       <a
@@ -27,7 +47,7 @@ function NavLink({
         target="_blank"
         rel="noopener noreferrer"
         onClick={onClick}
-        className={className}
+        className={cls}
         style={style}
       >
         {item.label}
@@ -35,13 +55,14 @@ function NavLink({
     );
   }
   return (
-    <Link href={item.href} onClick={onClick} className={className} style={style}>
+    <Link href={item.href} onClick={onClick} className={cls} style={style}>
       {item.label}
     </Link>
   );
 }
 
 export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
@@ -56,39 +77,40 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const desktopLinkCls =
-    "nav-wave font-nunito text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors duration-150";
-
   return (
     <nav
       ref={navRef}
       className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 dark:border-zinc-800 bg-[var(--background)]"
     >
-      <div className="max-w-[1180px] mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+      <div className="mx-auto flex max-w-[1180px] items-center justify-between px-4 py-4 md:px-8">
         <Link
           href="/"
-          className="font-nunito text-base font-light tracking-tight hover:opacity-70 transition-opacity"
+          className="font-nunito text-base font-light tracking-tight text-zinc-700 transition-colors duration-150 hover:text-[#C4894F] dark:text-zinc-300 dark:hover:text-[#D9A870]"
+          style={{ fontFamily: "var(--font-ui-en)" }}
         >
           {config.site.title}
         </Link>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden items-center gap-6 md:flex">
           <div className="flex items-center gap-5">
             {config.nav.map((item) => (
-              <NavLink key={item.href} item={item} className={desktopLinkCls} />
+              <NavLink
+                key={item.href}
+                item={item}
+                pathname={pathname}
+                style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400 }}
+              />
             ))}
           </div>
           <ButtercutThemeToggle />
         </div>
 
-        {/* Mobile */}
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex items-center gap-3 md:hidden">
           <ButtercutThemeToggle />
           <button
             type="button"
             onClick={() => setIsOpen((v) => !v)}
-            className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors duration-150 text-xl leading-none p-1"
+            className="p-1 text-xl leading-none text-zinc-500 transition-colors duration-150 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
           >
@@ -102,26 +124,35 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
       <div
-        className={`md:hidden overflow-hidden bg-[var(--background)] transition-all duration-300 ease-in-out ${
+        className={`overflow-hidden bg-[var(--background)] transition-all duration-300 ease-in-out md:hidden ${
           isOpen
-            ? "max-h-64 opacity-100 border-t border-zinc-200 dark:border-zinc-800"
-            : "max-h-0 opacity-0 pointer-events-none"
+            ? "max-h-64 border-t border-zinc-200 opacity-100 dark:border-zinc-800"
+            : "pointer-events-none max-h-0 opacity-0"
         }`}
       >
-        <div className="px-4 py-3 flex flex-col gap-1">
-          {config.nav.map((item, i) => (
-            <NavLink
-              key={item.href}
-              item={item}
-              onClick={() => setIsOpen(false)}
-              className={`font-nunito text-base text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-200 py-2 ${
-                isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
-              }`}
-              style={{ transitionDelay: isOpen ? `${60 + i * 40}ms` : "0ms" }}
-            />
-          ))}
+        <div className="flex flex-col gap-1 px-4 py-3">
+          {config.nav.map((item, i) => {
+            const active =
+              !isExternal(item.href) && isNavActive(pathname, item.href);
+            const linkClass = `${navLinkClassName(active)} py-2 transition-all duration-200 ${
+              isOpen ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"
+            }`;
+            return (
+              <NavLink
+                key={item.href}
+                item={item}
+                pathname={pathname}
+                onClick={() => setIsOpen(false)}
+                className={linkClass}
+                style={{
+                  fontFamily: "var(--font-ui-en)",
+                  fontWeight: 400,
+                  transitionDelay: isOpen ? `${60 + i * 40}ms` : "0ms",
+                }}
+              />
+            );
+          })}
         </div>
       </div>
     </nav>

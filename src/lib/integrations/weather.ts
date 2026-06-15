@@ -23,7 +23,12 @@ const WMO: Record<number, { emoji: string; condition: string }> = {
 };
 
 export type ButtercutOpenMeteoPayload = {
-  current: { temperature_2m: number; weathercode: number };
+  current: {
+    temperature_2m: number;
+    weathercode: number;
+    apparent_temperature: number;
+    relative_humidity_2m: number;
+  };
   hourly: {
     time: string[];
     precipitation_probability: (number | null)[];
@@ -32,6 +37,8 @@ export type ButtercutOpenMeteoPayload = {
 
 export type ButtercutWeatherForecast = {
   temperature: number;
+  feelsLike: number;
+  humidity: number;
   weatherCode: number;
   emoji: string;
   condition: string;
@@ -43,6 +50,8 @@ export function parseButtercutOpenMeteo(
   now: Date = new Date(),
 ): ButtercutWeatherForecast {
   const temperature = Math.round(data.current.temperature_2m);
+  const feelsLike = Math.round(data.current.apparent_temperature);
+  const humidity = Math.round(data.current.relative_humidity_2m);
   const weatherCode = data.current.weathercode;
   const { emoji, condition } =
     WMO[weatherCode] ?? { emoji: "🌡️", condition: "Unknown" };
@@ -54,7 +63,15 @@ export function parseButtercutOpenMeteo(
   const windowProbs = idx >= 0 ? probs.slice(idx, idx + 3) : probs.slice(0, 3);
   const rainChance = Math.max(0, ...windowProbs.map((p) => p ?? 0));
 
-  return { temperature, weatherCode, emoji, condition, rainChance };
+  return {
+    temperature,
+    feelsLike,
+    humidity,
+    weatherCode,
+    emoji,
+    condition,
+    rainChance,
+  };
 }
 
 /**
@@ -72,7 +89,7 @@ export async function fetchButtercutWeather(opts: {
     "https://api.open-meteo.com/v1/forecast" +
     `?latitude=${opts.lat}` +
     `&longitude=${opts.lon}` +
-    "&current=temperature_2m,weathercode" +
+    "&current=temperature_2m,weathercode,apparent_temperature,relative_humidity_2m" +
     "&hourly=precipitation_probability" +
     "&temperature_unit=celsius" +
     `&timezone=${encodeURIComponent(tz)}` +

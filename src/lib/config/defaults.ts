@@ -7,7 +7,11 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
       "A configurable Next.js theme — ship a polished site without hardcoding content.",
     siteUrl: "http://localhost:3000",
   },
-  nav: [{ label: "Home", href: "/" }],
+  nav: [
+    { label: "About", href: "/about" },
+    { label: "Projects", href: "/projects" },
+    { label: "Misc", href: "/misc" },
+  ],
   socials: [
     { id: "github", label: "GitHub", href: "https://github.com" },
   ],
@@ -16,7 +20,6 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
       { id: "hero", enabled: true },
       { id: "status", enabled: true },
       { id: "demo_projects", enabled: true },
-      { id: "integrations", enabled: true },
     ],
   },
   brand: {

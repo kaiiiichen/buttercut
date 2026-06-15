@@ -7,8 +7,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time to report a bug. If you are unsure whether
-        something is misconfiguration, check the [Guide](https://buttercut.kaichen.dev/guide)
-        and the [README](https://github.com/kaiiiichen/buttercut#readme) first.
+        something is misconfiguration, check the [README](https://github.com/kaiiiichen/buttercut#readme) first.
 
   - type: textarea
     id: summary

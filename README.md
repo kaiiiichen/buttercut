@@ -22,9 +22,9 @@ Import [this GitHub repository](https://github.com/kaiiiichen/buttercut) into Ve
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot&logoColor=white)](https://github.com/kaiiiichen/buttercut/network/updates)
 [![site](https://img.shields.io/badge/site-buttercut.kaichen.dev-D4A574?logo=googlechrome&logoColor=white)](https://buttercut.kaichen.dev)
 
-**Buttercut** is a production-oriented personal-site theme for [Next.js](https://nextjs.org/) (App Router, React 19). One typed **`site.config.ts`** drives navigation, brand, home sections, and optional integrations; copy lives under **`content/demo/`** as Markdown, JSON, and MDX. Clone it, run it, and you get a full portfolio out of the box: home, about, projects, notes, and an in-repo **Guide** from first clone to deployment. The default demo needs no API keys — optional Last.fm, weather, and GitHub integrations **fail open** when unconfigured, so pages stay stable.
+**Buttercut** is a production-oriented personal-site theme distilled from [kaichen.dev](https://kaichen.dev). It ships the same editorial shell — Nunito UI, magazine cards, accent navigation, home status widgets — with **placeholder content** you replace through config and `content/demo/`.
 
-It targets **maintainability** (registry-based blocks, explicit MDX note registration, tests that keep documentation accurate) and **editorial polish** (Nunito, Bitter, JetBrains Mono; light and dark; restrained motion).
+Built on **Next.js 16** (App Router, React 19). One typed **`site.config.ts`** drives navigation, brand, home sections, and optional integrations. Copy lives under **`content/demo/`** as Markdown and JSON. The default demo needs no API keys; optional GitHub, weather, and Spotify routes **fail open** with empty or synthetic placeholders.
 
 ---
 
@@ -38,13 +38,6 @@ It targets **maintainability** (registry-based blocks, explicit MDX note registr
 - [Philosophy](#philosophy)
 - [Project layout](#project-layout)
 - [Configuration](#configuration)
-  - [Home blocks and overrides](#home-blocks-and-overrides)
-  - [Theming and presets](#theming-and-presets)
-  - [MDX routes and long-form notes](#mdx-routes-and-long-form-notes)
-  - [Table of contents on notes](#table-of-contents-on-notes)
-  - [Optional integrations](#optional-integrations)
-  - [Content files](#content-files)
-  - [Inline markdown for short copy](#inline-markdown-for-short-copy)
 - [Documentation map](#documentation-map)
 - [Scripts and CI](#scripts-and-ci)
 - [Forking and deployment](#forking-and-deployment)
@@ -56,13 +49,12 @@ It targets **maintainability** (registry-based blocks, explicit MDX note registr
 
 ## Why Buttercut
 
-- **Real pages, not a promise.** Home, About, Projects, Notes, and an in-repo **Guide** are already wired, styled, and tested — you are not staring at an empty layout wondering what to build first.
-- **It runs the moment you clone.** `npm install` and `npm run dev` are enough to see the whole experience. Integrations show gentle placeholders until you add credentials; nothing crashes the shell.
-- **Configuration you can trust.** `createSiteConfig` merges your `site.config.ts` with `src/lib/config/defaults.ts`, so you override only what is different and TypeScript helps you stay on track.
-- **Copy lives where writers expect it.** Hero body, projects, about sections, and note metadata sit under `content/demo/` — tweak text without hunting through `src/app` for every string.
-- **MDX notes that feel like a real publication.** Notes are `.mdx` with `export const frontmatter`, optional JSX, stable heading ids (`github-slugger`), and an optional **Table of contents** aligned with [kaichen.dev](https://kaichen.dev) note UX — add `<TableOfContents />` before the first `##` when you want it.
-- **Documentation that does not lie.** The **Guide** (`/guide`) uses stable URL fragments; README and source share the same anchors via `src/lib/guide/anchors.ts`, with tests that catch broken links.
-- **GPL-3.0-or-later.** Fork it, adapt it, ship it; share improvements if you redistribute — same spirit as many personal-site and tool projects.
+- **Same design language as kaichen.dev.** Layout rhythm (`max-w-[1180px]`, `mag-card`, nav underline states, home hero grid, Listening / Location / Projects rows) is inherited 1:1; only the copy is generic.
+- **Runs on first clone.** `npm install` and `npm run dev` show the full experience. Integrations render gentle placeholders until you add credentials.
+- **Configuration you can trust.** `createSiteConfig` merges your `site.config.ts` with typed defaults — override only what differs.
+- **Copy where writers expect it.** Hero body, projects, and about sections sit under `content/demo/`.
+- **Same nav as kaichen.dev.** Core routes: `About`, `Projects`, `Misc` — no extra theme-only pages.
+- **GPL-3.0-or-later.** Fork, adapt, ship; share improvements if you redistribute.
 
 ---
 
@@ -70,25 +62,24 @@ It targets **maintainability** (registry-based blocks, explicit MDX note registr
 
 | Area | What you get |
 | ---- | -------------- |
-| **Home** | Block-based layout: hero, status row (Now Playing + weather slots), demo projects with GitHub stars, integrations panel — all reorderable and toggleable via config. |
-| **About / Projects** | Structured sections (education, experience, volunteering, focus) and project cards with tags and optional repo-linked stars. |
-| **Notes** | MDX under `content/demo/notes/`, explicit registry in `src/lib/demo/mdx-notes.ts`, `/notes/[slug]` with an editorial header and prose scale. |
-| **Guide** | Ten-step onboarding in MDX with permalinks — clone, config, content, short copy, theme, blocks, notes, integrations, deploy. |
-| **Theme** | CSS variables plus optional `brand.theme` overrides sanitized at build time; presets (`sunset`, `ocean`, `terminal`). |
-| **Integrations** | GitHub repo stars (on by default, unauthenticated quota), Last.fm, Open-Meteo weather — each optional and null-safe. |
+| **Home** | Hero (avatar + socials + JumpText + intro), Listening card, Location card, Projects list — reorderable via `home.blocks`. |
+| **About** | Education, Experience, Volunteering, Focus cards from `content/demo/about.json`. |
+| **Projects** | Card grid + GitHub Activity heatmap (`/projects`). |
+| **Misc** | Watching, Remembrance, Things I Love placeholder lists (`/misc`). |
+| **Theme** | CSS variables + optional `brand.theme` overrides; light default. |
+| **Integrations** | GitHub pins & activity (`GITHUB_TOKEN`), Open-Meteo weather, Spotify API stubs for Listening UI. |
 
 ---
 
 ## Live demo and stack
 
-- **See it live:** [buttercut.kaichen.dev](https://buttercut.kaichen.dev) — tutorial links in this README point here; after you fork, you may swap in your own site URL while keeping the same `#anchor` ids.
-- **Under the hood:** Next.js 16, React 19, TypeScript (strict), Tailwind CSS 4, MDX via `@next/mdx`, Vitest for unit and smoke tests.
+- **See it live:** [buttercut.kaichen.dev](https://buttercut.kaichen.dev)
+- **Reference site:** [kaichen.dev](https://kaichen.dev) — the visual source of truth for core pages.
+- **Stack:** Next.js 16, React 19, TypeScript (strict), Tailwind CSS 4, Vitest.
 
 ---
 
 ## Quick start
-
-Start with the tutorial: [Step 1 — Clone and run](https://buttercut.kaichen.dev/guide#clone-and-run).
 
 ```bash
 git clone https://github.com/kaiiiichen/buttercut.git
@@ -97,16 +88,16 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). You do not need a `.env` file for the default demo.
+Open [http://localhost:3000](http://localhost:3000). No `.env` file is required for the default demo. Edit `content/demo/intro.md` for the hero blurb and `site.config.ts` for site metadata.
 
 ---
 
 ## Philosophy
 
-1. **Simple changes stay in config.** Title, nav, socials, block order, and theme tokens belong in `site.config.ts` and `content/demo/` — not in a fork of half the theme.
-2. **Deep changes have a hook.** Register or replace blocks in `src/custom/register.ts` so upstream theme updates can still merge cleanly.
-3. **Integrations are optional by design.** If an API key or username is missing, the UI explains the gap instead of throwing — the deployment still renders.
-4. **Trusted author content.** Inline markdown and MDX are for **your** copy in the repo, not arbitrary public user input. Treat `content/demo` like source code.
+1. **Simple changes stay in config.** Title, nav, socials, block order, and theme tokens belong in `site.config.ts` and `content/demo/`.
+2. **Deep changes have a hook.** Register or replace blocks in `src/custom/register.ts`.
+3. **Integrations are optional.** Missing keys show placeholders — the deployment still renders.
+4. **Trusted author content.** Inline markdown is for your repo copy, not arbitrary user input.
 
 ---
 
@@ -114,147 +105,86 @@ Open [http://localhost:3000](http://localhost:3000). You do not need a `.env` fi
 
 | Path | Role |
 | ---- | ---- |
-| `site.config.ts` | Your overrides on top of defaults — site metadata, nav, socials, `home.blocks`, `brand`, `integrations`, `content.allowedLinkSchemes`. |
-| `mdx-components.tsx` | Global MDX mapping: `ButtercutProse` wrapper, `h2`/`h3` ids, `TableOfContents` tag name. |
-| `src/app` | App Router routes: `/`, `/about`, `/projects`, `/notes`, `/notes/[slug]`, `/guide`, `/mdx-demo`. |
-| `src/blocks` | Home section components (`ButtercutHero`, `ButtercutDemoProjects`, …). |
-| `src/components` | Shared UI: nav, theme, prose, GitHub activity, note TOC, etc. |
-| `src/custom` | Your `register.ts` and optional block components — survives theme pulls if you keep changes here. |
-| `src/lib/blocks` | Block registry API. |
-| `src/lib/config` | Types, defaults, `mergeSiteConfig`. |
-| `src/lib/integrations` | Fetch helpers for GitHub, Last.fm, weather. |
-| `src/lib/demo` | Loaders for demo JSON/Markdown and the MDX note registry. |
-| `src/lib/markdown` | `inline.tsx` for short copy (`**`, `` ` ``, links) — auditable, no raw HTML dump. |
-| `src/lib/guide` | Canonical `/guide` anchor list and reference tests. |
-| `content/demo` | `intro.md`, `about.json`, `projects.json`, `notes/*.mdx`. |
-| `public` | Avatars, OG placeholders, static assets. |
+| `site.config.ts` | Site metadata, nav, socials, `home.blocks`, `brand`, `integrations`. |
+| `content/demo/` | `intro.md`, `about.json`, `projects.json`. |
+| `src/app/` | Routes: `/`, `/about`, `/projects`, `/misc`, `api/*`. |
+| `src/blocks/` | Home sections (`ButtercutHero`, `ButtercutStatusRow`, `ButtercutDemoProjects`). |
+| `src/components/` | Shared UI ported from kaichen.dev (nav, listening, weather, pinned projects, …). |
+| `src/custom/` | Your `register.ts` and optional block overrides. |
+| `src/lib/config/` | Types, defaults, `mergeSiteConfig`. |
+| `src/lib/integrations/` | GitHub pins, weather, Last.fm helpers. |
+| `src/lib/demo/` | Demo content loaders. |
+| `src/lib/markdown/inline.tsx` | Short-copy markdown (`**`, `` ` ``, links). |
+| `public/` | Avatar placeholder, OG default SVG. |
 
 ---
 
 ## Configuration
 
-Walkthrough: [Step 2 — Fill in site.config.ts](https://buttercut.kaichen.dev/guide#site-config).
+Edit `site.config.ts` at the repo root. Only fields you set override the typed defaults from `createSiteConfig`.
 
-Edit **`site.config.ts`**. Defaults live in `src/lib/config/defaults.ts`; merging is handled by `mergeSiteConfig` so partial objects are safe.
-
-### Home blocks and overrides
-
-Guides: [Step 6 — Reorder or hide home blocks](https://buttercut.kaichen.dev/guide#home-blocks) · [Step 7 — Add or override a block](https://buttercut.kaichen.dev/guide#blocks).
-
-Built-in block ids include `hero`, `status`, `demo_projects`, `integrations`, `now_playing`, `weather`. Order and visibility come from `home.blocks` in config.
-
-To replace or add a block without editing the theme core, use **`src/custom/register.ts`**:
-
-```ts
-import { registerButtercutBlock } from "@/lib/blocks/registry";
-import { MyHero } from "./blocks/MyHero";
-
-export function applyButtercutCustom(): void {
-  registerButtercutBlock("hero", MyHero);
-}
-```
-
-Each block receives `{ config, demo }` where `config` is the merged site config and `demo` is loaded demo content.
-
-### Theming and presets
-
-Guide: [Step 5 — Pick a colour mood](https://buttercut.kaichen.dev/guide#theme).
-
-Override CSS custom properties from config — values are sanitized before injection:
+### Identity
 
 ```ts
 export const siteConfig = createSiteConfig({
+  site: {
+    title: "Your Name",
+    description: "One-line tagline",
+    siteUrl: "https://example.com",
+  },
+  nav: [
+    { label: "About", href: "/about" },
+    { label: "Projects", href: "/projects" },
+    { label: "Misc", href: "/misc" },
+  ],
+  socials: [
+    { id: "email", label: "Email", href: "mailto:you@example.com" },
+    { id: "signal", label: "Signal", href: "https://signal.me" },
+    { id: "github", label: "GitHub", href: "https://github.com/you" },
+  ],
   brand: {
-    theme: {
-      accent: "#ff6f3c",
-      accentDark: "#ffa07a",
-      background: "oklch(99% 0 0)",
-      backgroundDark: "#111",
-    },
+    showGwwcBadge: false, // set true to show the optional pledge badge
+    avatar: "/avatar-placeholder.svg",
   },
 });
 ```
 
-**Presets** (`src/lib/theme/presets.ts`):
+### Home content (`content/demo/`)
+
+| File | Fields |
+| ---- | ------ |
+| `intro.md` | Hero body paragraphs (blank-line separated). |
+| `projects.json` | `greeting`, `subtitles[]`, `tagline`, `projects[]`. |
+| `about.json` | `intro`, `education`, `experience`, `volunteering`, `focus`. |
+
+### Home blocks
 
 ```ts
-import { buttercutPreset } from "@/lib/theme/presets";
-
-brand: {
-  theme: { ...buttercutPreset("sunset"), accent: "#ff3366" },
-}
+home: {
+  blocks: [
+    { id: "hero", enabled: true },
+    { id: "status", enabled: true },      // Listening + Location
+    { id: "demo_projects", enabled: true },
+  ],
+},
 ```
 
-| Preset | Mood |
-| ------ | ---- |
-| `sunset` | Warm editorial, paper-like light / deep warm dark. |
-| `ocean` | Cool blues, calm corporate. |
-| `terminal` | Monochrome green accent, night-friendly. |
+Built-in ids: `hero`, `status`, `now_playing`, `weather`, `demo_projects`, `integrations`.
 
-### MDX routes and long-form notes
+### Integrations
 
-Guide: [Step 8 — Write notes in MDX](https://buttercut.kaichen.dev/guide#notes).
+| Integration | Env | Config | Behaviour |
+| ----------- | --- | ------ | --------- |
+| GitHub pins & activity | `GITHUB_TOKEN`, `GITHUB_LOGIN` | `integrations.github.login` | Mirrors profile pins when token set; else `projects.json` |
+| Weather | — | `integrations.weather` (`lat`, `lon`, `label`, `timezone`) | Open-Meteo via `/api/weather` |
+| Spotify Listening UI | Wire your OAuth in `api/spotify/*` | — | Stubs return empty; UI matches kaichen.dev |
+| Last.fm | `LASTFM_API_KEY` | `integrations.lastfm` | Legacy server fetch (optional) |
 
-- Routes under `src/app/**/*.mdx` use the global MDX wrapper (typography per route layout).
-- Demo notes live in **`content/demo/notes/<slug>.mdx`**. Each file exports `frontmatter` with at least `title`, and usually `summary` and `date`.
-- Register every note in **`src/lib/demo/mdx-notes.ts`** — the registry is the publish list; unregistered files do not get routes.
+Copy `.env.example` to `.env.local` when enabling integrations.
 
-### Table of contents on notes
+### Inline markdown
 
-After the frontmatter (and any local components), **before the first `##`**, you can add:
-
-```mdx
-<TableOfContents />
-```
-
-The `/notes/[slug]` page wraps content in `<article id="note-content">`. The TOC scans `#note-content h2[id], h3[id]` and only renders when there are at least **two** headings (`MIN_HEADINGS = 2`), matching the reference behaviour from kaichen.dev’s note TOC. Heading ids come from MDX `h2`/`h3` components using `github-slugger` (Turbopack-friendly — no `rehype-slug` in `next.config`).
-
-### Optional integrations
-
-Guide: [Step 9 — Turn on optional integrations](https://buttercut.kaichen.dev/guide#integrations).
-
-| Integration | Default | Config keys | Environment |
-| ----------- | ------- | ----------- | ------------- |
-| GitHub stars | on | `integrations.github.enabled` | Optional `GITHUB_TOKEN` (higher API quota) |
-| Last.fm | off | `integrations.lastfm.enabled`, `username` | `LASTFM_API_KEY` |
-| Weather | off | `integrations.weather.enabled`, `lat`, `lon`, `label` | None (Open-Meteo) |
-
-All fetch helpers return `null` on failure so the page always renders.
-
-### Content files
-
-Guide: [Step 3 — Swap the content in content/demo/](https://buttercut.kaichen.dev/guide#content).
-
-| File | Purpose |
-| ---- | ------- |
-| `intro.md` | Home hero body (inline markdown subset). |
-| `about.json` | Sections for `/about` — omit or empty arrays hide cards. |
-| `projects.json` | Tagline and project list; `repo` can drive `href` and stars. |
-| `notes/*.mdx` | Long-form notes; register each in `mdx-notes.ts`. |
-
-### Inline markdown for short copy
-
-Guide: [Step 4 — Authoring short copy](https://buttercut.kaichen.dev/guide#short-copy).
-
-Used for hero intro, card summaries, note one-liners — implemented in [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx) as real React nodes (no `dangerouslySetInnerHTML` for this path):
-
-| Syntax | Output |
-| ------ | ------ |
-| `**bold**` | Strong emphasis |
-| `` `code` `` | Inline code chip |
-| `[label](url)` | Link; external URLs get `rel`/`target` |
-
-Extend allowed URL schemes when you need `tel:` or `sms:`:
-
-```ts
-content: {
-  allowedLinkSchemes: ["http", "https", "mailto", "tel", "sms"],
-}
-```
-
-A hard deny list always blocks `javascript:`, `data:`, `vbscript:`, and `file:`.
-
-For block-level markdown (headings, lists, tables, fenced code), use **MDX** and `ButtercutProse` — not this inline helper.
+Used in hero intro and card summaries — `**bold**`, `` `code` ``, `[label](url)` with zinc/bronze link styling matching kaichen.dev. See [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx).
 
 ---
 
@@ -262,52 +192,50 @@ For block-level markdown (headings, lists, tables, fenced code), use **MDX** and
 
 | Layer | Where |
 | ----- | ----- |
-| **Tutorial (step-by-step)** | [`/guide`](https://buttercut.kaichen.dev/guide) — ten anchors from `#clone-and-run` to `#deploy`, defined in `src/lib/guide/anchors.ts`. |
-| **Reference (this file)** | Feature overview, tables, and links into the Guide. |
-| **API detail** | JSDoc on types (`src/lib/config/types.ts`) and integration helpers. |
-
-Tutorial links in this README use `https://buttercut.kaichen.dev/guide#...`. After you fork, you may replace the origin with your own deployment; keep fragment ids aligned with `anchors.ts` so cross-links stay valid.
+| **Reference** | This README + [CHANGELOG.md](CHANGELOG.md). |
+| **API detail** | JSDoc on `src/lib/config/types.ts` and integration helpers. |
 
 ---
 
 ## Scripts and CI
 
-| Script | Command | Purpose |
-| ------ | ------- | ------- |
-| `dev` | `next dev` | Local development |
-| `build` | `next build` | Production build |
-| `start` | `next start` | Serve production output |
-| `lint` | `eslint .` | Lint |
-| `typecheck` | `tsc --noEmit` | Typecheck |
-| `test` | `vitest run` | Unit and integration tests |
-| `test:smoke` | `vitest run --dir src/app/guide` | Post-build smoke: `/guide` anchors in HTML |
+| Script | Command |
+| ------ | ------- |
+| `dev` | `next dev` |
+| `build` | `next build` |
+| `start` | `next start` |
+| `lint` | `eslint .` |
+| `typecheck` | `tsc --noEmit` |
+| `test` | `vitest run` |
 
-CI runs: `lint` → `typecheck` → `test` → `build` → `test:smoke`.
+CI: `lint` → `typecheck` → `test` → `build`.
 
 ---
 
 ## Forking and deployment
 
-Guide: [Step 10 — Deploy](https://buttercut.kaichen.dev/guide#deploy).
-
-Buttercut is a standard Next.js app — use the **[Deploy](#deploy)** section above for a one-click Vercel import, or deploy on [Vercel](https://vercel.com/) manually or on any Node host. Set `site.siteUrl` in `site.config.ts` to your production URL for metadata and OG. Replace demo placeholder copy in `content/demo/` and adjust `nav` / `socials` to match your identity.
+1. Replace demo copy in `content/demo/`.
+2. Set `site.siteUrl` to your production URL.
+3. Add `GITHUB_TOKEN` + `GITHUB_LOGIN` to mirror pinned repos and live contribution graph.
+4. Enable weather coordinates for a live Location card.
+5. Deploy on Vercel (one-click import above) or any Node host.
 
 ---
 
 ## Changelog
 
-Human-readable history: [CHANGELOG.md](CHANGELOG.md) ([Keep a Changelog](https://keepachangelog.com/)). Current package version: **0.2.0**.
+[CHANGELOG.md](CHANGELOG.md) — current package version **0.2.0**; see `[Unreleased]` for the latest kaichen.dev parity work.
 
 ---
 
 ## Contributing and security
 
-- **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md) — local setup, full CI command list, and how to keep README, Guide, and code in sync.
-- **Code of conduct:** [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-- **Security:** [SECURITY.md](SECURITY.md) — how to report issues affecting the theme.
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [SECURITY.md](SECURITY.md)
 
 ---
 
 ## License
 
-[GPL-3.0-or-later](LICENSE). Same license family as the [kaichen.dev](https://github.com/kaiiiichen/kaichen.dev) reference implementation.
+[GPL-3.0-or-later](LICENSE). Same license family as [kaichen.dev](https://github.com/kaiiiichen/kaichen.dev).

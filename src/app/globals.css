@@ -10,10 +10,14 @@
   --accent: #c4894f;
   --dot-idle: #a1a1aa;
 
+  /* Match nav + card UI English (see ButtercutNav) */
+  --font-ui-en: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
   /* Border hierarchy for .mag-card */
   --color-border-primary: #a1a1aa;   /* zinc-400 — bottom accent */
   --color-border-secondary: #d4d4d8; /* zinc-300 — side */
   --color-border-tertiary: #e4e4e7;  /* zinc-200 — shadow */
+  --mag-card-radius: 6px;
 
   /* GitHub-style contribution heatmap cells (used by ButtercutGitHubActivity).
      Five-step scale from empty to most active, mirroring GitHub's green ramp. */
@@ -25,7 +29,6 @@
 
   /* Font families — defined here, surfaced as Tailwind utilities via @theme inline. */
   --font-nunito: "Nunito", ui-sans-serif, system-ui, sans-serif;
-  --font-bitter: "Bitter", ui-serif, Georgia, serif;
   --font-jetbrains-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
     monospace;
 }
@@ -51,9 +54,7 @@
   --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-bitter);
   --font-nunito: var(--font-nunito);
-  --font-bitter: var(--font-bitter);
   --font-jetbrains-mono: var(--font-jetbrains-mono);
 }
 
@@ -75,12 +76,13 @@ body {
 
 /* ── Magazine / editorial card ───────────────────────────────── */
 .mag-card {
+  font-family: var(--font-ui-en);
   background: #ffffff;
   border: 1px solid var(--color-border-secondary);
   border-bottom: 3px solid var(--color-border-primary);
   border-right: 2px solid var(--color-border-secondary);
   box-shadow: 5px 5px 0px 0px var(--color-border-tertiary);
-  border-radius: 2px;
+  border-radius: var(--mag-card-radius);
   padding: 1.5rem;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease,
@@ -89,29 +91,28 @@ body {
 .mag-card:hover {
   transform: translateY(-3px);
   box-shadow: 7px 7px 0px 0px var(--color-border-tertiary);
-  border-bottom-color: var(--accent);
-  border-right-color: var(--accent);
+  border-bottom-color: #c4894f;
+  border-right-color: #c4894f;
   background: #fffaf6;
 }
 .dark .mag-card {
   background: #252019;
 }
 .dark .mag-card:hover {
-  border-bottom-color: var(--accent);
-  border-right-color: var(--accent);
+  border-bottom-color: #d9a870;
+  border-right-color: #d9a870;
   background: #2a221c;
 }
 
-/* ── Magazine label (Nunito 400, uppercase + hairline) ────────── */
+/* ── Magazine label — same UI font as nav (Nunito), title case + hairline */
 .mag-label {
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  font-family: var(--font-nunito);
+  font-family: var(--font-ui-en) !important;
   font-weight: 400;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 0.15em;
-  text-transform: uppercase;
   color: #a1a1aa;
   margin-bottom: 1rem;
 }
@@ -149,6 +150,46 @@ body {
 }
 .slide-exit { animation: slide-out-left 200ms ease forwards; }
 .slide-enter { animation: slide-in-right 250ms ease forwards; }
+
+/* ── Listening widget (home) ──────────────────────────────── */
+@keyframes listening-live-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(29 185 84 / 0.45);
+  }
+  55% {
+    box-shadow: 0 0 0 10px rgb(29 185 84 / 0);
+  }
+}
+@keyframes listening-live-pulse-dark {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(29 185 84 / 0.4);
+  }
+  55% {
+    box-shadow: 0 0 0 10px rgb(29 185 84 / 0);
+  }
+}
+@keyframes listening-soft-breathe {
+  0%,
+  100% {
+    filter: saturate(1) brightness(1);
+  }
+  50% {
+    filter: saturate(1.06) brightness(1.03);
+  }
+}
+
+.listening-live-dot {
+  animation: listening-live-pulse 2.2s ease-out infinite;
+}
+.dark .listening-live-dot {
+  animation-name: listening-live-pulse-dark;
+}
+
+.listening-art-live {
+  animation: listening-soft-breathe 6s ease-in-out infinite;
+}
 
 /* Non-home subpage veil + content entrance */
 .subpage-enter {
@@ -192,189 +233,14 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Nav wave underline (overlay rendered via portal) ─────────── */
-@keyframes nav-wave-flow {
-  from { background-position-x: 0px; }
-  to   { background-position-x: 20px; }
+/* ── iMessage-style letter wave (used by ButtercutJumpText) ─────── */
+@keyframes letter-jump {
+  0%, 14%, 100% { transform: translateY(0); }
+  7% { transform: translateY(-0.28em); }
 }
-
-/* ── Highlight.js syntax theme (used inside .buttercut-prose pre code) ── */
-.hljs { color: #24292e; background: transparent; }
-.hljs-keyword, .hljs-operator { color: #d73a49; font-weight: bold; }
-.hljs-string, .hljs-doctag { color: #032f62; }
-.hljs-comment, .hljs-quote { color: #6a737d; font-style: italic; }
-.hljs-title, .hljs-section { color: #6f42c1; font-weight: bold; }
-.hljs-variable, .hljs-template-variable, .hljs-attr { color: #005cc5; }
-.hljs-number, .hljs-literal { color: #005cc5; }
-.hljs-built_in, .hljs-builtin-name { color: #e36209; }
-.hljs-type, .hljs-class .hljs-title { color: #6f42c1; }
-.hljs-params { color: #24292e; }
-.hljs-meta { color: #735c0f; }
-
-.dark .hljs { color: #e6edf3; }
-.dark .hljs-keyword, .dark .hljs-operator { color: #ff7b72; }
-.dark .hljs-string, .dark .hljs-doctag { color: #a5d6ff; }
-.dark .hljs-comment, .dark .hljs-quote { color: #8b949e; }
-.dark .hljs-title, .dark .hljs-section { color: #d2a8ff; font-weight: bold; }
-.dark .hljs-variable, .dark .hljs-template-variable, .dark .hljs-attr { color: #79c0ff; }
-.dark .hljs-number, .dark .hljs-literal { color: #79c0ff; }
-.dark .hljs-built_in, .dark .hljs-builtin-name { color: #ffa657; }
-.dark .hljs-type, .dark .hljs-class .hljs-title { color: #d2a8ff; }
-.dark .hljs-params { color: #e6edf3; }
-.dark .hljs-meta { color: #e3b341; }
-
-/* ── Long-form typography (used by /about, /notes, /guide, /mdx-demo)
-      Mirrors the kaichen.dev notes style: sans (Nunito) body, serif
-      (Bitter) headings with an h2 section rule.
-
-      All selectors wrap their descendants in :where() to neutralise
-      specificity to 0,1,0 — that way any Tailwind utility on an inner
-      element (e.g. <h3 className="text-[1.45rem]">) still wins, and
-      authors can opt a subtree out by resetting className manually.
-      This is the same pattern Tailwind's .prose uses internally. ─── */
-.buttercut-prose {
-  font-family: var(--font-nunito);
-  font-weight: 400;
-  font-size: 0.95rem;
-  line-height: 1.75;
-  color: var(--foreground);
-}
-.buttercut-prose :where(h1, h2, h3, h4) {
-  font-family: var(--font-bitter);
-  color: var(--foreground);
-  font-weight: 600;
-}
-.buttercut-prose :where(h1) {
-  font-size: 1.8rem;
-  line-height: 1.2;
-  margin: 2rem 0 0.75rem;
-}
-.buttercut-prose :where(h2) {
-  font-size: 1.3rem;
-  line-height: 1.3;
-  margin: 2rem 0 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-border-tertiary);
-}
-.buttercut-prose :where(h3) {
-  font-size: 1.1rem;
-  line-height: 1.4;
-  margin: 1.5rem 0 0.4rem;
-}
-.buttercut-prose :where(h4) {
-  font-size: 1rem;
-  line-height: 1.4;
-  margin: 1.25rem 0 0.4rem;
-}
-.buttercut-prose :where(p) {
-  margin: 0 0 1rem;
-}
-.buttercut-prose :where(ul, ol) {
-  margin: 0 0 1rem 1.5rem;
-  padding: 0;
-}
-.buttercut-prose :where(ul) { list-style: disc; }
-.buttercut-prose :where(ol) { list-style: decimal; }
-.buttercut-prose :where(li) {
-  margin: 0.375rem 0;
-}
-.buttercut-prose :where(a) {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  transition: opacity 150ms;
-}
-.buttercut-prose :where(a):hover {
-  opacity: 0.7;
-}
-.buttercut-prose :where(strong) {
-  color: var(--foreground);
-  font-weight: 600;
-}
-.buttercut-prose :where(em) {
-  font-style: italic;
-}
-.buttercut-prose :where(code) {
-  font-family: var(--font-jetbrains-mono);
-  font-size: 0.85em;
-  padding: 0.15em 0.45em;
-  background: rgb(244 244 245);
-  color: rgb(39 39 42);
-  border-radius: 4px;
-}
-.dark .buttercut-prose :where(code) {
-  background: rgb(39 39 42);
-  color: rgb(228 228 231);
-}
-.buttercut-prose :where(pre) {
-  font-family: var(--font-jetbrains-mono);
-  font-size: 0.83rem;
-  line-height: 1.7;
-  padding: 1rem 1.25rem;
-  background: rgb(244 244 245);
-  border: 1px solid var(--color-border-tertiary);
-  border-radius: 2px;
-  overflow-x: auto;
-  margin: 0 0 1.25rem;
-}
-.buttercut-prose :where(pre code) {
-  background: transparent;
-  padding: 0;
-  color: inherit;
-  font-size: inherit;
-}
-.dark .buttercut-prose :where(pre) {
-  background: rgb(24 24 27);
-}
-.buttercut-prose :where(blockquote) {
-  margin: 1.25rem 0;
-  padding-left: 1rem;
-  border-left: 4px solid var(--accent);
-  color: #71717a;
-  font-style: italic;
-}
-.dark .buttercut-prose :where(blockquote) {
-  color: #a1a1aa;
-}
-.buttercut-prose :where(hr) {
-  border: 0;
-  border-top: 1px solid var(--color-border-tertiary);
-  margin: 2rem 0;
-}
-.buttercut-prose :where(table) {
-  width: 100%;
-  margin: 1.25rem 0;
-  border-collapse: collapse;
-  border: 1px solid var(--color-border-tertiary);
-  border-radius: 2px;
-  overflow: hidden;
-  font-size: 0.9rem;
-}
-.buttercut-prose :where(thead) {
-  background: rgb(250 250 250);
-}
-.dark .buttercut-prose :where(thead) {
-  background: rgb(24 24 27);
-}
-.buttercut-prose :where(th) {
-  padding: 0.625rem 1rem;
-  text-align: left;
-  font-family: var(--font-nunito);
-  font-weight: 600;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #71717a;
-  border-bottom: 1px solid var(--color-border-tertiary);
-}
-.buttercut-prose :where(td) {
-  padding: 0.625rem 1rem;
-  vertical-align: top;
-  border-bottom: 1px solid var(--color-border-tertiary);
-}
-.buttercut-prose :where(tr:last-child td) {
-  border-bottom: 0;
+.jump-letter {
+  display: inline-block;
+  animation: letter-jump 3.6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
 }
 
 /* ── Reduced motion ───────────────────────────────────────────── */
@@ -391,5 +257,10 @@ body {
   .fade-up {
     animation: none;
     opacity: 1;
+  }
+  .jump-letter,
+  .listening-live-dot,
+  .listening-art-live {
+    animation: none !important;
   }
 }
