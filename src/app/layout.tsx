@@ -7,14 +7,12 @@ import { Analytics } from "@vercel/analytics/next";
 import "@fontsource/nunito/300.css";
 import "@fontsource/nunito/400.css";
 import "@fontsource/nunito/600.css";
-import "@fontsource/bitter/400.css";
-import "@fontsource/bitter/400-italic.css";
-import "@fontsource/bitter/600.css";
+import "@fontsource/nunito/600-italic.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import { ButtercutNav } from "@/components/ButtercutNav";
-import { ButtercutNavWaveOverlay } from "@/components/ButtercutNavWaveOverlay";
 import { ButtercutProviders } from "@/components/ButtercutProviders";
+import { ButtercutSiteFooter } from "@/components/ButtercutSiteFooter";
 import { ButtercutSubpageEnter } from "@/components/ButtercutSubpageEnter";
 import { buildButtercutThemeStyle } from "@/lib/theme/build-theme-style";
 import { siteConfig } from "../../site.config";
@@ -26,14 +24,15 @@ export const metadata: Metadata = {
   title: siteConfig.site.title,
   description: siteConfig.site.description,
   metadataBase: new URL(siteConfig.site.siteUrl),
-  openGraph: {
-    title: siteConfig.site.title,
-    description: siteConfig.site.description,
-    url: siteConfig.site.siteUrl,
-    siteName: siteConfig.site.title,
-    images: [{ url: siteConfig.brand.og.defaultImagePath, width: 1200, height: 630 }],
-    type: "website",
-  },
+    openGraph: {
+      title: siteConfig.site.title,
+      description: siteConfig.site.description,
+      url: siteConfig.site.siteUrl,
+      siteName: siteConfig.site.title,
+      images: [{ url: siteConfig.brand.og.defaultImagePath, width: 1200, height: 630 }],
+      locale: "en_US",
+      type: "website",
+    },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.site.title,
@@ -66,11 +65,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {`(function(){try{var d=document.documentElement;var t=localStorage.getItem('buttercut-theme');var dark;if(t==='dark')dark=true;else if(t==='light')dark=false;else dark=false;d.classList.toggle('dark',dark);d.style.colorScheme=dark?'dark':'light';}catch(e){}})();`}
         </Script>
         <ButtercutProviders>
-          <ButtercutNavWaveOverlay />
           <ButtercutNav config={siteConfig} />
           <main className="flex-1 pt-16">
             <ButtercutSubpageEnter>{children}</ButtercutSubpageEnter>
           </main>
+          <ButtercutSiteFooter config={siteConfig} />
         </ButtercutProviders>
         <Analytics />
       </body>

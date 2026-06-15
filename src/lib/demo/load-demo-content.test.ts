@@ -1,20 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  BUTTERCUT_SLUG_RE,
-  normaliseButtercutProject,
-} from "./load-demo-content";
-
-describe("BUTTERCUT_SLUG_RE", () => {
-  it("accepts simple slugs", () => {
-    expect(BUTTERCUT_SLUG_RE.test("hello-world_01")).toBe(true);
-  });
-
-  it("rejects traversal and path separators", () => {
-    for (const bad of ["../secret", "a/b", "a\\b", "a..b", "a.md", ""]) {
-      expect(BUTTERCUT_SLUG_RE.test(bad)).toBe(false);
-    }
-  });
-});
+import { normaliseButtercutProject } from "./load-demo-content";
 
 describe("normaliseButtercutProject", () => {
   it("keeps an explicit href", () => {

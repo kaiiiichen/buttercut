@@ -5,7 +5,12 @@ describe("parseButtercutOpenMeteo", () => {
   it("maps weathercode and max rain chance over the next 3h", () => {
     const parsed = parseButtercutOpenMeteo(
       {
-        current: { temperature_2m: 18.3, weathercode: 3 },
+        current: {
+          temperature_2m: 18.3,
+          weathercode: 3,
+          apparent_temperature: 17,
+          relative_humidity_2m: 82,
+        },
         hourly: {
           time: [
             "2026-04-16T12:00",
@@ -26,7 +31,12 @@ describe("parseButtercutOpenMeteo", () => {
   it("handles nulls in probability array", () => {
     const parsed = parseButtercutOpenMeteo(
       {
-        current: { temperature_2m: 20, weathercode: 99999 },
+        current: {
+          temperature_2m: 20,
+          weathercode: 99999,
+          apparent_temperature: 19,
+          relative_humidity_2m: 50,
+        },
         hourly: {
           time: ["2026-04-16T12:00"],
           precipitation_probability: [null],

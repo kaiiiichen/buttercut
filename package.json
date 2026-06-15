@@ -10,26 +10,19 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:smoke": "vitest run --dir src/app/guide"
+    "test": "vitest run"
   },
   "dependencies": {
-    "@fontsource/bitter": "^5.2.10",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/nunito": "^5.2.7",
-    "@mdx-js/loader": "^3.1.1",
-    "@mdx-js/react": "^3.1.1",
-    "@next/mdx": "^16.2.4",
     "@vercel/analytics": "^2.0.1",
     "geist": "^1.7.0",
-    "github-slugger": "^2.0.0",
     "next": "16.2.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/mdx": "^2.0.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

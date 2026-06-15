@@ -1,23 +1,22 @@
 {
-  "tagline": "Demo projects — swap these in content/demo/projects.json",
+  "tagline": "Things I've built, maintained, or archived with love.",
+  "greeting": "Hello :)",
+  "subtitles": [
+    "Your role @ Organization",
+    "Your field @ University '27"
+  ],
   "projects": [
     {
-      "name": "buttercut",
-      "description": "This theme repository: App Router, typed config, CI, and demo content. Links auto-resolve from `repo` when `href` is omitted.",
-      "repo": "kaiiiichen/buttercut",
-      "tags": ["Next.js", "TypeScript", "Tailwind"]
-    },
-    {
-      "name": "kaichen.dev",
-      "description": "The reference site Buttercut is distilled from — same layout language, personal content.",
-      "repo": "kaiiiichen/kaichen.dev",
-      "tags": ["Next.js", "Portfolio", "Editorial"]
-    },
-    {
-      "name": "next.js",
-      "description": "Swap this entry for your own work. Every record with a `repo` renders a live GitHub star count.",
+      "name": "project-one",
+      "description": "A short description of your first project. Swap this entry in `content/demo/projects.json`.",
       "repo": "vercel/next.js",
-      "tags": ["Reference", "Framework"]
+      "tags": ["Next.js", "TypeScript"]
+    },
+    {
+      "name": "project-two",
+      "description": "Another placeholder project — link to your repo or live demo.",
+      "href": "https://github.com",
+      "tags": ["Demo"]
     }
   ]
 }

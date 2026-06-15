@@ -37,13 +37,6 @@ Out of scope:
   its env vars are missing.
 - `buildButtercutThemeStyle` sanitises `brand.theme.*` tokens before they
   reach the document — invalid/overlong values are dropped silently.
-- Note slugs are matched against `/^[A-Za-z0-9_-]+$/` before any `fs`
-  read and the `/notes/[slug]` route pins `dynamicParams = false`, so
-  only pre-rendered files can be served.
-- Long-form notes are **MDX** compiled at build time and rendered inside
-  `ButtercutProse`. Treat `content/demo/notes` like source code—do not
-  pipe untrusted user input through MDX without a separate hardening
-  story.
 - Short copy uses `renderButtercutInlineMarkdown` (no raw HTML); it is
   intended for trusted author strings in config and JSON only.
 

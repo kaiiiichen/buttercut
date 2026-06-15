@@ -16,9 +16,6 @@ import type { ReactNode } from "react";
  * Do **not** pass user-submitted content through here without escaping.
  *
  * @see {@link https://github.com/kaiiiichen/buttercut#inline-markdown-subset README — Inline markdown subset}
- * @see `/guide#short-copy` — the in-app tutorial has a live side-by-side
- *      demo of all three tokens, plus the `content.allowedLinkSchemes`
- *      knob for extending the URL whitelist.
  */
 const TOKEN_RE =
   /(\*\*[^*\n]+\*\*)|(`[^`\n]+`)|(\[[^\]\n]+\]\([^)\s]+\))/g;
@@ -98,7 +95,7 @@ function renderToken(
       <a
         key={key}
         href={href}
-        className="underline decoration-[var(--accent)]/60 underline-offset-4 transition-colors hover:text-[var(--accent)]"
+        className="underline decoration-zinc-300 underline-offset-2 transition-colors duration-150 hover:text-[#C4894F] hover:decoration-[#C4894F] dark:decoration-zinc-600 dark:hover:text-[#D9A870] dark:hover:decoration-[#D9A870]"
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {label}

@@ -1,5 +1,4 @@
 import { createSiteConfig } from "@/lib/config/create-site-config";
-// import { buttercutPreset } from "@/lib/theme/presets";
 
 /**
  * Buttercut theme configuration.
@@ -7,34 +6,33 @@ import { createSiteConfig } from "@/lib/config/create-site-config";
  */
 export const siteConfig = createSiteConfig({
   site: {
-    title: "Buttercut",
+    title: "Your Name",
     description:
-      "Demo preview — configure `site.config.ts` and `content/demo/` for your site.",
-    siteUrl: "https://buttercut.kaichen.dev",
+      "A short tagline for your site — edit site.config.ts and content/demo/ to make this yours.",
+    siteUrl: "https://example.com",
   },
   nav: [
     { label: "About", href: "/about" },
     { label: "Projects", href: "/projects" },
-    { label: "Notes", href: "/notes" },
-    { label: "Guide", href: "/guide" },
+    { label: "Misc", href: "/misc" },
   ],
   socials: [
+    { id: "email", label: "Email", href: "mailto:hello@example.com" },
+    { id: "signal", label: "Signal", href: "https://signal.me" },
     { id: "github", label: "GitHub", href: "https://github.com" },
     { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com" },
-    { id: "x", label: "X", href: "https://x.com" },
-    { id: "email", label: "Email", href: "mailto:hello@example.com" },
-    { id: "docs", label: "Docs", href: "https://nextjs.org" },
+    { id: "spotify", label: "Spotify", href: "https://open.spotify.com" },
   ],
-  // Pick a colour mood without writing CSS. Presets live in
-  // `src/lib/theme/presets.ts` — spread one and override any token:
-  //
-  //   brand: {
-  //     theme: { ...buttercutPreset("sunset"), accent: "#ff3366" },
-  //   },
-  //
-  // Or define the token set inline:
-  //
-  //   brand: {
-  //     theme: { accent: "#ff6f3c", accentDark: "#ffa07a" },
-  //   },
+  brand: {
+    showGwwcBadge: false,
+  },
+  integrations: {
+    weather: {
+      enabled: false,
+      lat: 37.8716,
+      lon: -122.2728,
+      label: "San Francisco",
+      timezone: "America/Los_Angeles",
+    },
+  },
 });

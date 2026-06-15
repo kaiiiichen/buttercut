@@ -45,8 +45,8 @@ export function ButtercutThemeProvider({ children }: { children: ReactNode }) {
         if (s === "light" || s === "dark" || s === "system") {
           setThemeState(s);
         } else {
-          // Matches kaichen.dev — no stored preference defaults to dark.
-          setThemeState("dark");
+          // Matches kaichen.dev — no stored preference defaults to light.
+          setThemeState("light");
         }
       } catch {
         /* ignore */

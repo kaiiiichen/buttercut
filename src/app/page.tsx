@@ -31,15 +31,6 @@ export default async function Home() {
           </div>
         );
       })}
-
-      <footer className="fade-up font-nunito text-sm text-zinc-400 dark:text-zinc-600">
-        <p>
-          © {new Date().getFullYear()} {siteConfig.site.title}. Demo content:{" "}
-          <code className="rounded bg-zinc-100 px-1 py-0.5 font-jetbrains-mono text-xs dark:bg-zinc-800">
-            content/demo/
-          </code>
-        </p>
-      </footer>
     </div>
   );
 }
