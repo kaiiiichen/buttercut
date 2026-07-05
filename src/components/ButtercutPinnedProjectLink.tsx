@@ -1,3 +1,7 @@
+import {
+  ButtercutHoverLinkArrow,
+  ButtercutHoverLinkDestinationHint,
+} from "./ButtercutHoverLinkHint";
 import { ButtercutProjectStars } from "./ButtercutProjectStars";
 
 export type ButtercutPinnedProjectLinkProps = {
@@ -24,7 +28,7 @@ export function ButtercutPinnedProjectLink({
   const nameStyle = {
     fontFamily: "var(--font-ui-en)",
     fontWeight: 600,
-    fontSize: 20,
+    fontSize: variant === "card" ? 20 : 18,
     fontStyle: "italic" as const,
   };
 
@@ -38,9 +42,7 @@ export function ButtercutPinnedProjectLink({
         style={{ textDecoration: "none" }}
       >
         <div className="mb-2 flex flex-wrap items-center gap-2">
-          <span className="shrink-0 -translate-x-1 text-xs text-[#C4894F] opacity-0 transition-all duration-150 group-hover:translate-x-0 group-hover:opacity-100 dark:text-[#D9A870]">
-            ↗
-          </span>
+          <ButtercutHoverLinkArrow />
           <p style={nameStyle} className={nameClass}>
             {name}
           </p>
@@ -53,7 +55,7 @@ export function ButtercutPinnedProjectLink({
               fontFamily: "var(--font-ui-en)",
               fontWeight: 400,
               fontSize: 13,
-              lineHeight: 1.7,
+              lineHeight: 1.6,
             }}
             className="mb-3 pl-4 text-zinc-500 dark:text-zinc-500"
           >
@@ -61,7 +63,7 @@ export function ButtercutPinnedProjectLink({
           </p>
         ) : null}
 
-        <div className="flex items-center justify-between pl-4">
+        <div className="flex items-center justify-between gap-3 pl-4">
           <div className="flex flex-wrap gap-1">
             {stack.map((tag) => (
               <span
@@ -73,12 +75,7 @@ export function ButtercutPinnedProjectLink({
               </span>
             ))}
           </div>
-          <span
-            style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400, fontSize: 11 }}
-            className="ml-2 shrink-0 text-zinc-300 transition-colors duration-150 group-hover:text-[#C4894F] dark:text-zinc-700 dark:group-hover:text-[#D9A870]"
-          >
-            GitHub ↗
-          </span>
+          <ButtercutHoverLinkDestinationHint href={href} label="GitHub" />
         </div>
       </a>
     );
@@ -89,16 +86,18 @@ export function ButtercutPinnedProjectLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group -mx-2 block rounded-sm px-2 py-3 transition-all duration-150 hover:bg-zinc-50 dark:hover:bg-zinc-800/60"
+      className="group -mx-2 block rounded-sm px-2 py-2 transition-all duration-150 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 no-underline"
+      style={{ textDecoration: "none" }}
     >
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="shrink-0 -translate-x-1 text-xs text-[#C4894F] opacity-0 transition-all duration-150 group-hover:translate-x-0 group-hover:opacity-100">
-          ↗
-        </span>
-        <p style={nameStyle} className={nameClass}>
-          {name}
-        </p>
-        <ButtercutProjectStars stars={stars} archived={archived} />
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <ButtercutHoverLinkArrow />
+          <p style={nameStyle} className={nameClass}>
+            {name}
+          </p>
+          <ButtercutProjectStars stars={stars} archived={archived} />
+        </div>
+        <ButtercutHoverLinkDestinationHint href={href} label="GitHub" />
       </div>
       {desc ? (
         <p

@@ -4,7 +4,27 @@ All notable changes to **Buttercut** are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.3.0...HEAD)
+## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.4.0...HEAD)
+
+## [0.4.0](https://github.com/kaiiiichen/buttercut/compare/v0.3.0...v0.4.0) — 2026-07-05
+
+### Added
+
+- **kaichen.dev parity refresh (2026).** Floating page TOC (`ButtercutPageToc`, `ButtercutTocSection`), design-system primitives (`.mag-card-inset`, `.mag-chip`, `.nav-link`, `.home-social-link`, `.help-icon`), `ButtercutMagChip`, `ButtercutHoverLinkHint`, and upgraded `ButtercutHoverTip` (portal default, tap-to-toggle, bubble animation).
+- **Home hero** uses `flex-row-reverse` (text left / avatar right on desktop) with TOC scroll targets; Nunito 600 nav + site title weights.
+- **Projects split layout** — nested Course + Personal sections via `ButtercutProjectsSplit` / `ButtercutCourseProjectLink`; demo data in `content/demo/course-projects.json`.
+- **Misc page** matches kaichen.dev link rows (italic titles, hover hints, inset “Things I Love”, Resources section); content driven by `content/demo/misc.json`.
+- **About page** grouped experience/volunteering layout, education `grade` / `content` / `projectHref` fields, `ButtercutMagChip` project links.
+- **`useButtercutNowPlaying` hook** with abort-safe polling; Listening card MagChip footer link via `home.featuredLink` in `site.config.ts`.
+- **Weather SSR** — `ButtercutWeatherBlock` passes server-fetched forecast to `ButtercutWeatherCard` (no first-paint flash when weather integration is enabled).
+- **Config:** `socials[].tip`, `brand.contactGuidanceTip`, `home.featuredLink`.
+
+### Changed
+
+- **`.mag-card` padding** aligned to kaichen.dev (`1.3rem`); global transitions scoped to card/nav/chip elements instead of universal `*`.
+- **Line heights** on hero/about copy use `1.75` editorial scale.
+- **Listening last-month tooltip** lazy-loads on open via `MagChip` trigger.
+- **Pinned project links** use shared hover destination hints on list + card variants.
 
 ## [0.3.0](https://github.com/kaiiiichen/buttercut/releases/tag/v0.3.0) — 2026-06-15
 

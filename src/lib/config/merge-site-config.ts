@@ -47,6 +47,7 @@ export function mergeSiteConfig(
     socials: input.socials ?? defaults.socials,
     home: {
       blocks: input.home?.blocks ?? defaults.home.blocks,
+      featuredLink: input.home?.featuredLink ?? defaults.home.featuredLink,
     },
     brand: {
       ...defaults.brand,

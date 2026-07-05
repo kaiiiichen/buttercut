@@ -16,18 +16,41 @@ type ButtercutHoverTipProps = {
   placement?: "top" | "bottom";
   align?: "center" | "end";
   interactive?: boolean;
+  tapToToggle?: boolean;
   portal?: boolean;
   className?: string;
   tipClassName?: string;
 };
 
-const TIP_BASE_CLASS =
-  "rounded-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-[#252019] px-2.5 py-1.5 text-center text-[11px] leading-snug text-zinc-600 dark:text-zinc-300 shadow-[3px_3px_0_0_var(--color-border-tertiary)] transition-all duration-150";
+const TIP_Z_INDEX = 40;
 
-function tipVisibilityClass(open: boolean) {
-  return open
-    ? "opacity-100 translate-y-0 pointer-events-auto"
-    : "opacity-0 translate-y-0.5 pointer-events-none";
+function usePrefersHover() {
+  const [prefersHover, setPrefersHover] = useState(true);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover)");
+    const update = () => setPrefersHover(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return prefersHover;
+}
+
+const TIP_BASE_CLASS =
+  "rounded-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-[#252019] px-2.5 py-1.5 text-center text-[11px] leading-snug text-zinc-600 dark:text-zinc-300 shadow-[3px_3px_0_0_var(--color-border-tertiary)]";
+
+const SHOW_DELAY_MS = 70;
+
+function tipBubbleClass(open: boolean, placement: "top" | "bottom") {
+  return [
+    "hover-tip-bubble block w-max max-w-[220px]",
+    placement === "bottom" ? "hover-tip-bubble--bottom" : "",
+    open ? "hover-tip-bubble--visible" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 }
 
 function portalFixedStyle(
@@ -38,7 +61,7 @@ function portalFixedStyle(
   const gap = 8;
   const base: CSSProperties = {
     position: "fixed",
-    zIndex: 99999,
+    zIndex: TIP_Z_INDEX,
     fontFamily: "var(--font-ui-en)",
     fontWeight: 400,
   };
@@ -80,15 +103,21 @@ export function ButtercutHoverTip({
   placement = "top",
   align = "center",
   interactive = false,
-  portal = false,
+  tapToToggle = false,
+  portal = true,
   className = "",
   tipClassName = "",
 }: ButtercutHoverTipProps) {
   const triggerRef = useRef<HTMLSpanElement>(null);
+  const tipRef = useRef<HTMLSpanElement>(null);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prefersHover = usePrefersHover();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
+  const [displayed, setDisplayed] = useState(false);
   const [coords, setCoords] = useState<DOMRect | null>(null);
+  const touchToggle = tapToToggle || interactive;
 
   useEffect(() => {
     queueMicrotask(() => setMounted(true));
@@ -100,26 +129,84 @@ export function ButtercutHoverTip({
     setCoords(el.getBoundingClientRect());
   }, []);
 
-  const show = useCallback(() => {
-    if (hideTimerRef.current) {
-      clearTimeout(hideTimerRef.current);
-      hideTimerRef.current = null;
-    }
-    syncCoords();
-    setOpen(true);
-  }, [syncCoords]);
+  const show = useCallback(
+    (immediate = false) => {
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+        hideTimerRef.current = null;
+      }
+      syncCoords();
+      if (displayed && !open) {
+        setOpen(true);
+        return;
+      }
+      if (open) return;
+
+      if (showTimerRef.current) {
+        clearTimeout(showTimerRef.current);
+        showTimerRef.current = null;
+      }
+      showTimerRef.current = setTimeout(
+        () => {
+          setDisplayed(true);
+          requestAnimationFrame(() => setOpen(true));
+        },
+        immediate ? 0 : SHOW_DELAY_MS,
+      );
+    },
+    [syncCoords, open, displayed],
+  );
 
   const hide = useCallback(() => {
+    if (showTimerRef.current) {
+      clearTimeout(showTimerRef.current);
+      showTimerRef.current = null;
+    }
     setOpen(false);
   }, []);
 
+  const onBubbleTransitionEnd = useCallback(
+    (e: React.TransitionEvent<HTMLSpanElement>) => {
+      if (e.propertyName !== "opacity" || open) return;
+      setDisplayed(false);
+    },
+    [open],
+  );
+
   const scheduleHide = useCallback(() => {
-    if (!interactive) {
+    if (!interactive || !prefersHover) {
       hide();
       return;
     }
     hideTimerRef.current = setTimeout(hide, 120);
-  }, [hide, interactive]);
+  }, [hide, interactive, prefersHover]);
+
+  const toggle = useCallback(() => {
+    if (open || displayed) hide();
+    else show(true);
+  }, [open, displayed, hide, show]);
+
+  const onTriggerClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (!touchToggle || prefersHover) return;
+      e.preventDefault();
+      e.stopPropagation();
+      toggle();
+    },
+    [touchToggle, prefersHover, toggle],
+  );
+
+  useEffect(() => {
+    if (!open || prefersHover || !touchToggle) return;
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Node;
+      if (triggerRef.current?.contains(target)) return;
+      if (tipRef.current?.contains(target)) return;
+      hide();
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open, prefersHover, touchToggle, hide]);
 
   useEffect(() => {
     if (!open || !portal) return;
@@ -135,6 +222,7 @@ export function ButtercutHoverTip({
   useEffect(
     () => () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      if (showTimerRef.current) clearTimeout(showTimerRef.current);
     },
     [],
   );
@@ -149,25 +237,35 @@ export function ButtercutHoverTip({
         <span
           ref={triggerRef}
           className={`inline-flex ${className}`}
-          onMouseEnter={show}
-          onMouseLeave={scheduleHide}
-          onFocus={show}
-          onBlur={scheduleHide}
+          onMouseEnter={prefersHover ? () => show() : undefined}
+          onMouseLeave={prefersHover ? scheduleHide : undefined}
+          onFocus={() => show(true)}
+          onBlur={prefersHover ? scheduleHide : undefined}
+          onClick={onTriggerClick}
         >
           {children}
         </span>
-        {createPortal(
-          <span
-            role="tooltip"
-            style={fixedStyle}
-            className={`${TIP_BASE_CLASS} w-max max-w-[220px] ${tipVisibilityClass(open)} ${tipClassName}`}
-            onMouseEnter={interactive ? show : undefined}
-            onMouseLeave={interactive ? scheduleHide : undefined}
-          >
-            {tip}
-          </span>,
-          document.body,
-        )}
+        {displayed &&
+          createPortal(
+            <span
+              ref={tipRef}
+              role="tooltip"
+              aria-hidden={!open}
+              style={fixedStyle}
+              className="pointer-events-none"
+              onMouseEnter={interactive && prefersHover ? () => show(true) : undefined}
+              onMouseLeave={interactive && prefersHover ? scheduleHide : undefined}
+            >
+              <span
+                className={`${TIP_BASE_CLASS} ${tipBubbleClass(open, placement)} ${tipClassName}`}
+                style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400 }}
+                onTransitionEnd={onBubbleTransitionEnd}
+              >
+                {tip}
+              </span>
+            </span>,
+            document.body,
+          )}
       </>
     );
   }
@@ -182,16 +280,17 @@ export function ButtercutHoverTip({
         : "top-full left-1/2 -translate-x-1/2 mt-2";
 
   return (
-    <span className={`group/hover-tip relative inline-flex ${className}`}>
+    <span className={`relative inline-flex group/hover-tip ${className}`}>
       {children}
-      <span
-        role="tooltip"
-        className={`absolute ${position} z-50 w-max max-w-[220px] ${TIP_BASE_CLASS} translate-y-0.5 opacity-0 group-hover/hover-tip:translate-y-0 group-hover/hover-tip:opacity-100 group-focus-within/hover-tip:translate-y-0 group-focus-within/hover-tip:opacity-100 ${
-          interactive ? "pointer-events-auto" : "pointer-events-none"
-        } ${tipClassName}`}
-        style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400 }}
-      >
-        {tip}
+      <span role="tooltip" className={`absolute ${position} z-40 ${tipClassName}`}>
+        <span
+          className={`${TIP_BASE_CLASS} hover-tip-bubble ${
+            placement === "bottom" ? "hover-tip-bubble--bottom" : ""
+          } ${interactive ? "group-hover/hover-tip:pointer-events-auto group-focus-within/hover-tip:pointer-events-auto" : ""}`}
+          style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400 }}
+        >
+          {tip}
+        </span>
       </span>
     </span>
   );

@@ -1,7 +1,8 @@
 import { ButtercutWeatherCard } from "@/components/ButtercutWeatherCard";
 import type { ButtercutBlockProps } from "@/lib/blocks/registry";
+import { fetchButtercutWeather } from "@/lib/integrations/weather";
 
-export function ButtercutWeatherBlock({ config }: ButtercutBlockProps) {
+export async function ButtercutWeatherBlock({ config }: ButtercutBlockProps) {
   const integration = config.integrations.weather;
   const enabled =
     integration.enabled &&
@@ -12,6 +13,14 @@ export function ButtercutWeatherBlock({ config }: ButtercutBlockProps) {
   const suffix = enabled ? "· CA" : "· —";
   const timezone = integration.timezone ?? "America/Los_Angeles";
 
+  const initialWeather = enabled
+    ? await fetchButtercutWeather({
+        lat: integration.lat,
+        lon: integration.lon,
+        timezone: integration.timezone,
+      })
+    : null;
+
   return (
     <section className="mag-card">
       <div className="mag-label">Location</div>
@@ -19,6 +28,7 @@ export function ButtercutWeatherBlock({ config }: ButtercutBlockProps) {
         locationLabel={label}
         locationSuffix={suffix}
         timezone={timezone}
+        initialWeather={initialWeather}
       />
     </section>
   );
