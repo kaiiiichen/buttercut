@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ButtercutMagChip } from "@/components/ButtercutMagChip";
 import { loadButtercutDemoContent } from "@/lib/demo/load-demo-content";
 import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
 import { siteConfig } from "../../../site.config";
@@ -22,6 +23,65 @@ export default async function AboutPage() {
   const hasFocus = about.focus.length > 0;
   const hasRightColumn = hasExperience || hasVolunteering;
 
+  const renderRoleGroup = (
+    groups: typeof about.experience,
+    keyPrefix: string,
+  ) =>
+    groups.map(({ org, meta: orgMeta, roles }, groupIndex) => (
+      <div
+        key={`${keyPrefix}-${org}`}
+        className="border-b border-zinc-100 py-4 last:border-0 dark:border-zinc-800/60 md:py-3"
+      >
+        <p
+          className="font-nunito text-[17px] font-semibold leading-[1.4] text-zinc-800 dark:text-zinc-200"
+          style={{ fontFamily: "var(--font-ui-en)" }}
+        >
+          {md(org)}
+        </p>
+        {orgMeta ? (
+          <p
+            className="mt-1 font-nunito text-[11px] tracking-[0.04em] text-zinc-400 dark:text-zinc-600"
+            style={{ fontFamily: "var(--font-ui-en)" }}
+          >
+            {orgMeta}
+          </p>
+        ) : null}
+        <div className={roles.length > 1 ? "mt-3 space-y-0" : "mt-2.5"}>
+          {roles.map((roleItem, roleIndex) => (
+            <div
+              key={`${groupIndex}-${roleIndex}`}
+              className={
+                roleIndex > 0
+                  ? "mt-4 border-t border-zinc-100 pt-4 dark:border-zinc-800/60"
+                  : undefined
+              }
+            >
+              <p
+                className="font-nunito text-[17px] font-semibold leading-[1.4] text-[#C4894F] dark:text-[#D9A870]"
+                style={{ fontFamily: "var(--font-ui-en)" }}
+              >
+                {md(roleItem.role)}
+              </p>
+              <span
+                className="mt-1 block font-nunito text-[11px] tracking-[0.04em] text-zinc-400 dark:text-zinc-600"
+                style={{ fontFamily: "var(--font-ui-en)" }}
+              >
+                {roleItem.years}
+              </span>
+              {roleItem.desc ? (
+                <p
+                  className="mt-1.5 font-nunito text-[15px] leading-[1.5] text-zinc-500 dark:text-zinc-500"
+                  style={{ fontFamily: "var(--font-ui-en)" }}
+                >
+                  {md(roleItem.desc)}
+                </p>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </div>
+    ));
+
   return (
     <div className="mx-auto max-w-[1180px] space-y-8 px-4 py-16 md:px-12">
       <div className="fade-up" style={{ animationDelay: "0ms" }}>
@@ -36,7 +96,7 @@ export default async function AboutPage() {
       {about.intro ? (
         <div className="fade-up" style={{ animationDelay: "30ms" }}>
           <div
-            className="mt-3 font-nunito text-[17px] leading-[1.9] text-zinc-400 dark:text-zinc-600"
+            className="mt-3 font-nunito text-[17px] leading-[1.75] text-zinc-400 dark:text-zinc-600"
             style={{ fontFamily: "var(--font-ui-en)" }}
           >
             {about.intro
@@ -52,7 +112,7 @@ export default async function AboutPage() {
         </div>
       ) : null}
 
-      {(hasEducation || hasRightColumn || hasFocus) ? (
+      {hasEducation || hasRightColumn || hasFocus ? (
         <div
           className="fade-up grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch"
           style={{ animationDelay: "60ms" }}
@@ -63,47 +123,62 @@ export default async function AboutPage() {
                 <div className="mag-card flex flex-col md:flex-1">
                   <div className="mag-label">Education</div>
                   <div className="flex flex-col md:flex-1 md:justify-between">
-                    {about.education.map((e, i) => (
-                      <div
-                        key={`${e.institution}-${i}`}
-                        className="border-b border-zinc-100 py-4 last:border-0 dark:border-zinc-800/60 md:py-3"
-                      >
-                        <span
-                          className="mb-2 block font-nunito text-[11px] tracking-[0.04em] text-zinc-400 dark:text-zinc-600"
-                          style={{ fontFamily: "var(--font-ui-en)" }}
+                    {about.education.map((e, i) => {
+                      const subtitle = e.sub ?? e.subtitle;
+                      const detail = [e.content, e.grade, e.activities]
+                        .filter(Boolean)
+                        .join(" · ");
+                      return (
+                        <div
+                          key={`${e.institution}-${i}`}
+                          className="border-b border-zinc-100 py-4 last:border-0 dark:border-zinc-800/60 md:py-3"
                         >
-                          {e.years}
-                        </span>
-                        <p
-                          className="font-nunito text-[17px] font-semibold leading-[1.7] text-zinc-800 dark:text-zinc-200"
-                          style={{ fontFamily: "var(--font-ui-en)" }}
-                        >
-                          {md(e.institution)}
-                        </p>
-                        <p
-                          className="mt-1 font-nunito text-[17px] font-semibold leading-[1.4] text-[#C4894F] dark:text-[#D9A870]"
-                          style={{ fontFamily: "var(--font-ui-en)" }}
-                        >
-                          {md(e.role)}
-                        </p>
-                        {e.sub ? (
-                          <p
-                            className="mt-0.5 font-nunito text-base leading-[1.5] text-[#C4894F] dark:text-[#D9A870]"
+                          <span
+                            className="mb-2 block font-nunito text-[11px] tracking-[0.04em] text-zinc-400 dark:text-zinc-600"
                             style={{ fontFamily: "var(--font-ui-en)" }}
                           >
-                            {md(e.sub)}
-                          </p>
-                        ) : null}
-                        {e.activities ? (
+                            {e.years}
+                          </span>
                           <p
-                            className="mt-2 font-nunito text-[13px] leading-[1.9] text-zinc-400 dark:text-zinc-600"
+                            className="font-nunito text-[17px] font-semibold leading-[1.6] text-zinc-800 dark:text-zinc-200"
                             style={{ fontFamily: "var(--font-ui-en)" }}
                           >
-                            {md(e.activities)}
+                            {md(e.institution)}
                           </p>
-                        ) : null}
-                      </div>
-                    ))}
+                          <p
+                            className="mt-1 font-nunito text-[17px] font-semibold leading-[1.4] text-[#C4894F] dark:text-[#D9A870]"
+                            style={{ fontFamily: "var(--font-ui-en)" }}
+                          >
+                            {md(e.role)}
+                          </p>
+                          {subtitle ? (
+                            <p
+                              className="mt-0.5 font-nunito text-[17px] font-semibold leading-[1.4] text-[#C4894F] dark:text-[#D9A870]"
+                              style={{ fontFamily: "var(--font-ui-en)" }}
+                            >
+                              {md(subtitle)}
+                            </p>
+                          ) : null}
+                          {detail ? (
+                            <p
+                              className="mt-0.5 font-nunito text-base leading-[1.5] text-[#C4894F] dark:text-[#D9A870]"
+                              style={{ fontFamily: "var(--font-ui-en)" }}
+                            >
+                              {md(detail)}
+                            </p>
+                          ) : null}
+                          {e.projectHref ? (
+                            <ButtercutMagChip
+                              href={e.projectHref}
+                              arrow="external"
+                              className="mt-2"
+                            >
+                              {e.projectLinkLabel ?? "View projects"}
+                            </ButtercutMagChip>
+                          ) : null}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ) : null}
@@ -129,14 +204,6 @@ export default async function AboutPage() {
                         >
                           {f.code}
                         </p>
-                        {f.name ? (
-                          <p
-                            className="mt-0.5 font-nunito text-base leading-[1.5] text-[#C4894F] dark:text-[#D9A870]"
-                            style={{ fontFamily: "var(--font-ui-en)" }}
-                          >
-                            {md(f.name)}
-                          </p>
-                        ) : null}
                       </div>
                     ))}
                   </div>
@@ -150,91 +217,15 @@ export default async function AboutPage() {
               {hasExperience ? (
                 <div className="mag-card flex flex-col md:flex-1">
                   <div className="mag-label">Experience</div>
-                  <div className="flex flex-col md:flex-1 md:justify-between">
-                    {about.experience.map((x, i) => (
-                      <div
-                        key={`${x.org}-${i}`}
-                        className="border-b border-zinc-100 py-4 last:border-0 dark:border-zinc-800/60 md:py-3"
-                      >
-                        <div className="mb-1 flex flex-wrap items-baseline gap-2">
-                          <span
-                            className="font-nunito text-[11px] tracking-[0.04em] text-zinc-400 dark:text-zinc-600"
-                            style={{ fontFamily: "var(--font-ui-en)" }}
-                          >
-                            {x.years}
-                          </span>
-                          {x.meta ? (
-                            <span
-                              className="font-nunito text-[11px] text-zinc-300 dark:text-zinc-700"
-                              style={{ fontFamily: "var(--font-ui-en)" }}
-                            >
-                              · {x.meta}
-                            </span>
-                          ) : null}
-                        </div>
-                        <p
-                          className="font-nunito text-[17px] font-semibold leading-[1.4] text-zinc-800 dark:text-zinc-200"
-                          style={{ fontFamily: "var(--font-ui-en)" }}
-                        >
-                          {md(x.role)}
-                        </p>
-                        <p
-                          className="mt-0.5 font-nunito text-base leading-[1.5] text-[#C4894F] dark:text-[#D9A870]"
-                          style={{ fontFamily: "var(--font-ui-en)" }}
-                        >
-                          {md(x.org)}
-                        </p>
-                        {x.desc ? (
-                          <p
-                            className="mt-1.5 font-nunito text-sm leading-[1.7] text-zinc-500 dark:text-zinc-500"
-                            style={{ fontFamily: "var(--font-ui-en)" }}
-                          >
-                            {md(x.desc)}
-                          </p>
-                        ) : null}
-                      </div>
-                    ))}
-                  </div>
+                  <div className="flex flex-col">{renderRoleGroup(about.experience, "exp")}</div>
                 </div>
               ) : null}
 
               {hasVolunteering ? (
                 <div className="mag-card shrink-0">
                   <div className="mag-label">Volunteering</div>
-                  <div>
-                    {about.volunteering.map((v, i) => (
-                      <div
-                        key={`${v.org}-${i}`}
-                        className="border-b border-zinc-100 py-4 last:border-0 dark:border-zinc-800/60"
-                      >
-                        <span
-                          className="mb-1 block font-nunito text-[11px] tracking-[0.04em] text-zinc-400 dark:text-zinc-600"
-                          style={{ fontFamily: "var(--font-ui-en)" }}
-                        >
-                          {v.years}
-                        </span>
-                        <p
-                          className="font-nunito text-[17px] font-semibold leading-[1.4] text-zinc-800 dark:text-zinc-200"
-                          style={{ fontFamily: "var(--font-ui-en)" }}
-                        >
-                          {md(v.role)}
-                        </p>
-                        <p
-                          className="mt-0.5 font-nunito text-base leading-[1.5] text-[#C4894F] dark:text-[#D9A870]"
-                          style={{ fontFamily: "var(--font-ui-en)" }}
-                        >
-                          {md(v.org)}
-                        </p>
-                        {v.desc ? (
-                          <p
-                            className="mt-1.5 font-nunito text-sm leading-[1.7] text-zinc-500 dark:text-zinc-500"
-                            style={{ fontFamily: "var(--font-ui-en)" }}
-                          >
-                            {md(v.desc)}
-                          </p>
-                        ) : null}
-                      </div>
-                    ))}
+                  <div className="flex flex-col">
+                    {renderRoleGroup(about.volunteering, "vol")}
                   </div>
                 </div>
               ) : null}
@@ -253,10 +244,8 @@ export default async function AboutPage() {
           style={{ fontFamily: "var(--font-ui-en)" }}
         >
           No about content yet — edit{" "}
-          <code className="font-jetbrains-mono text-xs">
-            content/demo/about.json
-          </code>{" "}
-          to fill this page in.
+          <code className="font-jetbrains-mono text-xs">content/demo/about.json</code> to fill
+          this page in.
         </p>
       ) : null}
     </div>

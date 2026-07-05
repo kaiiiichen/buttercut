@@ -1,38 +1,33 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ButtercutWeatherForecast } from "@/lib/integrations/weather";
 import { ButtercutLocalTime } from "./ButtercutLocalTime";
 import { ButtercutWeatherIllustration } from "./ButtercutWeatherIllustration";
-
-type WeatherData = {
-  temperature: number;
-  feelsLike: number;
-  humidity: number;
-  weatherCode: number;
-  condition: string;
-  rainChance: number;
-};
 
 type ButtercutWeatherCardProps = {
   locationLabel: string;
   locationSuffix?: string;
   timezone: string;
+  initialWeather?: ButtercutWeatherForecast | null;
 };
 
 export function ButtercutWeatherCard({
   locationLabel,
   locationSuffix,
   timezone,
+  initialWeather = null,
 }: ButtercutWeatherCardProps) {
-  const [w, setW] = useState<WeatherData | null>(null);
+  const [w, setW] = useState<ButtercutWeatherForecast | null>(initialWeather);
   const [isCelsius, setIsCelsius] = useState(true);
 
   useEffect(() => {
+    if (initialWeather) return;
     fetch("/api/weather")
       .then((r) => (r.ok ? r.json() : null))
       .then(setW)
       .catch(() => {});
-  }, []);
+  }, [initialWeather]);
 
   const displayTemp = w
     ? isCelsius

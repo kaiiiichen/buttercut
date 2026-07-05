@@ -1,30 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
+import { useButtercutNowPlaying } from "@/hooks/use-now-playing";
 import { ButtercutListeningLastMonthTop } from "./ButtercutListeningLastMonthTop";
 import { ButtercutListeningTrackRow } from "./ButtercutListeningTrackRow";
-
-type NowPlayingPayload = {
-  isPlaying?: boolean;
-  title?: string;
-  artist?: string;
-  songUrl?: string;
-  albumArt?: string;
-  recentTrack?: {
-    title: string;
-    artist: string;
-    songUrl: string;
-    albumArt?: string;
-    playedAt?: number;
-  } | null;
-};
-
-type DisplayItem = {
-  title: string;
-  artist: string;
-  songUrl: string;
-  albumArt?: string;
-} | null;
+import { ButtercutMagChip } from "./ButtercutMagChip";
 
 const PULSE_MS = 2200;
 const DOT_SCALE = 1.125;
@@ -58,92 +38,15 @@ function ListeningEmptyVisual() {
   );
 }
 
-export function ButtercutListeningCard() {
-  const [data, setData] = useState<NowPlayingPayload | null>(null);
-  const [displayItem, setDisplayItem] = useState<DisplayItem>(null);
-  const [slideClass, setSlideClass] = useState("");
-  const prevItemKeyRef = useRef<string | null>(null);
-  const slideTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+type ButtercutListeningCardProps = {
+  featuredLink?: { label: string; href: string };
+};
 
-  useEffect(() => {
-    let disposed = false;
-    let timer: ReturnType<typeof setTimeout> | null = null;
-
-    const poll = async () => {
-      try {
-        const res = await fetch("/api/spotify/now-playing", { cache: "no-store" });
-        if (!res.ok) {
-          if (!disposed) setData({ isPlaying: false });
-          return;
-        }
-        const d = (await res.json()) as NowPlayingPayload;
-        if (!disposed) setData(d);
-      } catch {
-        if (!disposed) setData({ isPlaying: false });
-      } finally {
-        if (!disposed) timer = setTimeout(poll, 10_000);
-      }
-    };
-
-    void poll();
-    return () => {
-      disposed = true;
-      if (timer) clearTimeout(timer);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!data) return;
-
-    const nextItem: DisplayItem = data.isPlaying
-      ? {
-          title: data.title ?? "",
-          artist: data.artist ?? "",
-          songUrl: data.songUrl ?? "#",
-          albumArt: data.albumArt,
-        }
-      : (data.recentTrack ?? null);
-
-    if (!nextItem?.title) {
-      setDisplayItem(null);
-      prevItemKeyRef.current = null;
-      return;
-    }
-
-    const nextItemKey = `${data.isPlaying ? "playing" : "recent"}|${nextItem.songUrl}|${nextItem.title}|${nextItem.artist}`;
-
-    if (prevItemKeyRef.current === nextItemKey) return;
-
-    const hadContent = prevItemKeyRef.current !== null;
-    prevItemKeyRef.current = nextItemKey;
-
-    if (!hadContent) {
-      setDisplayItem(nextItem);
-      return;
-    }
-
-    slideTimers.current.forEach(clearTimeout);
-    slideTimers.current = [];
-    setSlideClass("slide-exit");
-    slideTimers.current.push(
-      setTimeout(() => {
-        setDisplayItem(nextItem);
-        setSlideClass("slide-enter");
-        slideTimers.current.push(setTimeout(() => setSlideClass(""), 250));
-      }, 200),
-    );
-  }, [data]);
-
-  useEffect(
-    () => () => {
-      slideTimers.current.forEach(clearTimeout);
-      slideTimers.current = [];
-    },
-    [],
-  );
-
-  const live = Boolean(data?.isPlaying && displayItem);
-  const stateText = live ? "now playing" : displayItem ? "last played" : "idle";
+export function ButtercutListeningCard({ featuredLink }: ButtercutListeningCardProps) {
+  const { displayItem, dotPlaying, slideClass } = useButtercutNowPlaying();
+  const hasTrack = Boolean(displayItem);
+  const live = hasTrack && dotPlaying;
+  const stateText = live ? "now playing" : hasTrack ? "last played" : "idle";
 
   return (
     <div className="space-y-3">
@@ -183,7 +86,7 @@ export function ButtercutListeningCard() {
           />
           <span
             style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400, fontSize: 14 }}
-            className={`truncate tracking-widest ${
+            className={`min-w-0 shrink truncate tracking-widest ${
               live
                 ? "text-zinc-600 dark:text-zinc-400"
                 : "text-zinc-400 dark:text-zinc-600"
@@ -191,8 +94,20 @@ export function ButtercutListeningCard() {
           >
             {stateText}
           </span>
-          <div className="ml-auto shrink-0">
-            <ButtercutListeningLastMonthTop />
+          <div className="ml-auto flex min-w-0 max-w-full flex-wrap gap-2">
+            <div className="shrink-0">
+              <ButtercutListeningLastMonthTop />
+            </div>
+            {featuredLink ? (
+              <ButtercutMagChip
+                href={featuredLink.href}
+                arrow="right"
+                aria-label={featuredLink.label}
+                className="shrink-0"
+              >
+                {featuredLink.label}
+              </ButtercutMagChip>
+            ) : null}
           </div>
         </div>
       </div>

@@ -1,0 +1,35 @@
+{
+  "watching": [
+    {
+      "title": "Placeholder article or video title",
+      "href": "https://example.com",
+      "source": "Source Name",
+      "date": "2026-01-01"
+    }
+  ],
+  "remembrance": [
+    {
+      "name": "Placeholder remembrance entry",
+      "href": "https://example.com",
+      "note": "Location · Years"
+    }
+  ],
+  "thingGroups": [
+    {
+      "category": "Category One",
+      "rows": [
+        [
+          { "name": "Item A", "href": "https://example.com" },
+          { "name": "Item B", "href": "https://example.com" }
+        ]
+      ]
+    },
+    {
+      "category": "Category Two",
+      "rows": [[{ "name": "Item C", "href": "https://example.com" }]]
+    }
+  ],
+  "resources": [
+    { "name": "Example Resource", "href": "https://example.com", "hintLabel": "Example" }
+  ]
+}

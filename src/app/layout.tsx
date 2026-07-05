@@ -58,7 +58,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           />
         ) : null}
       </head>
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <Script id="buttercut-theme-init" strategy="beforeInteractive">
           {/* Matches kaichen.dev: when nothing is stored we start in light mode.
               ButtercutThemeProvider re-checks and promotes to system/stored afterwards. */}
@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </Script>
         <ButtercutProviders>
           <ButtercutNav config={siteConfig} />
-          <main className="flex-1 pt-16">
+          <main className="flex min-h-0 flex-1 flex-col pt-16">
             <ButtercutSubpageEnter>{children}</ButtercutSubpageEnter>
           </main>
           <ButtercutSiteFooter config={siteConfig} />

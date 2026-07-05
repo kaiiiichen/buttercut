@@ -15,13 +15,13 @@ function isNavActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-/** Active nav — accent text + 2px underline; hover — text highlight only */
+/** Active nav — accent text + rounded underline; hover — text highlight only */
 function navLinkClassName(active: boolean) {
-  const base = "text-sm transition-colors duration-150 border-b-2 pb-0.5";
+  const base = "nav-link text-sm transition-colors duration-150";
   if (active) {
-    return `${base} text-[#C4894F] dark:text-[#D9A870] border-[#C4894F] dark:border-[#D9A870]`;
+    return `${base} nav-link--active text-[#C4894F] dark:text-[#D9A870]`;
   }
-  return `${base} text-zinc-500 dark:text-zinc-400 border-transparent hover:text-[#C4894F] dark:hover:text-[#D9A870]`;
+  return `${base} text-zinc-500 dark:text-zinc-400 hover:text-[#C4894F] dark:hover:text-[#D9A870]`;
 }
 
 function NavLink({
@@ -85,8 +85,8 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
       <div className="mx-auto flex max-w-[1180px] items-center justify-between px-4 py-4 md:px-8">
         <Link
           href="/"
-          className="font-nunito text-base font-light tracking-tight text-zinc-700 transition-colors duration-150 hover:text-[#C4894F] dark:text-zinc-300 dark:hover:text-[#D9A870]"
-          style={{ fontFamily: "var(--font-ui-en)" }}
+          className="font-nunito text-base font-semibold tracking-tight text-zinc-700 transition-colors duration-150 hover:text-[#C4894F] dark:text-zinc-300 dark:hover:text-[#D9A870]"
+          style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600 }}
         >
           {config.site.title}
         </Link>
@@ -98,7 +98,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
                 key={item.href}
                 item={item}
                 pathname={pathname}
-                style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400 }}
+                style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600 }}
               />
             ))}
           </div>
@@ -147,7 +147,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
                 className={linkClass}
                 style={{
                   fontFamily: "var(--font-ui-en)",
-                  fontWeight: 400,
+                  fontWeight: 600,
                   transitionDelay: isOpen ? `${60 + i * 40}ms` : "0ms",
                 }}
               />

@@ -1,4 +1,8 @@
 import Image from "next/image";
+import {
+  ButtercutHoverLinkArrow,
+  ButtercutHoverLinkDestinationHint,
+} from "./ButtercutHoverLinkHint";
 
 const HOVER_RING =
   "ring-0 group-hover/track:ring-[1.5px] " +
@@ -33,17 +37,11 @@ export function ButtercutListeningTrackRow({
       href={songUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group/track -mx-2 flex items-center rounded-sm px-2 pl-3 transition-all duration-150 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 ${
+      className={`group group/track -mx-2 flex items-center rounded-sm px-2 pl-3 transition-all duration-150 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 ${
         compact ? "gap-2 py-1" : "gap-3 py-1.5"
       } ${live ? "" : "opacity-[0.97]"} ${className}`}
     >
-      <span
-        className={`shrink-0 -translate-x-1 text-[#C4894F] opacity-0 transition-all duration-150 group-hover/track:translate-x-0 group-hover/track:opacity-100 dark:text-[#D9A870] ${
-          compact ? "text-[10px]" : "text-xs"
-        }`}
-      >
-        ↗
-      </span>
+      <ButtercutHoverLinkArrow className={compact ? "text-[10px]" : undefined} />
 
       <div className="relative shrink-0">
         {albumArt ? (
@@ -97,6 +95,8 @@ export function ButtercutListeningTrackRow({
           {artist}
         </p>
       </div>
+
+      <ButtercutHoverLinkDestinationHint href={songUrl} label="Spotify" />
     </a>
   );
 }

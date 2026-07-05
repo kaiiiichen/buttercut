@@ -65,7 +65,7 @@ Built on **Next.js 16** (App Router, React 19). One typed **`site.config.ts`** d
 | **Home** | Hero (avatar + socials + JumpText + intro), Listening card, Location card, Projects list — reorderable via `home.blocks`. |
 | **About** | Education, Experience, Volunteering, Focus cards from `content/demo/about.json`. |
 | **Projects** | Card grid + GitHub Activity heatmap (`/projects`). |
-| **Misc** | Watching, Remembrance, Things I Love placeholder lists (`/misc`). |
+| **Misc** | Watching, Remembrance, Things I Love (inset cards), Resources — from `content/demo/misc.json`. |
 | **Theme** | CSS variables + optional `brand.theme` overrides; light default. |
 | **Integrations** | GitHub pins & activity (`GITHUB_TOKEN`), Open-Meteo weather, Spotify API stubs for Listening UI. |
 
@@ -106,7 +106,7 @@ Open [http://localhost:3000](http://localhost:3000). No `.env` file is required 
 | Path | Role |
 | ---- | ---- |
 | `site.config.ts` | Site metadata, nav, socials, `home.blocks`, `brand`, `integrations`. |
-| `content/demo/` | `intro.md`, `about.json`, `projects.json`. |
+| `content/demo/` | `intro.md`, `about.json`, `projects.json`, `course-projects.json`, `misc.json`. |
 | `src/app/` | Routes: `/`, `/about`, `/projects`, `/misc`, `api/*`. |
 | `src/blocks/` | Home sections (`ButtercutHero`, `ButtercutStatusRow`, `ButtercutDemoProjects`). |
 | `src/components/` | Shared UI ported from kaichen.dev (nav, listening, weather, pinned projects, …). |
@@ -155,7 +155,9 @@ export const siteConfig = createSiteConfig({
 | ---- | ------ |
 | `intro.md` | Hero body paragraphs (blank-line separated). |
 | `projects.json` | `greeting`, `subtitles[]`, `tagline`, `projects[]`. |
+| `course-projects.json` | `projects[]` — course portfolio cards (home + `/projects`). |
 | `about.json` | `intro`, `education`, `experience`, `volunteering`, `focus`. |
+| `misc.json` | `watching`, `remembrance`, `thingGroups`, `resources`. |
 
 ### Home blocks
 
@@ -224,7 +226,7 @@ CI: `lint` → `typecheck` → `test` → `build`.
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md) — current package version **0.3.0** (kaichen.dev core UI parity; MDX extension routes removed).
+[CHANGELOG.md](CHANGELOG.md) — current package version **0.4.0** (kaichen.dev parity refresh: TOC, split projects, misc/resources, grouped about).
 
 ---
 

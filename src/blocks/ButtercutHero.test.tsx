@@ -21,6 +21,13 @@ const demo: ButtercutDemoContent = {
     focus: [],
   },
   projects: [],
+  courseProjects: [],
+  misc: {
+    watching: [],
+    remembrance: [],
+    thingGroups: [],
+    resources: [],
+  },
 };
 
 describe("ButtercutHero — intro rendering", () => {

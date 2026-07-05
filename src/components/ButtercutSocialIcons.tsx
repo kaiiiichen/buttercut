@@ -1,17 +1,6 @@
 import type { ButtercutSocialLink } from "@/lib/config/types";
 import { ButtercutHoverTip } from "./ButtercutHoverTip";
 
-const HOVER_COLORS: Record<string, string> = {
-  email: "hover:text-[#EA4335] dark:hover:text-[#FCA5A5]",
-  mail: "hover:text-[#EA4335] dark:hover:text-[#FCA5A5]",
-  github: "hover:text-[#181717] dark:hover:text-white",
-  linkedin: "hover:text-[#0A66C2] dark:hover:text-[#70B5F9]",
-  x: "hover:text-zinc-900 dark:hover:text-white",
-  twitter: "hover:text-zinc-900 dark:hover:text-white",
-  spotify: "hover:text-[#1DB954] dark:hover:text-[#1ED760]",
-  signal: "hover:text-[#3B45FD] dark:hover:text-[#9DBBF8]",
-};
-
 const ICONS: Record<string, (props: { className?: string }) => React.ReactElement> = {
   github: ({ className }) => (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -78,50 +67,67 @@ const ICONS: Record<string, (props: { className?: string }) => React.ReactElemen
   ),
 };
 
-export function ButtercutSocialIcons({ socials }: { socials: ButtercutSocialLink[] }) {
-  const linkClass =
-    "text-zinc-700 dark:text-zinc-300 opacity-50 transition-all duration-300 ease-out hover:opacity-100 [&_svg]:size-7";
+function isExternalHref(href: string): boolean {
+  return /^https?:\/\//i.test(href);
+}
+
+export function ButtercutSocialIcons({
+  socials,
+  contactGuidanceTip = "For private or sensitive messages, configure a secure contact link in site.config.ts.",
+}: {
+  socials: ButtercutSocialLink[];
+  contactGuidanceTip?: string;
+}) {
+  const linkClass = (id: string) => `home-social-link home-social-link--${id}`;
 
   return (
-    <div className="flex items-center justify-center gap-5 md:h-full [&_svg]:size-7">
+    <div className="flex items-center justify-center gap-5 md:h-full">
       {socials.map((s) => {
         const Icon = ICONS[s.id] ?? null;
-        const isExternal = /^https?:\/\//i.test(s.href);
-        const hoverClass = HOVER_COLORS[s.id] ?? "hover:text-[#C4894F] dark:hover:text-[#D9A870]";
-        const linkProps = isExternal
-          ? { target: "_blank", rel: "noopener noreferrer" as const }
-          : {};
+        const external = isExternalHref(s.href);
 
         return (
-          <ButtercutHoverTip key={s.id} tip={s.label} placement="top">
-            <a
-              href={s.href}
-              {...linkProps}
-              aria-label={s.label}
-              className={`${linkClass} ${hoverClass}`}
-            >
-              {Icon ? (
-                <Icon />
-              ) : (
-                <span className="font-nunito text-sm underline underline-offset-4">
-                  {s.label}
-                </span>
-              )}
-            </a>
+          <ButtercutHoverTip key={s.id} tip={s.tip ?? s.label} placement="top">
+            {external ? (
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                className={linkClass(s.id)}
+              >
+                {Icon ? (
+                  Icon({})
+                ) : (
+                  <span className="font-nunito text-sm underline underline-offset-4">
+                    {s.label}
+                  </span>
+                )}
+              </a>
+            ) : (
+              <a href={s.href} aria-label={s.label} className={linkClass(s.id)}>
+                {Icon ? (
+                  Icon({})
+                ) : (
+                  <span className="font-nunito text-sm underline underline-offset-4">
+                    {s.label}
+                  </span>
+                )}
+              </a>
+            )}
           </ButtercutHoverTip>
         );
       })}
 
       <ButtercutHoverTip
-        tip="For private or sensitive messages, configure a secure contact link in site.config.ts."
+        tip={contactGuidanceTip}
         placement="top"
+        align="end"
+        tapToToggle
+        tipClassName="home-help-tip"
+        className="size-7 shrink-0 items-center justify-center"
       >
-        <button
-          type="button"
-          aria-label="Contact guidance"
-          className="inline-flex size-5 cursor-default items-center justify-center rounded-full border border-zinc-300 bg-transparent text-[10px] leading-none text-zinc-400 opacity-60 transition-all duration-300 hover:border-[#C4894F] hover:text-[#C4894F] hover:opacity-100 dark:border-zinc-600 dark:text-zinc-500 dark:hover:border-[#D9A870] dark:hover:text-[#D9A870]"
-          style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600 }}
-        >
+        <button type="button" aria-label="Contact guidance" className="help-icon">
           ?
         </button>
       </ButtercutHoverTip>

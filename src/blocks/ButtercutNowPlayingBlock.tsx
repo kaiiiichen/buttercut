@@ -1,11 +1,11 @@
 import { ButtercutListeningCard } from "@/components/ButtercutListeningCard";
 import type { ButtercutBlockProps } from "@/lib/blocks/registry";
 
-export function ButtercutNowPlayingBlock(_props: ButtercutBlockProps) {
+export function ButtercutNowPlayingBlock({ config }: ButtercutBlockProps) {
   return (
     <section className="mag-card">
       <div className="mag-label">Listening</div>
-      <ButtercutListeningCard />
+      <ButtercutListeningCard featuredLink={config.home.featuredLink} />
     </section>
   );
 }

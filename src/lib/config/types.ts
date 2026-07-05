@@ -7,6 +7,8 @@ export type ButtercutSocialLink = {
   id: string;
   label: string;
   href: string;
+  /** Optional tooltip copy (e.g. full email address). */
+  tip?: string;
 };
 
 /**
@@ -101,12 +103,16 @@ export type ButtercutSiteConfig = {
   socials: ButtercutSocialLink[];
   home: {
     blocks: ButtercutHomeBlock[];
+    /** Optional featured link shown in the Listening card footer (MagChip). */
+    featuredLink?: { label: string; href: string };
   };
   brand: {
     avatar: string;
     logo?: string;
     /** Optional GWWC-style pledge badge beside the hero title */
     showGwwcBadge?: boolean;
+    /** Tooltip on the hero contact ? button */
+    contactGuidanceTip?: string;
     og: {
       defaultImagePath: string;
     };
@@ -120,7 +126,7 @@ export type ButtercutSiteConfigInput = Partial<{
   site: Partial<ButtercutSiteConfig["site"]>;
   nav: ButtercutNavItem[];
   socials: ButtercutSocialLink[];
-  home: Partial<Pick<ButtercutSiteConfig["home"], "blocks">>;
+  home: Partial<Pick<ButtercutSiteConfig["home"], "blocks" | "featuredLink">>;
   brand: Partial<ButtercutSiteConfig["brand"]> & {
     theme?: ButtercutThemeTokens;
   };
