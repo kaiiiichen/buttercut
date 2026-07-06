@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { ButtercutNavItem, ButtercutSiteConfig } from "@/lib/config/types";
 import { ButtercutThemeToggle } from "./ButtercutThemeToggle";
 
@@ -21,7 +21,15 @@ function navLinkClassName(active: boolean) {
   if (active) {
     return `${base} nav-link--active text-[#C4894F] dark:text-[#D9A870]`;
   }
-  return `${base} text-zinc-500 dark:text-zinc-400 hover:text-[#C4894F] dark:hover:text-[#D9A870]`;
+  return `${base} hover:text-[#C4894F] dark:hover:text-[#D9A870]`;
+}
+
+function navLinkStyle(active: boolean): CSSProperties {
+  return {
+    fontFamily: "var(--font-ui-en)",
+    fontWeight: 600,
+    color: active ? undefined : "var(--text-nav)",
+  };
 }
 
 function NavLink({
@@ -85,8 +93,8 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
       <div className="mx-auto flex max-w-[1180px] items-center justify-between px-4 py-4 md:px-8">
         <Link
           href="/"
-          className="font-nunito text-base font-semibold tracking-tight text-zinc-700 transition-colors duration-150 hover:text-[#C4894F] dark:text-zinc-300 dark:hover:text-[#D9A870]"
-          style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600 }}
+          className="font-nunito text-base font-semibold tracking-tight transition-colors duration-150 hover:text-[#C4894F] dark:hover:text-[#D9A870]"
+          style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600, color: "var(--text-nav-brand)" }}
         >
           {config.site.title}
         </Link>
@@ -98,7 +106,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
                 key={item.href}
                 item={item}
                 pathname={pathname}
-                style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600 }}
+                style={navLinkStyle(!isExternal(item.href) && isNavActive(pathname, item.href))}
               />
             ))}
           </div>
@@ -146,8 +154,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
                 onClick={() => setIsOpen(false)}
                 className={linkClass}
                 style={{
-                  fontFamily: "var(--font-ui-en)",
-                  fontWeight: 600,
+                  ...navLinkStyle(active),
                   transitionDelay: isOpen ? `${60 + i * 40}ms` : "0ms",
                 }}
               />

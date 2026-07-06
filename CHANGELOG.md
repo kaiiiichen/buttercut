@@ -4,7 +4,36 @@ All notable changes to **Buttercut** are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.4.0...HEAD)
+## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.5.0...HEAD)
+
+## [0.5.0](https://github.com/kaiiiichen/buttercut/compare/v0.4.0...v0.5.0) — 2026-07-05
+
+### Added
+
+- **Theme showcase site** — routes `/design`, `/components`, `/sandbox`, `/get-started` document the system; home uses product hero + `showcase_explore` link rows instead of a sample personal profile.
+- **`home.heroLayout`** — `"product"` (title + tagline + intro, no avatar) or `"personal"` (kaichen.dev identity row with avatar, JumpText, socials).
+- **`showcase_explore` home block** — Explore card linking to Design, Components, Sandbox, Get Started.
+- **Optional showcase blocks** — `showcase_features`, `showcase_block_previews`, `showcase_use_cases`, `showcase_cta` for marketing-style home pages.
+- **Showcase infrastructure** — `src/lib/showcase/` catalog, `ButtercutShowcaseSectionBlock`, interactive Design/Components highlights, Get Started AI starter prompts.
+- **UI typography utilities** — `.ui-title`, `.ui-heading`, `.ui-body`, `.ui-hint`, `.ui-footer`, `.ui-footer-link`, and related tokens in `globals.css`.
+- **`brand.attribution`** — footer credit with plain-text `prefix` and linked `label` (e.g. `Distilled from ` + `kaichen.dev`).
+- **Home hero avatar size manager** (`ButtercutIdentityPhotoColumn`) — on desktop, the portrait shrinks when intro copy is short so social links keep breathing room below the photo. Matches [kaichen.dev](https://kaichen.dev) `IdentityPhotoColumn` behaviour.
+
+### Changed
+
+- **Default deployed site** is a theme documentation hub, not a personal-profile demo. Nav: Design · Components · Sandbox · Get Started.
+- **Get Started** replaces the retired `/guide` MDX tutorial — fork steps, config reference, and copy-paste AI prompts live at `/get-started`.
+- **README, CONTRIBUTING, `.env.example`** rewritten for the showcase site and fork workflow.
+- **`content/demo/intro.md`** reframed as theme-docs copy; JSON files kept as sample schemas for fork authors.
+- **Footer** — `© {year} Buttercut. All rights reserved.` with optional attribution link on the domain only.
+- **`ButtercutSocialIcons`** — drop `md:h-full` so the social row reports its natural height to the avatar measurer.
+- **Inline markdown** — nested `**[link](url)**` bold+link patterns render correctly.
+
+### Removed
+
+- **Personal-site routes from the showcase** — `/about`, `/projects`, `/misc` are no longer shipped as default routes (UI components and `content/demo/*.json` schemas remain for forks).
+- **`.showcase-panel` CSS** and `ButtercutShowcaseHighlight` — replaced by `mag-card` + `mag-label` section blocks.
+- **List `divide-y` dividers** across Explore, Get Started, and showcase section blocks.
 
 ## [0.4.0](https://github.com/kaiiiichen/buttercut/compare/v0.3.0...v0.4.0) — 2026-07-05
 

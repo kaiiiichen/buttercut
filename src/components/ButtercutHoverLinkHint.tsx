@@ -6,6 +6,10 @@ export function buttercutLinkDestinationLabel(href: string): string {
     if (href.startsWith("/projects")) return "Projects";
     if (href.startsWith("/about")) return "About";
     if (href.startsWith("/misc")) return "Misc";
+    if (href.startsWith("/design")) return "Design";
+    if (href.startsWith("/components")) return "Components";
+    if (href.startsWith("/sandbox")) return "Sandbox";
+    if (href.startsWith("/get-started")) return "Get Started";
     return "Site";
   }
 

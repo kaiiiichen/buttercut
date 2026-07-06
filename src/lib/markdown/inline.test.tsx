@@ -61,6 +61,18 @@ describe("renderButtercutInlineMarkdown", () => {
     expect(childrenText(link)).toBe("docs");
   });
 
+  it("renders links nested inside **bold**", () => {
+    const nodes = renderButtercutInlineMarkdown(
+      "**[Design](/design)** — principles. **[Components](/components)** — catalog.",
+    );
+    expect(childrenText(nodes)).toBe("Design — principles. Components — catalog.");
+    const html = renderToStaticMarkup(<>{nodes}</>);
+    expect(html).toContain('href="/design"');
+    expect(html).toContain('href="/components"');
+    expect(html).toMatch(/<strong[^>]*>.*Design.*<\/strong>/);
+    expect(html).not.toContain("[Design](/design)");
+  });
+
   it("mixes bold, code, and links in one pass", () => {
     const nodes = renderButtercutInlineMarkdown(
       "**buttercut** uses `marked` — see [repo](https://github.com/kaiiiichen/buttercut).",

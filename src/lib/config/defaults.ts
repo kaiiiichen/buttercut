@@ -8,19 +8,17 @@ export const BUTTERCUT_DEFAULT_SITE_CONFIG: ButtercutSiteConfig = {
     siteUrl: "http://localhost:3000",
   },
   nav: [
-    { label: "About", href: "/about" },
-    { label: "Projects", href: "/projects" },
-    { label: "Misc", href: "/misc" },
+    { label: "Design", href: "/design" },
+    { label: "Components", href: "/components" },
+    { label: "Sandbox", href: "/sandbox" },
+    { label: "Get Started", href: "/get-started" },
   ],
   socials: [
     { id: "github", label: "GitHub", href: "https://github.com" },
   ],
   home: {
-    blocks: [
-      { id: "hero", enabled: true },
-      { id: "status", enabled: true },
-      { id: "demo_projects", enabled: true },
-    ],
+    blocks: [{ id: "hero", enabled: true }],
+    heroLayout: "personal",
   },
   brand: {
     avatar: "/avatar-placeholder.svg",

@@ -48,6 +48,7 @@ export function mergeSiteConfig(
     home: {
       blocks: input.home?.blocks ?? defaults.home.blocks,
       featuredLink: input.home?.featuredLink ?? defaults.home.featuredLink,
+      heroLayout: input.home?.heroLayout ?? defaults.home.heroLayout,
     },
     brand: {
       ...defaults.brand,
