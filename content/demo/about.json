@@ -1,33 +1,23 @@
 {
-  "intro": "Replace this block with a one-paragraph bio. Inline markdown works — **bold**, `code`, and [links](https://example.com). Every field below is optional; empty arrays hide the entire section.",
+  "intro": "One-paragraph bio. Inline markdown works — **bold**, `code`, and [links](https://example.com). Empty sections are hidden automatically.",
   "education": [
     {
-      "years": "2022 – Present",
-      "institution": "Your University",
-      "role": "BSc, Your Major",
-      "sub": "Optional extra line — honours, concentration, etc.",
+      "years": "2020 – Present",
+      "institution": "Organization or school",
+      "role": "Role or program",
+      "sub": null,
       "activities": null
     }
   ],
   "experience": [
     {
-      "years": "2024 – Present",
-      "meta": "City, Country · Remote",
-      "role": "Your Role Title",
-      "org": "Your Organization",
+      "years": "2022 – Present",
+      "meta": "Location · Remote",
+      "role": "Your role",
+      "org": "Company or team",
       "desc": null
     }
   ],
-  "volunteering": [
-    {
-      "years": "2023 – Present",
-      "role": "Volunteer Role",
-      "org": "Your Cause",
-      "desc": null
-    }
-  ],
-  "focus": [
-    { "term": "Now", "code": "SUBJECT-101", "name": "Current Course or Focus Area" },
-    { "term": "Next", "code": "SUBJECT-202", "name": "What you are picking up next" }
-  ]
+  "volunteering": [],
+  "focus": []
 }

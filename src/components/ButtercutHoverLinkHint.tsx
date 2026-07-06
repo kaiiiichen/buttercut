@@ -15,23 +15,9 @@ export function buttercutLinkDestinationLabel(href: string): string {
 
     if (host === "github.com") return "GitHub";
     if (host === "open.spotify.com" || host === "spotify.com") return "Spotify";
-    if (host === "mapbox.com") return "Mapbox";
     if (host.endsWith("wikipedia.org")) return "Wikipedia";
     if (host === "youtube.com" || host === "youtu.be") return "YouTube";
-    if (host.endsWith("bilibili.com")) return "Bilibili";
-    if (host === "cursor.com") return "Cursor";
-    if (host === "arc.net") return "Arc";
-    if (host === "raycast.com") return "Raycast";
-    if (host === "iterm2.com") return "iTerm2";
-    if (host === "flighty.com") return "Flighty";
-    if (host === "tryalcove.com") return "Alcove";
-    if (host === "wisprflow.ai") return "Wispr Flow";
-    if (host === "berkeleyside.org") return "Berkeleyside";
     if (host.endsWith("notion.site")) return "Notion";
-    if (host === "anthropic.com") return "Anthropic";
-    if (host === "developer.apple.com") return "Apple Developer";
-    if (host === "bluedot.org") return "BlueDot";
-    if (host === "redis.io") return "Redis";
 
     const brand = host.split(".")[0];
     return brand.charAt(0).toUpperCase() + brand.slice(1);

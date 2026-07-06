@@ -1,22 +1,21 @@
 {
-  "tagline": "Things I've built, maintained, or archived with love.",
-  "greeting": "Hello :)",
+  "tagline": "Selected work and side projects.",
+  "greeting": "Hello",
   "subtitles": [
-    "Your role @ Organization",
-    "Your field @ University '27"
+    "A short line about what you do"
   ],
   "projects": [
     {
       "name": "project-one",
-      "description": "A short description of your first project. Swap this entry in `content/demo/projects.json`.",
-      "repo": "vercel/next.js",
-      "tags": ["Next.js", "TypeScript"]
+      "description": "Short description of a project. Edit entries in content/demo/projects.json.",
+      "href": "https://example.com",
+      "tags": ["Demo"]
     },
     {
       "name": "project-two",
-      "description": "Another placeholder project — link to your repo or live demo.",
+      "description": "Another placeholder — link to a repo, demo, or case study.",
       "href": "https://github.com",
-      "tags": ["Demo"]
+      "tags": ["Open source"]
     }
   ]
 }

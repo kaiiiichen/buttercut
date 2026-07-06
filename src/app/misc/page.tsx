@@ -43,7 +43,8 @@ export default async function MiscPage() {
   const { misc } = await loadButtercutDemoContent();
   const intro =
     misc.intro ??
-    "Lists on this page are sorted alphabetically — no order of preference implied.";
+    "Optional lists — empty sections are hidden automatically.";
+  const favoritesLabel = misc.favoritesLabel ?? "Favorites";
 
   return (
     <div className="mx-auto max-w-[1180px] space-y-6 px-4 py-16 md:px-12">
@@ -131,7 +132,7 @@ export default async function MiscPage() {
       {misc.thingGroups.some(({ rows }) => rows.some((row) => row.length > 0)) ? (
         <div className="fade-up" style={{ animationDelay: "90ms" }}>
           <div className="mag-card">
-            <div className="mag-label">Things I Love</div>
+            <div className="mag-label">{favoritesLabel}</div>
             <div className="space-y-4">
               {misc.thingGroups
                 .filter(({ rows }) => rows.some((row) => row.length > 0))

@@ -1,23 +1,12 @@
 {
   "projects": [
     {
-      "id": "demo-course-portfolio",
-      "href": "/projects",
-      "title": "Course Portfolio",
-      "institution": "Your University",
-      "grade": "A",
-      "summary": "Replace with a short summary of a coursework portfolio or capstone project.",
-      "tags": ["Coursework", "Demo"]
-    },
-    {
-      "id": "demo-notes",
+      "id": "demo-featured",
       "href": "https://example.com",
-      "title": "notes.example.com",
-      "institution": "Personal archive",
-      "summary": "Optional external notes or reading list — set external: true and hintLabel for hover hints.",
-      "tags": ["Notes"],
-      "external": true,
-      "hintLabel": "Example"
+      "title": "Featured project",
+      "summary": "Optional highlighted entry — remove this file or empty the array if you don't need a featured section.",
+      "tags": ["Demo"],
+      "external": true
     }
   ]
 }

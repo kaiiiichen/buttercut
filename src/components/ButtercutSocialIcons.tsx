@@ -73,7 +73,7 @@ function isExternalHref(href: string): boolean {
 
 export function ButtercutSocialIcons({
   socials,
-  contactGuidanceTip = "For private or sensitive messages, configure a secure contact link in site.config.ts.",
+  contactGuidanceTip = "Info — edit social links and this tooltip in site.config.ts.",
 }: {
   socials: ButtercutSocialLink[];
   contactGuidanceTip?: string;
@@ -127,7 +127,7 @@ export function ButtercutSocialIcons({
         tipClassName="home-help-tip"
         className="size-7 shrink-0 items-center justify-center"
       >
-        <button type="button" aria-label="Contact guidance" className="help-icon">
+        <button type="button" aria-label="Contact info" className="help-icon">
           ?
         </button>
       </ButtercutHoverTip>

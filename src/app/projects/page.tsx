@@ -44,7 +44,7 @@ export default async function ProjectsPage() {
 
       {demo.courseProjects.length > 0 ? (
         <div className="fade-up mb-12" style={{ animationDelay: "40ms" }}>
-          <div className="mag-label">Course Projects</div>
+          <div className="mag-label">Featured</div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {demo.courseProjects.map((entry) => (
               <ButtercutCourseProjectLink key={entry.id} entry={entry} variant="card" />
@@ -54,7 +54,7 @@ export default async function ProjectsPage() {
       ) : null}
 
       <div className="fade-up" style={{ animationDelay: "80ms" }}>
-        <div className="mag-label">Personal Projects</div>
+        <div className="mag-label">Projects</div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {pinned.length === 0 ? (
             <p

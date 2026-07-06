@@ -29,7 +29,7 @@ export function ButtercutProjectsSplit({
   return (
     <div className="space-y-5">
       {courseProjects.length > 0 ? (
-        <NestedProjectsCard label="Course Projects">
+        <NestedProjectsCard label="Featured">
           {courseProjects.map((entry) => (
             <ButtercutCourseProjectLink
               key={entry.id}
@@ -40,7 +40,7 @@ export function ButtercutProjectsSplit({
         </NestedProjectsCard>
       ) : null}
 
-      <NestedProjectsCard label="Personal Projects">
+      <NestedProjectsCard label="Projects">
         {personalProjects.length === 0 ? (
           <p
             style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400, fontSize: 14 }}
