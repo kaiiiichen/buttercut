@@ -64,8 +64,8 @@ function renderToken(
   const bold = raw.match(/^\*\*(.+)\*\*$/);
   if (bold) {
     return (
-      <strong key={key} className="font-semibold text-zinc-900 dark:text-zinc-100">
-        {bold[1]}
+      <strong key={key} className="ui-heading font-semibold">
+        {renderButtercutInlineMarkdown(bold[1], { allowedLinkSchemes: allowed })}
       </strong>
     );
   }

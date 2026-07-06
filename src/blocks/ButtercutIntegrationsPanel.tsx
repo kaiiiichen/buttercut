@@ -10,6 +10,15 @@ const LABELS: Record<keyof ButtercutSiteConfig["integrations"], string> = {
   weather: "Weather",
 };
 
+function statusLabel(s: {
+  configuredInSiteConfig: boolean;
+  active: boolean;
+}): string {
+  if (!s.configuredInSiteConfig) return "disabled";
+  if (!s.active) return "needs env";
+  return "ready";
+}
+
 export function ButtercutIntegrationsPanel({ config }: ButtercutBlockProps) {
   const status = buttercutIntegrationStatus(config);
   const entries = Object.entries(status) as Array<
@@ -19,26 +28,23 @@ export function ButtercutIntegrationsPanel({ config }: ButtercutBlockProps) {
   return (
     <section className="mag-card">
       <div className="mag-label">Integrations (optional)</div>
-      <p className="mb-4 font-serif text-sm text-zinc-600 dark:text-zinc-400">
+      <p className="ui-body-lg mb-4">
         Turn features on in{" "}
-        <code className="rounded bg-zinc-100 px-1 py-0.5 font-jetbrains-mono text-xs dark:bg-zinc-800">
+        <code className="ui-code-inline rounded bg-zinc-100 px-1 py-0.5 dark:bg-zinc-800">
           site.config.ts
         </code>{" "}
-        and add environment variables when you are ready. With everything off, the site still builds and runs.
+        and add environment variables when you are ready. With everything off, the site still
+        builds and runs.
       </p>
-      <ul className="space-y-2 text-sm">
+      <ul className="space-y-3">
         {entries.map(([key, s]) => (
           <li
             key={key}
-            className="flex flex-wrap items-center justify-between gap-2 rounded-sm border border-zinc-200 px-3 py-2 dark:border-zinc-700"
+            className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5"
           >
-            <span className="font-nunito font-medium text-zinc-800 dark:text-zinc-200">
-              {LABELS[key]}
-            </span>
-            <span className="font-nunito text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-              {!s.configuredInSiteConfig && "disabled"}
-              {s.configuredInSiteConfig && !s.active && "needs env"}
-              {s.active && "ready"}
+            <span className="ui-heading font-medium">{LABELS[key]}</span>
+            <span className="ui-meta text-[11px] uppercase tracking-wider">
+              {statusLabel(s)}
             </span>
           </li>
         ))}

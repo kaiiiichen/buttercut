@@ -13,8 +13,10 @@ export type ButtercutSocialLink = {
 
 /**
  * Home block IDs are open strings so users can register custom blocks.
- * Built-in IDs: "hero" | "status" | "now_playing" | "weather" |
- *                "demo_projects" | "integrations".
+ * Built-in IDs: "hero" | "showcase_explore" | "status" | "now_playing" |
+ *                "weather" | "demo_projects" | "integrations" |
+ *                "showcase_features" | "showcase_block_previews" |
+ *                "showcase_use_cases" | "showcase_cta".
  * `status` is a convenience block that renders `now_playing` and
  * `weather` side-by-side; use the individual ids if you want them
  * stacked instead.
@@ -103,6 +105,11 @@ export type ButtercutSiteConfig = {
   socials: ButtercutSocialLink[];
   home: {
     blocks: ButtercutHomeBlock[];
+    /**
+     * `personal` — avatar column + greeting jump text (kaichen.dev layout).
+     * `product` — title + tagline + intro only; for theme/docs sites like buttercut.kaichen.dev.
+     */
+    heroLayout?: "personal" | "product";
     /** Optional featured link shown in the Listening card footer (MagChip). */
     featuredLink?: { label: string; href: string };
   };
@@ -113,6 +120,8 @@ export type ButtercutSiteConfig = {
     showGwwcBadge?: boolean;
     /** Tooltip on the hero contact ? button */
     contactGuidanceTip?: string;
+    /** Quiet footer credit — prefix is plain text; only `label` is linked */
+    attribution?: { href: string; prefix: string; label: string };
     og: {
       defaultImagePath: string;
     };
@@ -126,7 +135,9 @@ export type ButtercutSiteConfigInput = Partial<{
   site: Partial<ButtercutSiteConfig["site"]>;
   nav: ButtercutNavItem[];
   socials: ButtercutSocialLink[];
-  home: Partial<Pick<ButtercutSiteConfig["home"], "blocks" | "featuredLink">>;
+  home: Partial<
+    Pick<ButtercutSiteConfig["home"], "blocks" | "featuredLink" | "heroLayout">
+  >;
   brand: Partial<ButtercutSiteConfig["brand"]> & {
     theme?: ButtercutThemeTokens;
   };

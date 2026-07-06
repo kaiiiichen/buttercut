@@ -1,44 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { normaliseButtercutProject } from "./load-demo-content";
+import { loadButtercutDemoContent } from "./load-demo-content";
 
-describe("normaliseButtercutProject", () => {
-  it("keeps an explicit href", () => {
-    const p = normaliseButtercutProject({
-      name: "x",
-      description: "",
-      tags: [],
-      href: "https://example.com",
-      repo: "owner/name",
-    });
-    expect(p.href).toBe("https://example.com");
-  });
-
-  it("auto-links to github.com/<repo> when href is missing", () => {
-    const p = normaliseButtercutProject({
-      name: "buttercut",
-      description: "",
-      tags: [],
-      repo: "kaiiiichen/buttercut",
-    });
-    expect(p.href).toBe("https://github.com/kaiiiichen/buttercut");
-  });
-
-  it("falls back to '#' when neither href nor a valid repo is provided", () => {
-    const p = normaliseButtercutProject({
-      name: "x",
-      description: "",
-      tags: [],
-    });
-    expect(p.href).toBe("#");
-  });
-
-  it("rejects malformed repo strings and falls back to '#'", () => {
-    const p = normaliseButtercutProject({
-      name: "x",
-      description: "",
-      tags: [],
-      repo: "not a repo",
-    });
-    expect(p.href).toBe("#");
+describe("loadButtercutDemoContent", () => {
+  it("loads showcase content from content/demo/", async () => {
+    const demo = await loadButtercutDemoContent();
+    expect(demo.intro).toContain("open-source");
+    expect(demo.intro).toContain("documents the theme");
+    expect(demo.greeting).toBe("");
   });
 });

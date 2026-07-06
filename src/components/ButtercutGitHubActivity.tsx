@@ -325,6 +325,7 @@ export function ButtercutGitHubActivity({
                 color: "#fff",
                 fontSize: 12,
                 lineHeight: "1.4",
+                fontFamily: "var(--font-ui-en)",
                 padding: "4px 8px",
                 borderRadius: 4,
                 whiteSpace: "nowrap",

@@ -1,7 +1,16 @@
+import { ButtercutShowcaseExplore } from "@/blocks/ButtercutShowcaseExplore";
 import { ButtercutDemoProjects } from "@/blocks/ButtercutDemoProjects";
 import { ButtercutHero } from "@/blocks/ButtercutHero";
 import { ButtercutIntegrationsPanel } from "@/blocks/ButtercutIntegrationsPanel";
 import { ButtercutNowPlayingBlock } from "@/blocks/ButtercutNowPlayingBlock";
+import {
+  ButtercutShowcaseCta,
+  ButtercutShowcaseFeatures,
+  ButtercutShowcaseUseCases,
+} from "@/blocks/ButtercutShowcaseBlocks";
+import {
+  ButtercutShowcaseBlockPreviews,
+} from "@/blocks/ButtercutShowcaseBlockPreviews";
 import { ButtercutStatusRow } from "@/blocks/ButtercutStatusRow";
 import { ButtercutWeatherBlock } from "@/blocks/ButtercutWeatherBlock";
 import { applyButtercutCustom } from "@/custom/register";
@@ -21,11 +30,16 @@ export function registerButtercutDefaultBlocks(): void {
   registered = true;
 
   registerButtercutBlock("hero", ButtercutHero);
+  registerButtercutBlock("showcase_explore", ButtercutShowcaseExplore);
   registerButtercutBlock("demo_projects", ButtercutDemoProjects);
   registerButtercutBlock("integrations", ButtercutIntegrationsPanel);
   registerButtercutBlock("now_playing", ButtercutNowPlayingBlock);
   registerButtercutBlock("weather", ButtercutWeatherBlock);
   registerButtercutBlock("status", ButtercutStatusRow);
+  registerButtercutBlock("showcase_features", ButtercutShowcaseFeatures);
+  registerButtercutBlock("showcase_block_previews", ButtercutShowcaseBlockPreviews);
+  registerButtercutBlock("showcase_use_cases", ButtercutShowcaseUseCases);
+  registerButtercutBlock("showcase_cta", ButtercutShowcaseCta);
 
   applyButtercutCustom();
 }

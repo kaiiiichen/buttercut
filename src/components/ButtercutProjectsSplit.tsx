@@ -29,7 +29,7 @@ export function ButtercutProjectsSplit({
   return (
     <div className="space-y-5">
       {courseProjects.length > 0 ? (
-        <NestedProjectsCard label="Featured">
+        <NestedProjectsCard label="Course Projects">
           {courseProjects.map((entry) => (
             <ButtercutCourseProjectLink
               key={entry.id}

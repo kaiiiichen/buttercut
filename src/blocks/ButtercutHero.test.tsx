@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { ButtercutHero } from "./ButtercutHero";
 import { BUTTERCUT_DEFAULT_SITE_CONFIG } from "@/lib/config/defaults";
 import type { ButtercutDemoContent } from "@/lib/demo/load-demo-content";
+import { renderButtercutInlineMarkdown } from "@/lib/markdown/inline";
 
 const demo: ButtercutDemoContent = {
   tagline: "Demo tagline",
@@ -39,7 +40,42 @@ describe("ButtercutHero — intro rendering", () => {
     expect(html).toContain("your own introduction");
   });
 
+  it("renders bold-wrapped nav links from intro.md", () => {
+    const navIntro =
+      "**[Design](/design)** — principles, typography, tokens, layout. **[Components](/components)** — full component catalog.";
+    const html = renderToStaticMarkup(
+      <>{renderButtercutInlineMarkdown(navIntro)}</>,
+    );
+    expect(html).toContain('href="/design"');
+    expect(html).toContain('href="/components"');
+    expect(html).not.toContain("[Design](/design)");
+  });
+
   it("renders a <code> chip for inline markdown paths", () => {
     expect(html).toMatch(/<code[^>]*>site\.config\.ts</);
+  });
+});
+
+describe("ButtercutHero — product layout", () => {
+  const productConfig = {
+    ...BUTTERCUT_DEFAULT_SITE_CONFIG,
+    home: { ...BUTTERCUT_DEFAULT_SITE_CONFIG.home, heroLayout: "product" as const },
+  };
+
+  it("omits avatar column and identity row", () => {
+    const html = renderToStaticMarkup(
+      <ButtercutHero config={productConfig} demo={demo} />,
+    );
+    expect(html).not.toContain("data-identity-row");
+    expect(html).not.toContain("avatar-placeholder");
+    expect(html).not.toContain("jump-letter");
+  });
+
+  it("renders intro copy and social links", () => {
+    const html = renderToStaticMarkup(
+      <ButtercutHero config={productConfig} demo={demo} />,
+    );
+    expect(html).toContain("configurable");
+    expect(html).toContain("GitHub");
   });
 });

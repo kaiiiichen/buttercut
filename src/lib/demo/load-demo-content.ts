@@ -1,6 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
+const CONTENT_ROOT = "content/demo";
+
 export type ButtercutDemoProject = {
   name: string;
   description: string;
@@ -204,11 +206,12 @@ async function safeRead(p: string): Promise<string> {
 
 export async function loadButtercutDemoContent(): Promise<ButtercutDemoContent> {
   const root = process.cwd();
-  const projectsPath = path.join(root, "content/demo/projects.json");
-  const introPath = path.join(root, "content/demo/intro.md");
-  const aboutPath = path.join(root, "content/demo/about.json");
-  const courseProjectsPath = path.join(root, "content/demo/course-projects.json");
-  const miscPath = path.join(root, "content/demo/misc.json");
+  const contentRoot = path.join(root, CONTENT_ROOT);
+  const projectsPath = path.join(contentRoot, "projects.json");
+  const introPath = path.join(contentRoot, "intro.md");
+  const aboutPath = path.join(contentRoot, "about.json");
+  const courseProjectsPath = path.join(contentRoot, "course-projects.json");
+  const miscPath = path.join(contentRoot, "misc.json");
 
   const [projectsRaw, introRaw, aboutRaw, courseProjectsRaw, miscRaw] =
     await Promise.all([

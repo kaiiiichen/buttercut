@@ -1,3 +1,5 @@
-This is a **configurable** personal-site theme on Next.js. Site-wide settings live in `site.config.ts`; page copy lives under `content/demo/`.
+Buttercut is an **open-source Next.js theme** for personal sites, portfolios, and product pages — distilled from [kaichen.dev](https://kaichen.dev).
 
-The hero supports inline markdown — **bold**, `code`, and [links](https://example.com). Add or remove paragraphs freely; replace everything here with your own introduction.
+This site documents the theme itself: design tokens, interactive components, a live widget sandbox, and a fork-and-deploy guide. It is not a demo personal profile — fork the repo to build your own.
+
+Edit `site.config.ts` for structure and integrations; edit `content/demo/` for copy. Home pages compose from magazine cards and registered blocks.

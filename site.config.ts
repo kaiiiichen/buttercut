@@ -1,37 +1,43 @@
 import { createSiteConfig } from "@/lib/config/create-site-config";
 
-/**
- * Buttercut theme configuration.
- * Override fields here; defaults are defined in `src/lib/config/defaults.ts`.
- */
 export const siteConfig = createSiteConfig({
   site: {
-    title: "Your Name",
+    title: "Buttercut",
     description:
-      "A short tagline for your site — edit site.config.ts and content/demo/ to make this yours.",
-    siteUrl: "https://example.com",
+      "A configurable Next.js theme — warm editorial layout, composable blocks, integrations that fail open.",
+    siteUrl: "https://buttercut.kaichen.dev",
   },
   nav: [
-    { label: "About", href: "/about" },
-    { label: "Projects", href: "/projects" },
-    { label: "Misc", href: "/misc" },
+    { label: "Design", href: "/design" },
+    { label: "Components", href: "/components" },
+    { label: "Sandbox", href: "/sandbox" },
+    { label: "Get Started", href: "/get-started" },
   ],
   socials: [
-    { id: "email", label: "Email", href: "mailto:hello@example.com" },
-    { id: "github", label: "GitHub", href: "https://github.com" },
-    { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com" },
+    {
+      id: "github",
+      label: "GitHub",
+      href: "https://github.com/kaiiiichen/buttercut",
+      tip: "View source on GitHub",
+    },
   ],
+  home: {
+    heroLayout: "product",
+    blocks: [
+      { id: "hero", enabled: true },
+      { id: "showcase_explore", enabled: true },
+    ],
+  },
   brand: {
     showGwwcBadge: false,
-    contactGuidanceTip: "Info — edit social links and this tooltip in site.config.ts.",
+    contactGuidanceTip: "Buttercut is open source (GPL-3.0). Fork, configure, and ship.",
+    attribution: {
+      href: "https://kaichen.dev",
+      prefix: "Distilled from ",
+      label: "kaichen.dev",
+    },
   },
   integrations: {
-    weather: {
-      enabled: false,
-      lat: 40.7128,
-      lon: -74.006,
-      label: "Your city",
-      timezone: "America/New_York",
-    },
+    weather: { enabled: false },
   },
 });

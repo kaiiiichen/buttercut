@@ -1,21 +1,6 @@
 {
-  "tagline": "Selected work and side projects.",
-  "greeting": "Hello",
-  "subtitles": [
-    "A short line about what you do"
-  ],
-  "projects": [
-    {
-      "name": "project-one",
-      "description": "Short description of a project. Edit entries in content/demo/projects.json.",
-      "href": "https://example.com",
-      "tags": ["Demo"]
-    },
-    {
-      "name": "project-two",
-      "description": "Another placeholder — link to a repo, demo, or case study.",
-      "href": "https://github.com",
-      "tags": ["Open source"]
-    }
-  ]
+  "tagline": "A Next.js theme for sites that feel considered.",
+  "greeting": "",
+  "subtitles": ["Open source · Config-driven · Fork and ship"],
+  "projects": []
 }

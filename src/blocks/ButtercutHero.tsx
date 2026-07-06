@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { ButtercutAvatarCard } from "@/components/ButtercutAvatarCard";
 import { ButtercutGwwcBadge } from "@/components/ButtercutGwwcBadge";
+import { ButtercutIdentityRow } from "@/components/ButtercutIdentityRow";
 import { ButtercutJumpText } from "@/components/ButtercutJumpText";
 import { ButtercutSocialIcons } from "@/components/ButtercutSocialIcons";
 import { ButtercutTocSection } from "@/components/ButtercutTocSection";
@@ -23,62 +23,58 @@ function splitIntroParagraphs(text: string): string[] {
     .filter(Boolean);
 }
 
-export function ButtercutHero({
+function ButtercutPersonalHero({
   config,
   demo,
   slots,
 }: ButtercutBlockProps & { slots?: ButtercutHeroSlots }) {
   const paragraphs = splitIntroParagraphs(demo.intro);
   const subtitles = demo.subtitles.length > 0 ? demo.subtitles : [demo.tagline].filter(Boolean);
+  const showGreeting = Boolean(slots?.greeting ?? demo.greeting.trim());
 
   return (
-    <section className="flex flex-col gap-6 md:flex-row-reverse md:items-stretch md:gap-10">
-      <div className="order-2 flex min-w-0 flex-1 flex-col gap-5 md:order-none">
-        <ButtercutTocSection label={config.site.title}>
-          {slots?.title ?? (
-            <h1
-              className="font-nunito text-[36px] font-light leading-[1.1] tracking-tight text-zinc-900 dark:text-zinc-100 md:text-[48px]"
-              style={{ fontFamily: "var(--font-ui-en)" }}
-            >
-              {config.site.title}
-              {config.brand.showGwwcBadge ? (
-                <>
-                  {" "}
-                  <ButtercutGwwcBadge />
-                </>
-              ) : null}
-            </h1>
-          )}
-          {slots?.subtitles ?? (
-            <div
-              className="mt-2 font-nunito text-[15px] leading-[1.75] tracking-[0.03em] text-zinc-500 dark:text-zinc-500"
-              style={{ fontFamily: "var(--font-ui-en)" }}
-            >
-              {subtitles.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
-            </div>
-          )}
-        </ButtercutTocSection>
+    <ButtercutIdentityRow
+      nameSectionLabel={config.site.title}
+      avatar={slots?.avatar}
+      socials={slots?.socials}
+      avatarSrc={config.brand.avatar}
+      socialsConfig={config.socials}
+      contactGuidanceTip={config.brand.contactGuidanceTip}
+    >
+      <ButtercutTocSection label={config.site.title}>
+        {slots?.title ?? (
+          <h1 className="ui-title font-nunito text-[36px] font-light leading-[1.1] tracking-tight md:text-[48px]">
+            {config.site.title}
+            {config.brand.showGwwcBadge ? (
+              <>
+                {" "}
+                <ButtercutGwwcBadge />
+              </>
+            ) : null}
+          </h1>
+        )}
+        {slots?.subtitles ?? (
+          <div className="ui-tagline mt-2">
+            {subtitles.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+          </div>
+        )}
+      </ButtercutTocSection>
 
+      {showGreeting ? (
         <ButtercutTocSection label="Greeting">
           {slots?.body ?? (
-            <div
-              className="font-nunito text-[17px] leading-[1.75] text-zinc-700 dark:text-zinc-300"
-              style={{ fontFamily: "var(--font-ui-en)" }}
-            >
+            <div className="ui-body-lg space-y-4">
               <p className="inline-flex flex-wrap items-center gap-y-1">
-                <span
-                  className="text-[26px] leading-none tracking-tight text-zinc-700 dark:text-zinc-300 md:text-[28px]"
-                  style={{ fontFamily: "var(--font-ui-en)", fontWeight: 300 }}
-                >
+                <span className="ui-greeting text-[26px] leading-none tracking-tight md:text-[28px]">
                   {slots?.greeting ?? (
                     <ButtercutJumpText text={demo.greeting} staggerMs={72} />
                   )}
                 </span>
               </p>
               {paragraphs.map((p, idx) => (
-                <p key={idx} className="mt-1">
+                <p key={idx}>
                   {renderButtercutInlineMarkdown(p, {
                     allowedLinkSchemes: config.content.allowedLinkSchemes,
                   })}
@@ -87,32 +83,81 @@ export function ButtercutHero({
             </div>
           )}
         </ButtercutTocSection>
-
-        <div className="h-px w-full max-w-[630px] bg-zinc-200 dark:bg-zinc-700" />
-      </div>
-
-      <div className="order-1 mx-auto flex w-full max-w-[320px] shrink-0 flex-col gap-4 md:order-none md:mx-0 md:grid md:w-[36%] md:max-w-none md:grid-rows-[auto_1fr] md:gap-0">
-        <div className="mag-card aspect-square w-full overflow-hidden" style={{ padding: 0 }}>
-          {slots?.avatar ?? (
-            <ButtercutAvatarCard
-              src={config.brand.avatar}
-              alt=""
-              className="h-full w-full"
-            />
-          )}
-        </div>
-
-        <ButtercutTocSection label="Contact">
-          {slots?.socials ?? (
-            <ButtercutSocialIcons
-              socials={config.socials}
-              contactGuidanceTip={config.brand.contactGuidanceTip}
-            />
+      ) : (
+        <ButtercutTocSection label="Intro">
+          {slots?.body ?? (
+            <div className="ui-body-lg space-y-4">
+              {paragraphs.map((p, idx) => (
+                <p key={idx}>
+                  {renderButtercutInlineMarkdown(p, {
+                    allowedLinkSchemes: config.content.allowedLinkSchemes,
+                  })}
+                </p>
+              ))}
+            </div>
           )}
         </ButtercutTocSection>
+      )}
+    </ButtercutIdentityRow>
+  );
+}
 
-        <div className="h-px w-full bg-zinc-200 dark:bg-zinc-700" />
-      </div>
+/** Theme/docs home — no avatar, greeting, or personal-site chrome. */
+function ButtercutProductHero({
+  config,
+  demo,
+  slots,
+}: ButtercutBlockProps & { slots?: ButtercutHeroSlots }) {
+  const paragraphs = splitIntroParagraphs(demo.intro);
+  const subtitles = demo.subtitles.length > 0 ? demo.subtitles : [demo.tagline].filter(Boolean);
+
+  return (
+    <section className="max-w-3xl space-y-6">
+      {slots?.title ?? (
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <h1 className="ui-title font-nunito text-[36px] font-light leading-[1.1] tracking-tight md:text-[48px]">
+            {config.site.title}
+          </h1>
+          {slots?.socials ??
+            (config.socials.length > 0 || config.brand.contactGuidanceTip ? (
+              <ButtercutSocialIcons
+                socials={config.socials}
+                contactGuidanceTip={config.brand.contactGuidanceTip}
+                inline
+                className="shrink-0"
+              />
+            ) : null)}
+        </div>
+      )}
+      {slots?.subtitles ?? (
+        <div className="ui-tagline">
+          {subtitles.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
+      )}
+      {slots?.body ?? (
+        <div className="ui-body-lg space-y-4">
+          {paragraphs.map((p, idx) => (
+            <p key={idx}>
+              {renderButtercutInlineMarkdown(p, {
+                allowedLinkSchemes: config.content.allowedLinkSchemes,
+              })}
+            </p>
+          ))}
+        </div>
+      )}
     </section>
   );
+}
+
+export function ButtercutHero({
+  config,
+  demo,
+  slots,
+}: ButtercutBlockProps & { slots?: ButtercutHeroSlots }) {
+  if (config.home.heroLayout === "product") {
+    return <ButtercutProductHero config={config} demo={demo} slots={slots} />;
+  }
+  return <ButtercutPersonalHero config={config} demo={demo} slots={slots} />;
 }

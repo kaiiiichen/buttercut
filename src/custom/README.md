@@ -12,5 +12,7 @@ Typical uses:
   `home.blocks`;
 - initialise local helpers you need at boot time.
 
+See `src/custom/blocks/MyHero.tsx` for a minimal override example.
+
 `src/custom/` is intentionally outside the theme's refactor surface — it
 is meant to survive Buttercut updates without merge conflicts.

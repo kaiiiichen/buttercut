@@ -74,14 +74,22 @@ function isExternalHref(href: string): boolean {
 export function ButtercutSocialIcons({
   socials,
   contactGuidanceTip = "Info — edit social links and this tooltip in site.config.ts.",
+  className = "",
+  inline = false,
 }: {
   socials: ButtercutSocialLink[];
   contactGuidanceTip?: string;
+  /** Extra classes on the icon row wrapper */
+  className?: string;
+  /** When true, icons sit inline beside a title (no centered row). */
+  inline?: boolean;
 }) {
   const linkClass = (id: string) => `home-social-link home-social-link--${id}`;
 
   return (
-    <div className="flex items-center justify-center gap-5 md:h-full">
+    <div
+      className={`flex items-center gap-5 ${inline ? "" : "justify-center"} ${className}`.trim()}
+    >
       {socials.map((s) => {
         const Icon = ICONS[s.id] ?? null;
         const external = isExternalHref(s.href);
