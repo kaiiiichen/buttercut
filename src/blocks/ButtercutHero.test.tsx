@@ -9,10 +9,8 @@ const demo: ButtercutDemoContent = {
   greeting: "Hello :)",
   subtitles: ["Subtitle one", "Subtitle two"],
   intro:
-    "Buttercut is a **theme-first** Next.js starter: one typed `site.config.ts`, demo content under `content/demo/`, and optional integrations that stay off until you configure them.\n\n" +
-    "I like building things for humans, and I enjoy shipping small tools that actually work.\n\n" +
-    "Most days I'm tinkering with interfaces, automation, and whatever problem feels interesting this week.\n\n" +
-    "This paragraph ships with the repo as sample copy — replace it with your own story.",
+    "This is a **configurable** personal-site theme on Next.js. Site-wide settings live in `site.config.ts`; page copy lives under `content/demo/`.\n\n" +
+    "The hero supports inline markdown — **bold**, `code`, and [links](https://example.com). Add or remove paragraphs freely; replace everything here with your own introduction.",
   about: {
     intro: "",
     education: [],
@@ -36,9 +34,9 @@ describe("ButtercutHero — intro rendering", () => {
   );
 
   it("renders intro paragraphs from demo.intro", () => {
-    expect(html).toContain("theme-first");
-    expect(html).toContain("building things for humans");
-    expect(html).toContain("replace it with your own story");
+    expect(html).toContain("configurable");
+    expect(html).toContain("content/demo/");
+    expect(html).toContain("your own introduction");
   });
 
   it("renders a <code> chip for inline markdown paths", () => {

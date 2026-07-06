@@ -86,6 +86,8 @@ export type ButtercutDemoMiscLink = { name: string; href: string };
 
 export type ButtercutDemoMisc = {
   intro?: string;
+  /** Section heading for grouped favorites (default: "Favorites"). */
+  favoritesLabel?: string;
   watching: Array<{ title: string; href: string; source: string; date: string }>;
   remembrance: Array<{ name: string; href: string; note: string }>;
   thingGroups: Array<{ category: string; rows: ButtercutDemoMiscLink[][] }>;
@@ -183,6 +185,8 @@ function normaliseMisc(raw: Partial<ButtercutDemoMisc> | null): ButtercutDemoMis
   if (!raw) return EMPTY_MISC;
   return {
     intro: typeof raw.intro === "string" ? raw.intro.trim() : undefined,
+    favoritesLabel:
+      typeof raw.favoritesLabel === "string" ? raw.favoritesLabel.trim() : undefined,
     watching: Array.isArray(raw.watching) ? raw.watching : [],
     remembrance: Array.isArray(raw.remembrance) ? raw.remembrance : [],
     thingGroups: Array.isArray(raw.thingGroups) ? raw.thingGroups : [],

@@ -18,21 +18,20 @@ export const siteConfig = createSiteConfig({
   ],
   socials: [
     { id: "email", label: "Email", href: "mailto:hello@example.com" },
-    { id: "signal", label: "Signal", href: "https://signal.me" },
     { id: "github", label: "GitHub", href: "https://github.com" },
     { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com" },
-    { id: "spotify", label: "Spotify", href: "https://open.spotify.com" },
   ],
   brand: {
     showGwwcBadge: false,
+    contactGuidanceTip: "Info — edit social links and this tooltip in site.config.ts.",
   },
   integrations: {
     weather: {
       enabled: false,
-      lat: 37.8716,
-      lon: -122.2728,
-      label: "San Francisco",
-      timezone: "America/Los_Angeles",
+      lat: 40.7128,
+      lon: -74.006,
+      label: "Your city",
+      timezone: "America/New_York",
     },
   },
 });
