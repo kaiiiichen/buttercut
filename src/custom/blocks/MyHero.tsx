@@ -29,7 +29,7 @@ import { ButtercutHero } from "@/blocks/ButtercutHero";
 export function MyHero(props: ButtercutBlockProps) {
   return (
     <div className="relative">
-      <span className="absolute -top-5 right-0 inline-flex items-center gap-1 rounded-full bg-[var(--accent)] px-2 py-0.5 font-jetbrains-mono text-[10px] uppercase tracking-[0.12em] text-white shadow-sm">
+      <span className="absolute -top-5 right-0 inline-flex items-center gap-1 rounded-full bg-[var(--link-hover-color)] px-2 py-0.5 font-jetbrains-mono text-[10px] uppercase tracking-[0.12em] text-white shadow-sm">
         <span aria-hidden>◆</span>
         <span>Custom override active</span>
       </span>
@@ -39,7 +39,7 @@ export function MyHero(props: ButtercutBlockProps) {
         slots={{
           title: (
             <h1 className="font-serif text-[44px] font-semibold leading-[1.05] tracking-[-0.01em] text-zinc-900 dark:text-zinc-100 md:text-[56px]">
-              <span className="bg-gradient-to-r from-[var(--accent)] to-zinc-900 bg-clip-text text-transparent dark:to-zinc-100">
+              <span className="bg-gradient-to-r from-[var(--link-color)] to-zinc-900 bg-clip-text text-transparent dark:to-zinc-100">
                 {props.config.site.title}
               </span>
             </h1>

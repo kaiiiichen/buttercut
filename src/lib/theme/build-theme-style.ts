@@ -26,11 +26,25 @@ export function buildButtercutThemeStyle(
   const root: CssDeclaration[] = [];
   const dark: CssDeclaration[] = [];
 
+  const link = sanitize(theme.link);
+  if (link) root.push({ variable: "--link-color", value: link });
+
+  const linkDark = sanitize(theme.linkDark);
+  if (linkDark) dark.push({ variable: "--link-color", value: linkDark });
+
   const accent = sanitize(theme.accent);
-  if (accent) root.push({ variable: "--accent", value: accent });
+  if (accent) {
+    root.push({ variable: "--accent", value: accent });
+    root.push({ variable: "--accent-hover", value: accent });
+    root.push({ variable: "--link-hover-color", value: accent });
+  }
 
   const accentDark = sanitize(theme.accentDark);
-  if (accentDark) dark.push({ variable: "--accent", value: accentDark });
+  if (accentDark) {
+    dark.push({ variable: "--accent", value: accentDark });
+    dark.push({ variable: "--accent-hover", value: accentDark });
+    dark.push({ variable: "--link-hover-color", value: accentDark });
+  }
 
   const background = sanitize(theme.background);
   if (background) root.push({ variable: "--background", value: background });

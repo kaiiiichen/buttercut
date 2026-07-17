@@ -22,6 +22,8 @@ describe("buttercutPreset", () => {
 
   it("each preset defines every token buildButtercutThemeStyle reads", () => {
     const requiredKeys = [
+      "link",
+      "linkDark",
       "accent",
       "accentDark",
       "background",

@@ -4,7 +4,22 @@ All notable changes to **Buttercut** are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.5.0...HEAD)
+## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.6.0...HEAD)
+
+## [0.6.0](https://github.com/kaiiiichen/buttercut/compare/v0.5.0...v0.6.0) — 2026-07-16
+
+### Added
+
+- **Upstream sync watcher** — `.kaichen-sync.json`, `scripts/sync-kaichen.mjs`, and a daily GitHub workflow map relevant `kaichen.dev` changes to their Buttercut targets and maintain one review issue.
+- **Two-color theme tokens** — `brand.theme.link` / `linkDark` control resting links; the existing `accent` / `accentDark` tokens now control hover and action color.
+- Weather unit switch affordance, project-card blue hover surfaces, tooltip start alignment, and race-free tooltip animation cleanup.
+
+### Changed
+
+- Default design matches the latest `kaichen.dev`: white/black page surfaces, blue links and borders, orange hover states, grayscale activity heatmap, monochrome Listening indicator, and instant navigation/theme repaint.
+- Nav active states no longer use decorative underlines; social icons share the site palette and lift subtly on hover.
+- Personal and product hero titles use the latest 32/42px scale; project and listening rows use blue hover surfaces with black/white title emphasis.
+- Next.js, React, Geist, Node types, and Vitest constraints align with the current source site.
 
 ## [0.5.0](https://github.com/kaiiiichen/buttercut/compare/v0.4.0...v0.5.0) — 2026-07-05
 
@@ -346,4 +361,3 @@ explicitly lists a known-exploitable scheme, a built-in set
 
 - **GPL-3.0-or-later** — same licence as the reference site
 [kaichen.dev](https://github.com/kaichen/kaichen.dev).
-

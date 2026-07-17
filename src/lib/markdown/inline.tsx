@@ -95,7 +95,7 @@ function renderToken(
       <a
         key={key}
         href={href}
-        className="underline decoration-zinc-300 underline-offset-2 transition-colors duration-150 hover:text-[#C4894F] hover:decoration-[#C4894F] dark:decoration-zinc-600 dark:hover:text-[#D9A870] dark:hover:decoration-[#D9A870]"
+        className="underline decoration-zinc-300 underline-offset-2 transition-colors duration-150 hover:text-[var(--link-hover-color)] hover:decoration-[var(--link-hover-color)] dark:decoration-zinc-600"
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {label}

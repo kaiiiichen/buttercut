@@ -1,0 +1,58 @@
+name: kaichen.dev sync watcher
+
+on:
+  schedule:
+    - cron: "17 15 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Buttercut
+        uses: actions/checkout@v7
+
+      - name: Check out kaichen.dev
+        uses: actions/checkout@v7
+        with:
+          repository: kaiiiichen/kaichen.dev
+          ref: main
+          fetch-depth: 0
+          path: .upstream/kaichen.dev
+
+      - name: Build sync report
+        id: sync
+        run: >-
+          node scripts/sync-kaichen.mjs
+          --source .upstream/kaichen.dev
+          --json-output "$RUNNER_TEMP/kaichen-sync.json"
+          --markdown-output "$RUNNER_TEMP/kaichen-sync.md"
+          --github-output "$GITHUB_OUTPUT"
+
+      - name: Create or update sync issue
+        if: steps.sync.outputs.pending == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_PATH: ${{ runner.temp }}/kaichen-sync.md
+        run: |
+          gh label create upstream-sync --color 1D76DB --description "Changes waiting to be distilled from kaichen.dev" --force
+          issue_number="$(gh issue list --state open --label upstream-sync --json number --jq '.[0].number // empty')"
+          if [ -n "$issue_number" ]; then
+            gh issue edit "$issue_number" --title "chore: sync latest kaichen.dev changes" --body-file "$REPORT_PATH"
+          else
+            gh issue create --title "chore: sync latest kaichen.dev changes" --label upstream-sync --body-file "$REPORT_PATH"
+          fi
+
+      - name: Close resolved sync issue
+        if: steps.sync.outputs.pending == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          issue_number="$(gh issue list --state open --label upstream-sync --json number --jq '.[0].number // empty')"
+          if [ -n "$issue_number" ]; then
+            gh issue close "$issue_number" --comment "The recorded Buttercut baseline now matches kaichen.dev/main."
+          fi

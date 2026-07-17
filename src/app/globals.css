@@ -5,10 +5,14 @@
 @variant dark (.dark &);
 
 :root {
-  --background: #f7f3ee;
+  --background: #ffffff;
   --foreground: #171717;
-  --accent: #c4894f;
-  --accent-hover: #c4894f;
+  --link-color: #628ea7;
+  --link-hover-color: #f8b364;
+  --card-hover-shadow: #fbe1c4;
+  /* Backward-compatible aliases for Buttercut 0.5 theme consumers. */
+  --accent: var(--link-hover-color);
+  --accent-hover: var(--link-hover-color);
   --dot-idle: #a1a1aa;
 
   /* Text hierarchy — matches kaichen.dev (About / Projects / Misc / footer) */
@@ -19,25 +23,25 @@
   --text-muted: #71717a; /* zinc-500 — hints, taglines (light & dark) */
   --text-meta: #a1a1aa; /* zinc-400 — year labels, captions */
   --text-footer: #d4d4d8; /* zinc-300 — footer (light mode) */
-  --text-nav: #71717a; /* zinc-500 — nav links (light) */
-  --text-nav-brand: #3f3f46; /* zinc-700 — nav site title (light) */
+  --text-nav: var(--link-color);
+  --text-nav-brand: var(--link-color);
 
   /* Match nav + card UI English (see ButtercutNav) */
   --font-ui-en: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
 
   /* Border hierarchy for .mag-card */
-  --color-border-primary: #a1a1aa;   /* zinc-400 — bottom accent */
-  --color-border-secondary: #d4d4d8; /* zinc-300 — side */
-  --color-border-tertiary: #e4e4e7;  /* zinc-200 — shadow */
+  --color-border-primary: #628ea7;
+  --color-border-secondary: #b7cbd6;
+  --color-border-tertiary: #dfe8ed;
   --mag-card-radius: 6px;
 
   /* GitHub-style contribution heatmap cells (used by ButtercutGitHubActivity).
      Five-step scale from empty to most active, mirroring GitHub's green ramp. */
   --contribution-empty: #e4e4e7;
-  --contribution-l1: #c6e48b;
-  --contribution-l2: #7bc96f;
-  --contribution-l3: #239a3b;
-  --contribution-l4: #196127;
+  --contribution-l1: #d4d4d8;
+  --contribution-l2: #a1a1aa;
+  --contribution-l3: #52525b;
+  --contribution-l4: #000000;
 
   /* Font families — defined here, surfaced as Tailwind utilities via @theme inline. */
   --font-nunito: "Nunito", ui-sans-serif, system-ui, sans-serif;
@@ -46,10 +50,8 @@
 }
 
 .dark {
-  --background: #1c1814;
+  --background: #000000;
   --foreground: #ededed;
-  --accent: #d9a870;
-  --accent-hover: #d9a870;
 
   --text-title: #f4f4f5; /* zinc-100 */
   --text-heading: #e4e4e7; /* zinc-200 */
@@ -58,17 +60,18 @@
   --text-muted: #71717a; /* zinc-500 */
   --text-meta: #52525b; /* zinc-600 */
   --text-footer: #3f3f46; /* zinc-700 */
-  --text-nav: #a1a1aa; /* zinc-400 */
-  --text-nav-brand: #d4d4d8; /* zinc-300 */
-  --color-border-primary: #71717a;
-  --color-border-secondary: #3f3f46;
-  --color-border-tertiary: #27272a;
+  --text-nav: var(--link-color);
+  --text-nav-brand: var(--link-color);
+  --color-border-primary: #628ea7;
+  --color-border-secondary: #456577;
+  --color-border-tertiary: #243640;
+  --card-hover-shadow: #6a4a27;
 
   --contribution-empty: #2d333b;
-  --contribution-l1: rgba(91, 191, 160, 0.15);
-  --contribution-l2: rgba(91, 191, 160, 0.3);
-  --contribution-l3: rgba(91, 191, 160, 0.5);
-  --contribution-l4: rgba(91, 191, 160, 0.8);
+  --contribution-l1: #3f3f46;
+  --contribution-l2: #52525b;
+  --contribution-l3: #71717a;
+  --contribution-l4: #a1a1aa;
 }
 
 @theme inline {
@@ -81,15 +84,67 @@
   --font-jetbrains-mono: var(--font-jetbrains-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+  font-size: 120%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+button:not(:disabled) {
+  scale: 1;
+  cursor: pointer;
+}
+
+button:not(:disabled):active {
+  scale: 0.97;
+}
+
+a:any-link:not(.mag-card) {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:any-link:not(.mag-card):hover,
+a:any-link:not(.mag-card):active {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+a:any-link:not(.mag-card):focus-visible {
+  color: var(--link-hover-color);
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+a.site-logo:any-link {
+  color: var(--link-color);
+}
+
+a.site-logo:any-link:hover,
+a.site-logo:any-link:active {
+  color: var(--link-hover-color);
+}
+
 html,
 body,
 .mag-card,
 .mag-card-inset,
-.nav-link,
 .mag-chip,
-.home-social-link,
-.help-icon {
+.home-social-link {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
 }
 
 .hover-tip-bubble {
@@ -151,18 +206,6 @@ body,
   max-width: none;
 }
 
-html {
-  scroll-behavior: smooth;
-  /* Matches kaichen.dev's editorial scale — makes the whole theme feel like
-     print rather than dashboard UI. Override in a project stylesheet if needed. */
-  font-size: 120%;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-}
-
 /* ── Magazine / editorial card ───────────────────────────────── */
 .mag-card {
   font-family: var(--font-ui-en);
@@ -179,18 +222,18 @@ body {
 }
 .mag-card:hover {
   transform: translateY(-3px);
-  box-shadow: 7px 7px 0px 0px var(--color-border-tertiary);
-  border-bottom-color: #c4894f;
-  border-right-color: #c4894f;
-  background: #fffaf6;
+  box-shadow: 7px 7px 0px 0px var(--card-hover-shadow);
+  border-bottom-color: var(--link-hover-color);
+  border-right-color: var(--link-hover-color);
+  background: #fffaf4;
 }
 .dark .mag-card {
-  background: #252019;
+  background: #1f1f23;
 }
 .dark .mag-card:hover {
-  border-bottom-color: #d9a870;
-  border-right-color: #d9a870;
-  background: #2a221c;
+  border-bottom-color: var(--link-hover-color);
+  border-right-color: var(--link-hover-color);
+  background: #29251f;
 }
 
 .mag-card-inset {
@@ -208,22 +251,38 @@ body {
 }
 .mag-card-inset:hover {
   transform: translateY(-3px);
-  box-shadow: 5px 5px 0 0 var(--color-border-tertiary);
-  border-bottom-color: #c4894f;
-  border-right-color: #c4894f;
-  background: #fffaf6;
+  box-shadow: 5px 5px 0 0 var(--card-hover-shadow);
+  border-bottom-color: var(--link-hover-color);
+  border-right-color: var(--link-hover-color);
+  background: #fffaf4;
 }
 .dark .mag-card-inset {
-  background: #2a221c;
+  background: #26262b;
 }
 .dark .mag-card-inset:hover {
-  border-bottom-color: #d9a870;
-  border-right-color: #d9a870;
-  background: #322820;
+  border-bottom-color: var(--link-hover-color);
+  border-right-color: var(--link-hover-color);
+  background: #302b24;
 }
 .mag-card:hover .mag-card-inset:hover {
   transform: none;
   box-shadow: 3px 3px 0 0 var(--color-border-tertiary);
+}
+.mag-card:hover:has(.mag-card-inset:hover) {
+  border-bottom-color: var(--color-border-primary);
+  border-right-color: var(--color-border-secondary);
+  background: #ffffff;
+}
+.dark .mag-card:hover:has(.mag-card-inset:hover) {
+  background: #1f1f23;
+}
+
+.mag-card.project-card-theme:hover {
+  background: #e8f0f4;
+}
+
+.dark .mag-card.project-card-theme:hover {
+  background: #243640;
 }
 
 /* ── Magazine label — same UI font as nav (Nunito), title case + hairline */
@@ -302,13 +361,16 @@ body {
   font-weight: 400;
   color: var(--text-footer);
 }
-.ui-footer-link {
+a.ui-footer-link:any-link {
   color: inherit;
   text-decoration: none;
   transition: color 0.15s ease;
 }
-.ui-footer-link:hover {
-  color: var(--accent-hover);
+a.ui-footer-link:any-link:hover {
+  color: #000000;
+}
+.dark a.ui-footer-link:any-link:hover {
+  color: #ffffff;
 }
 .ui-greeting {
   font-family: var(--font-ui-en);
@@ -368,11 +430,11 @@ body {
   display: block;
   height: 2px;
   border-radius: 9999px;
-  background: #d4d4d8;
+  background: #b7cbd6;
   transition: background-color 0.15s ease, width 0.15s ease;
 }
 .dark .page-toc-line {
-  background: #52525b;
+  background: #456577;
 }
 .page-toc-line--l0 {
   width: 0.875rem;
@@ -381,10 +443,10 @@ body {
   width: 0.5rem;
 }
 .page-toc-line--active {
-  background: #3f3f46;
+  background: var(--link-color);
 }
 .dark .page-toc-line--active {
-  background: #e4e4e7;
+  background: var(--link-color);
 }
 .page-toc-panel {
   position: absolute;
@@ -411,7 +473,7 @@ body {
   transition-delay: 0ms, 0ms, 0ms;
 }
 .dark .page-toc-panel {
-  background: #252019;
+  background: #1f1f23;
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.28),
     0 2px 8px rgba(0, 0, 0, 0.18);
@@ -441,7 +503,7 @@ body {
   font-size: 0.72rem;
   line-height: 1.35;
   font-weight: 500;
-  color: #71717a;
+  color: var(--link-color);
   padding: 0.3rem 0.55rem;
   border-radius: 6px;
   cursor: pointer;
@@ -451,29 +513,29 @@ body {
   transition: background-color 0.12s ease, color 0.12s ease;
 }
 .dark .page-toc-link {
-  color: #a1a1aa;
+  color: var(--link-color);
 }
 .page-toc-link:hover {
-  background: #f4f4f5;
-  color: #3f3f46;
+  background: #fffaf4;
+  color: var(--link-hover-color);
 }
 .dark .page-toc-link:hover {
-  background: #3f3f46;
-  color: #e4e4e7;
+  background: #29251f;
+  color: var(--link-hover-color);
 }
 .page-toc-link--active {
-  color: #c4894f;
+  color: var(--link-color);
 }
 .dark .page-toc-link--active {
-  color: #d9a870;
+  color: var(--link-color);
 }
 .page-toc-link--active:hover {
-  color: #c4894f;
-  background: #faf5f0;
+  color: var(--link-hover-color);
+  background: #fffaf4;
 }
 .dark .page-toc-link--active:hover {
-  color: #d9a870;
-  background: #322820;
+  color: var(--link-hover-color);
+  background: #29251f;
 }
 @media (prefers-reduced-motion: reduce) {
   .page-toc-rail {
@@ -492,27 +554,10 @@ body {
 
 .nav-link {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-ui-en);
   font-weight: 600;
-  padding-bottom: 0.375rem;
-}
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  border-radius: 9999px;
-  background: transparent;
-  transition: background-color 0.15s ease;
-}
-.nav-link--active::after {
-  background: #c4894f;
-}
-.dark .nav-link--active::after {
-  background: #d9a870;
 }
 
 .mag-chip {
@@ -525,24 +570,25 @@ body {
   border-radius: var(--mag-card-radius);
   border: 1px solid var(--color-border-secondary);
   background: rgb(255 255 255 / 0.8);
-  color: #71717a;
+  color: var(--link-color);
   box-shadow: 2px 2px 0 0 var(--color-border-tertiary);
   transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease,
     box-shadow 0.15s ease;
 }
 .dark .mag-chip {
-  background: rgb(42 34 28 / 0.8);
-  color: #a1a1aa;
+  background: rgb(31 31 35 / 0.8);
+  color: var(--link-color);
 }
 .mag-chip:hover {
-  color: #c4894f;
-  border-color: rgb(196 137 79 / 0.4);
-  background: #fffaf6;
+  color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+  box-shadow: 2px 2px 0 0 var(--card-hover-shadow);
+  background: #fffaf4;
 }
 .dark .mag-chip:hover {
-  color: #d9a870;
-  border-color: rgb(217 168 112 / 0.4);
-  background: #2a221c;
+  color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+  background: #29251f;
 }
 a.mag-chip,
 button.mag-chip {
@@ -558,29 +604,44 @@ button.mag-chip:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.5;
-  color: #3f3f46;
-  transition: color 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+  color: var(--link-color);
+  transform-origin: 50% 50%;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 .dark .home-social-link {
-  color: #d4d4d8;
+  color: var(--link-color);
 }
 .home-social-link:hover {
-  opacity: 1;
+  color: var(--link-hover-color);
+  transform: translateY(-2px) rotate(-6deg);
 }
-.home-social-link--email:hover { color: #ea4335; }
-.home-social-link--signal:hover { color: #3b45fd; }
-.home-social-link--github:hover { color: #3f3f46; }
-.dark .home-social-link--github:hover { color: #d4d4d8; }
-.home-social-link--linkedin:hover { color: #0a66c2; }
-.home-social-link--spotify:hover { color: #1db954; }
+.home-social-link--email:hover,
+.home-social-link--signal:hover,
+.home-social-link--github:hover,
+.home-social-link--linkedin:hover,
+.home-social-link--spotify:hover,
 .home-social-link--x:hover,
-.home-social-link--twitter:hover { color: #3f3f46; }
+.home-social-link--twitter:hover { color: var(--link-hover-color); }
+.dark .home-social-link--email:hover,
+.dark .home-social-link--signal:hover,
+.dark .home-social-link--github:hover,
+.dark .home-social-link--linkedin:hover,
+.dark .home-social-link--spotify:hover,
 .dark .home-social-link--x:hover,
-.dark .home-social-link--twitter:hover { color: #d4d4d8; }
+.dark .home-social-link--twitter:hover { color: var(--link-hover-color); }
 .home-social-link svg {
   width: 1.75rem;
   height: 1.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-social-link {
+    transition: color 0.2s ease;
+  }
+  .home-social-link:hover {
+    transform: none;
+  }
 }
 
 .help-icon {
@@ -608,23 +669,23 @@ button.mag-chip:disabled {
     box-shadow 0.15s ease;
 }
 .dark .help-icon {
-  background: rgb(42 34 28 / 0.9);
+  background: rgb(31 31 35 / 0.9);
   color: #71717a;
 }
 .help-icon:hover,
 .help-icon:focus-visible {
-  color: #c4894f;
-  border-color: rgb(196 137 79 / 0.45);
-  background: #fffaf6;
+  color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+  background: #fffaf4;
   transform: translateY(-1px);
   box-shadow: 2px 2px 0 0 var(--color-border-tertiary);
   outline: none;
 }
 .dark .help-icon:hover,
 .dark .help-icon:focus-visible {
-  color: #d9a870;
-  border-color: rgb(217 168 112 / 0.45);
-  background: #2a221c;
+  color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+  background: #29251f;
 }
 
 .home-help-tip {
@@ -652,7 +713,84 @@ button.mag-chip:disabled {
   border-top: 6px solid #ffffff;
 }
 .dark .home-help-tip::after {
-  border-top-color: #252019;
+  border-top-color: #1f1f23;
+}
+
+.weather-unit-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.35rem;
+  margin: -0.2rem -0.35rem;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--link-color);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.weather-unit-toggle:hover {
+  color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+  background: #fffaf4;
+  transform: translateY(-1px);
+}
+
+.dark .weather-unit-toggle:hover {
+  background: #29251f;
+}
+
+.weather-unit-toggle:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.weather-unit-toggle:focus-visible {
+  color: var(--link-hover-color);
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.weather-unit-toggle:disabled {
+  color: #a1a1aa;
+  cursor: default;
+  opacity: 0.65;
+  transform: none;
+}
+
+.weather-unit-toggle-icon {
+  font-size: 0.65em;
+  opacity: 0;
+  transform: translateX(-0.15rem) translateY(-0.02em);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.weather-unit-toggle:hover .weather-unit-toggle-icon,
+.weather-unit-toggle:focus-visible .weather-unit-toggle-icon {
+  opacity: 0.72;
+  transform: translateX(0) translateY(-0.02em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:not(:disabled):active {
+    scale: 1;
+  }
+  .weather-unit-toggle {
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .weather-unit-toggle-icon {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+  .weather-unit-toggle:hover,
+  .weather-unit-toggle:active {
+    transform: none;
+  }
 }
 
 .mag-chip-md {
@@ -669,45 +807,25 @@ button.mag-chip:disabled {
   line-height: 1;
 }
 
-/* ── Entrance animations ──────────────────────────────────────── */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.fade-up {
-  opacity: 0;
-  animation: fade-up 0.4s ease forwards;
-}
-
-/* Ticker slide (used by Now Playing / listening line) */
-@keyframes slide-out-left {
-  from { transform: translateX(0);    opacity: 1; }
-  to   { transform: translateX(-10px); opacity: 0; }
-}
-@keyframes slide-in-right {
-  from { transform: translateX(10px); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
-}
-.slide-exit { animation: slide-out-left 200ms ease forwards; }
-.slide-enter { animation: slide-in-right 250ms ease forwards; }
+/* .fade-up remains a structural anchor for the page TOC; navigation is instant. */
 
 /* ── Listening widget (home) ──────────────────────────────── */
 @keyframes listening-live-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgb(29 185 84 / 0.45);
+    box-shadow: 0 0 0 0 rgb(0 0 0 / 0.35);
   }
   55% {
-    box-shadow: 0 0 0 10px rgb(29 185 84 / 0);
+    box-shadow: 0 0 0 10px rgb(0 0 0 / 0);
   }
 }
 @keyframes listening-live-pulse-dark {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgb(29 185 84 / 0.4);
+    box-shadow: 0 0 0 0 rgb(255 255 255 / 0.4);
   }
   55% {
-    box-shadow: 0 0 0 10px rgb(29 185 84 / 0);
+    box-shadow: 0 0 0 10px rgb(255 255 255 / 0);
   }
 }
 @keyframes listening-soft-breathe {
@@ -731,46 +849,9 @@ button.mag-chip:disabled {
   animation: listening-soft-breathe 6s ease-in-out infinite;
 }
 
-/* Non-home subpage veil + content entrance */
+/* Non-home route wrapper — intentionally no entry animation. */
 .subpage-enter {
   position: relative;
-  isolation: isolate;
-}
-.subpage-enter::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    165deg,
-    rgba(113, 113, 122, 0.16) 0%,
-    rgba(113, 113, 122, 0.06) 38%,
-    transparent 72%
-  );
-  opacity: 1;
-  animation: subpage-veil 0.85s ease forwards;
-}
-.dark .subpage-enter::before {
-  background: linear-gradient(
-    165deg,
-    rgba(161, 161, 170, 0.14) 0%,
-    rgba(161, 161, 170, 0.05) 40%,
-    transparent 72%
-  );
-}
-@keyframes subpage-veil {
-  to {
-    opacity: 0;
-  }
-}
-.subpage-enter-inner {
-  opacity: 0;
-  animation: subpage-enter 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
-}
-@keyframes subpage-enter {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── iMessage-style letter wave (used by ButtercutJumpText) ─────── */
@@ -785,19 +866,6 @@ button.mag-chip:disabled {
 
 /* ── Reduced motion ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .subpage-enter::before {
-    animation: none;
-    opacity: 0;
-  }
-  .subpage-enter-inner {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-  .fade-up {
-    animation: none;
-    opacity: 1;
-  }
   .jump-letter,
   .listening-live-dot,
   .listening-art-live {

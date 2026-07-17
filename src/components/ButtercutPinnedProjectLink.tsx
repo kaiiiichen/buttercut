@@ -24,11 +24,11 @@ export function ButtercutPinnedProjectLink({
   variant = "list",
 }: ButtercutPinnedProjectLinkProps) {
   const nameClass =
-    "text-zinc-800 transition-colors duration-150 group-hover:text-[#C4894F] dark:text-zinc-200 dark:group-hover:text-[#D9A870]";
+    "text-zinc-800 transition-colors duration-150 group-hover:text-black dark:text-zinc-200 dark:group-hover:text-white";
   const nameStyle = {
     fontFamily: "var(--font-ui-en)",
     fontWeight: 600,
-    fontSize: variant === "card" ? 20 : 18,
+    fontSize: variant === "list" ? 18 : 20,
     fontStyle: "italic" as const,
   };
 
@@ -38,7 +38,7 @@ export function ButtercutPinnedProjectLink({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="mag-card group block no-underline"
+        className="mag-card project-card-theme group block no-underline"
         style={{ textDecoration: "none" }}
       >
         <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -86,7 +86,7 @@ export function ButtercutPinnedProjectLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group -mx-2 block rounded-sm px-2 py-2 transition-all duration-150 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 no-underline"
+      className="group -mx-2 block rounded-sm px-2 py-2 transition-all duration-150 hover:bg-[#e8f0f4] dark:hover:bg-[#243640] no-underline"
       style={{ textDecoration: "none" }}
     >
       <div className="flex items-center justify-between gap-3">

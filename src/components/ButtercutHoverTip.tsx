@@ -14,7 +14,7 @@ type ButtercutHoverTipProps = {
   tip: ReactNode;
   children: ReactNode;
   placement?: "top" | "bottom";
-  align?: "center" | "end";
+  align?: "center" | "end" | "start";
   interactive?: boolean;
   tapToToggle?: boolean;
   portal?: boolean;
@@ -39,7 +39,7 @@ function usePrefersHover() {
 }
 
 const TIP_BASE_CLASS =
-  "rounded-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-[#252019] px-2.5 py-1.5 text-center text-[11px] leading-snug text-zinc-600 dark:text-zinc-300 shadow-[3px_3px_0_0_var(--color-border-tertiary)]";
+  "rounded-sm border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-[#1F1F23] px-2.5 py-1.5 text-center text-[11px] leading-snug text-zinc-600 dark:text-zinc-300 shadow-[3px_3px_0_0_var(--color-border-tertiary)]";
 
 const SHOW_DELAY_MS = 70;
 
@@ -56,7 +56,7 @@ function tipBubbleClass(open: boolean, placement: "top" | "bottom") {
 function portalFixedStyle(
   coords: DOMRect,
   placement: "top" | "bottom",
-  align: "center" | "end",
+  align: "center" | "end" | "start",
 ): CSSProperties {
   const gap = 8;
   const base: CSSProperties = {
@@ -72,6 +72,21 @@ function portalFixedStyle(
       top: coords.top - gap,
       right: window.innerWidth - coords.right,
       transform: "translateY(-100%)",
+    };
+  }
+  if (placement === "top" && align === "start") {
+    return {
+      ...base,
+      top: coords.top - gap,
+      left: coords.left,
+      transform: "translateY(-100%)",
+    };
+  }
+  if (placement === "bottom" && align === "start") {
+    return {
+      ...base,
+      top: coords.bottom + gap,
+      left: coords.left,
     };
   }
   if (placement === "top" && align === "center") {
@@ -112,6 +127,7 @@ export function ButtercutHoverTip({
   const tipRef = useRef<HTMLSpanElement>(null);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const showTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showRafRef = useRef<number | null>(null);
   const prefersHover = usePrefersHover();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -149,7 +165,10 @@ export function ButtercutHoverTip({
       showTimerRef.current = setTimeout(
         () => {
           setDisplayed(true);
-          requestAnimationFrame(() => setOpen(true));
+          showRafRef.current = requestAnimationFrame(() => {
+            showRafRef.current = null;
+            setOpen(true);
+          });
         },
         immediate ? 0 : SHOW_DELAY_MS,
       );
@@ -161,6 +180,10 @@ export function ButtercutHoverTip({
     if (showTimerRef.current) {
       clearTimeout(showTimerRef.current);
       showTimerRef.current = null;
+    }
+    if (showRafRef.current !== null) {
+      cancelAnimationFrame(showRafRef.current);
+      showRafRef.current = null;
     }
     setOpen(false);
   }, []);
@@ -223,6 +246,7 @@ export function ButtercutHoverTip({
     () => () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       if (showTimerRef.current) clearTimeout(showTimerRef.current);
+      if (showRafRef.current !== null) cancelAnimationFrame(showRafRef.current);
     },
     [],
   );
@@ -274,10 +298,14 @@ export function ButtercutHoverTip({
     placement === "top"
       ? align === "end"
         ? "bottom-full right-0 mb-2"
-        : "bottom-full left-1/2 -translate-x-1/2 mb-2"
+        : align === "start"
+          ? "bottom-full left-0 mb-2"
+          : "bottom-full left-1/2 -translate-x-1/2 mb-2"
       : align === "end"
         ? "top-full right-0 mt-2"
-        : "top-full left-1/2 -translate-x-1/2 mt-2";
+        : align === "start"
+          ? "top-full left-0 mt-2"
+          : "top-full left-1/2 -translate-x-1/2 mt-2";
 
   return (
     <span className={`relative inline-flex group/hover-tip ${className}`}>

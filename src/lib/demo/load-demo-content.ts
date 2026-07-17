@@ -27,6 +27,7 @@ export type ButtercutDemoCourseProject = {
   tags: string[];
   external?: boolean;
   hintLabel?: string;
+  stars?: number;
 };
 
 export type ButtercutDemoExperienceRole = {

@@ -66,16 +66,21 @@ export function ButtercutWeatherCard({
             <button
               type="button"
               onClick={() => setIsCelsius((v) => !v)}
+              disabled={!w}
               style={{
                 fontFamily: "var(--font-ui-en)",
                 fontWeight: 600,
                 fontSize: 18,
                 letterSpacing: "-0.01em",
               }}
-              className="cursor-pointer border-none bg-transparent p-0 text-left leading-none text-zinc-800 transition-colors duration-150 hover:text-[#C4894F] dark:text-zinc-200 dark:hover:text-[#D9A870]"
+              className="weather-unit-toggle"
               aria-label={`Switch to ${isCelsius ? "Fahrenheit" : "Celsius"}`}
+              title={`Switch to ${isCelsius ? "Fahrenheit" : "Celsius"}`}
             >
-              {displayTemp}
+              <span>{displayTemp}</span>
+              <span className="weather-unit-toggle-icon" aria-hidden>
+                ↔
+              </span>
             </button>
           </div>
           <div className="flex flex-col gap-0" style={{ marginLeft: 6, marginTop: 2 }}>

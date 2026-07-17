@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ButtercutNavItem, ButtercutSiteConfig } from "@/lib/config/types";
 import { ButtercutThemeToggle } from "./ButtercutThemeToggle";
 
@@ -15,21 +15,13 @@ function isNavActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-/** Active nav — accent text + rounded underline; hover — text highlight only */
+/** Active nav stays in the shared link palette; hover is handled globally. */
 function navLinkClassName(active: boolean) {
-  const base = "nav-link text-sm transition-colors duration-150";
+  const base = "nav-link text-sm";
   if (active) {
-    return `${base} nav-link--active text-[#C4894F] dark:text-[#D9A870]`;
+    return `${base} nav-link--active`;
   }
-  return `${base} hover:text-[#C4894F] dark:hover:text-[#D9A870]`;
-}
-
-function navLinkStyle(active: boolean): CSSProperties {
-  return {
-    fontFamily: "var(--font-ui-en)",
-    fontWeight: 600,
-    color: active ? undefined : "var(--text-nav)",
-  };
+  return base;
 }
 
 function NavLink({
@@ -85,6 +77,12 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setIsOpen(false);
+  }
+
   return (
     <nav
       ref={navRef}
@@ -93,8 +91,9 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
       <div className="mx-auto flex max-w-[1180px] items-center justify-between px-4 py-4 md:px-8">
         <Link
           href="/"
-          className="font-nunito text-base font-semibold tracking-tight transition-colors duration-150 hover:text-[#C4894F] dark:hover:text-[#D9A870]"
-          style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600, color: "var(--text-nav-brand)" }}
+          onClick={() => setIsOpen(false)}
+          className="site-logo text-base tracking-tight"
+          style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600 }}
         >
           {config.site.title}
         </Link>
@@ -106,7 +105,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
                 key={item.href}
                 item={item}
                 pathname={pathname}
-                style={navLinkStyle(!isExternal(item.href) && isNavActive(pathname, item.href))}
+                style={{ fontFamily: "var(--font-ui-en)", fontWeight: 600 }}
               />
             ))}
           </div>
@@ -118,7 +117,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
           <button
             type="button"
             onClick={() => setIsOpen((v) => !v)}
-            className="p-1 text-xl leading-none text-zinc-500 transition-colors duration-150 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="inline-flex size-8 shrink-0 items-center justify-center text-xl leading-none text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
           >
@@ -143,7 +142,7 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
           {config.nav.map((item, i) => {
             const active =
               !isExternal(item.href) && isNavActive(pathname, item.href);
-            const linkClass = `${navLinkClassName(active)} py-2 transition-all duration-200 ${
+            const linkClass = `${navLinkClassName(active)} py-2 transition-[opacity,transform] duration-200 ${
               isOpen ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"
             }`;
             return (
@@ -154,7 +153,8 @@ export function ButtercutNav({ config }: { config: ButtercutSiteConfig }) {
                 onClick={() => setIsOpen(false)}
                 className={linkClass}
                 style={{
-                  ...navLinkStyle(active),
+                  fontFamily: "var(--font-ui-en)",
+                  fontWeight: 600,
                   transitionDelay: isOpen ? `${60 + i * 40}ms` : "0ms",
                 }}
               />

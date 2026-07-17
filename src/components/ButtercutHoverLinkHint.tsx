@@ -19,6 +19,20 @@ export function buttercutLinkDestinationLabel(href: string): string {
 
     if (host === "github.com") return "GitHub";
     if (host === "open.spotify.com" || host === "spotify.com") return "Spotify";
+    if (host === "primevideo.com") return "Prime Video";
+    if (host === "topgear.com") return "Top Gear";
+    if (host === "hitsujibungaku.info") return "Hitsujibungaku";
+    if (host === "adieu-web.com") return "adieu";
+    if (host === "hayatosum.com") return "Sumino Hayato";
+    if (host === "lavt.jp") return "Lavt";
+    if (host === "lilasikuta.jp") return "Ikuta Lilas";
+    if (host === "sudamasaki-music.com") return "Suda Masaki";
+    if (host === "higedan.com") return "HIGE DANdism";
+    if (host === "radwimps.jp") return "RADWIMPS";
+    if (host === "instagram.com") return "Instagram";
+    if (host === "tomoo.jp") return "TOMOO";
+    if (host === "vaundy.jp") return "Vaundy";
+    if (host === "mapbox.com") return "Mapbox";
     if (host.endsWith("wikipedia.org")) return "Wikipedia";
     if (host === "youtube.com" || host === "youtu.be") return "YouTube";
     if (host.endsWith("notion.site")) return "Notion";
@@ -34,7 +48,7 @@ export function buttercutDestinationHint(href: string, override?: string): strin
   return `${override ?? buttercutLinkDestinationLabel(href)} ↗`;
 }
 
-const HINT_ACCENT = "text-[#C4894F] dark:text-[#D9A870]";
+const HINT_ACCENT = "text-[var(--link-color)]";
 const HINT_MOTION = "transition-all duration-150";
 
 /** Leading ↗ — fades + slides in from the left on parent `.group` hover. */

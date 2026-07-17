@@ -21,12 +21,12 @@ const LIST_LINK_SUBTITLE_STYLE = {
 };
 
 const LIST_LINK_TITLE_CLASS =
-  "transition-colors duration-150 group-hover:text-[#C4894F] dark:group-hover:text-[#D9A870]";
+  "transition-colors duration-150 group-hover:text-black dark:group-hover:text-white";
 
 const LIST_LINK_SUBTITLE_CLASS = "mt-0.5 pl-4";
 
 const LIST_ROW_CLASS =
-  "group -mx-2 block rounded-sm px-2 py-2 transition-all duration-150 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 no-underline";
+  "group -mx-2 block rounded-sm px-2 py-2 transition-all duration-150 hover:bg-[#e8f0f4] dark:hover:bg-[#243640] no-underline";
 
 export type ButtercutListLinkRowProps = {
   title: string;

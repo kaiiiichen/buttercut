@@ -1,9 +1,8 @@
 import { ButtercutListLinkRow } from "@/components/ButtercutListLinkRow";
-import type { ButtercutBlockProps } from "@/lib/blocks/registry";
 import { SHOWCASE_EXPLORE_LINKS } from "@/lib/showcase/home-explore";
 
 /** Showcase home — explore link rows in a magazine card (kaichen.dev list pattern). */
-export function ButtercutShowcaseExplore(_props: ButtercutBlockProps) {
+export function ButtercutShowcaseExplore() {
   return (
     <section className="space-y-4">
       <div>

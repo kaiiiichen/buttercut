@@ -69,8 +69,8 @@ const Sun = ({ cx = 40, cy = 35, r = 12 }: { cx?: number; cy?: number; r?: numbe
   });
   return (
     <g>
-      <circle cx={cx} cy={cy} r={r} fill="#C4894F" opacity="0.25" />
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#C4894F" strokeWidth="1.8" />
+      <circle cx={cx} cy={cy} r={r} fill="#52525B" opacity="0.25" />
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#52525B" strokeWidth="1.8" />
       {rays.map((ray, i) => (
         <line
           key={i}
@@ -78,7 +78,7 @@ const Sun = ({ cx = 40, cy = 35, r = 12 }: { cx?: number; cy?: number; r?: numbe
           y1={ray.y1}
           x2={ray.x2}
           y2={ray.y2}
-          stroke="#C4894F"
+          stroke="#52525B"
           strokeWidth="1.5"
           strokeLinecap="round"
         />
@@ -161,7 +161,7 @@ export function ButtercutWeatherIllustration({
           <polyline
             points="64,50 58,62 63,62 56,74"
             fill="none"
-            stroke="#C4894F"
+            stroke="#52525B"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
