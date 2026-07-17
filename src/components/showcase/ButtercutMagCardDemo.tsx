@@ -8,7 +8,7 @@ export function ButtercutMagCardDemo() {
         <p className="ui-body-lg">
           Home widgets, about sections, and sandbox panels use{" "}
           <code className="font-jetbrains-mono text-[12px]">.mag-card</code>. Hover this box — it
-          lifts, the shadow grows, and the bottom edge warms to bronze.
+          lifts, the shadow warms, and the bottom edge turns orange.
         </p>
       </div>
 

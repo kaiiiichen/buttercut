@@ -67,6 +67,10 @@ export type ButtercutIntegrationKey = keyof ButtercutIntegrationsConfig;
  * Any valid CSS color value works (hex, rgb, oklch, etc.).
  */
 export type ButtercutThemeTokens = Partial<{
+  /** Resting link/nav/card-border color. */
+  link: string;
+  linkDark: string;
+  /** Hover/action color (kept as `accent` for backward compatibility). */
   accent: string;
   accentDark: string;
   background: string;

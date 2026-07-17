@@ -26,6 +26,8 @@ export function ButtercutDesignHighlights() {
   const theme = BUTTERCUT_THEME_PRESETS[active];
 
   const previewStyle = {
+    "--link-color": theme.link,
+    "--link-hover-color": theme.accent,
     "--accent": theme.accent,
     "--background": theme.background,
     "--foreground": theme.foreground,
@@ -53,7 +55,7 @@ export function ButtercutDesignHighlights() {
               type="button"
               onClick={() => setActive(name)}
               className={`mag-chip mag-chip-sm capitalize transition-opacity ${
-                active === name ? "opacity-100 ring-1 ring-[var(--accent)]" : "opacity-70"
+                active === name ? "opacity-100 ring-1 ring-[var(--link-hover-color)]" : "opacity-70"
               }`}
             >
               {name}
@@ -73,8 +75,8 @@ export function ButtercutDesignHighlights() {
               className="mt-2 font-nunito text-[15px] leading-[1.7] opacity-80"
               style={{ fontFamily: "var(--font-ui-en)" }}
             >
-              Body copy — links use{" "}
-              <span style={{ color: theme.accent }}>accent color</span>.
+              Body copy — links use <span style={{ color: theme.link }}>link color</span> and an{" "}
+              <span style={{ color: theme.accent }}>accent hover</span>.
             </p>
             <div
               className="mt-4 inline-flex rounded-md px-3 py-1.5 font-nunito text-[13px]"
@@ -153,7 +155,7 @@ export function ButtercutDesignHighlights() {
               <div className="flex min-w-0 items-center gap-2">
                 <ButtercutHoverLinkArrow />
                 <span
-                  className="font-nunito text-[17px] font-semibold italic text-zinc-800 group-hover:text-[var(--accent)] dark:text-zinc-200"
+                  className="font-nunito text-[17px] font-semibold italic text-zinc-800 group-hover:text-black dark:text-zinc-200 dark:group-hover:text-white"
                   style={{ fontFamily: "var(--font-ui-en)" }}
                 >
                   Components

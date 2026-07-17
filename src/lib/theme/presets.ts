@@ -15,6 +15,8 @@ export const BUTTERCUT_THEME_PRESETS: Record<
   Required<ButtercutThemeTokens>
 > = {
   sunset: {
+    link: "#9a5a28",
+    linkDark: "#e4a772",
     accent: "#ff6f3c",
     accentDark: "#ffa07a",
     background: "#fff7ee",
@@ -23,6 +25,8 @@ export const BUTTERCUT_THEME_PRESETS: Record<
     foregroundDark: "#f6ece1",
   },
   ocean: {
+    link: "#0b6ea4",
+    linkDark: "#7dd3fc",
     accent: "#0b6ea4",
     accentDark: "#7dd3fc",
     background: "#f2f7fb",
@@ -31,6 +35,8 @@ export const BUTTERCUT_THEME_PRESETS: Record<
     foregroundDark: "#e2f1fb",
   },
   terminal: {
+    link: "#10b981",
+    linkDark: "#6ee7b7",
     accent: "#10b981",
     accentDark: "#6ee7b7",
     background: "#0a0a0a",

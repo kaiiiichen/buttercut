@@ -11,7 +11,7 @@ export const COMPONENT_HIGHLIGHTS: ShowcaseHighlight[] = [
   {
     id: "cards",
     title: "Everything is a card",
-    hint: "Every section on a Buttercut site is a .mag-card. Hover any box below — it lifts, the shadow grows, and the bottom edge turns bronze.",
+    hint: "Every section on a Buttercut site is a .mag-card. Hover any box below — it lifts, the shadow warms, and the edge turns orange.",
     wide: true,
   },
   {
@@ -44,7 +44,7 @@ export const COMPONENT_HIGHLIGHTS: ShowcaseHighlight[] = [
   {
     id: "socials",
     title: "Social icons",
-    hint: "Monochrome by default; each network gets its brand color on hover.",
+    hint: "The site link palette keeps every icon coherent; hover adds a subtle up-right lift.",
   },
 ];
 
@@ -69,7 +69,7 @@ export const DESIGN_HIGHLIGHTS: ShowcaseHighlight[] = [
   {
     id: "motion",
     title: "Motion & hover",
-    hint: "Entrance fades, jumping greetings, and link rows that respond when you point at them.",
+    hint: "Instant navigation, jumping greetings, and link rows that respond when you point at them.",
     wide: true,
   },
 ];

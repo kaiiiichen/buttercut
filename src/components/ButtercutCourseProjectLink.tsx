@@ -4,6 +4,7 @@ import {
   ButtercutHoverLinkDestinationHint,
 } from "./ButtercutHoverLinkHint";
 import type { ButtercutDemoCourseProject } from "@/lib/demo/load-demo-content";
+import { ButtercutProjectStars } from "./ButtercutProjectStars";
 
 type ButtercutCourseProjectLinkProps = {
   entry: ButtercutDemoCourseProject;
@@ -14,17 +15,17 @@ export function ButtercutCourseProjectLink({
   entry,
   variant = "list",
 }: ButtercutCourseProjectLinkProps) {
-  const { href, institution, title, grade, summary, tags, external, hintLabel } = entry;
+  const { href, institution, title, grade, summary, tags, external, hintLabel, stars } = entry;
 
   const nameStyle = {
     fontFamily: "var(--font-ui-en)",
     fontWeight: 600,
-    fontSize: variant === "card" ? 20 : 18,
+    fontSize: variant === "list" ? 18 : 20,
     fontStyle: "italic" as const,
   };
 
   const nameClass =
-    "text-zinc-800 dark:text-zinc-200 group-hover:text-[#C4894F] dark:group-hover:text-[#D9A870] transition-colors duration-150";
+    "text-zinc-800 transition-colors duration-150 group-hover:text-black dark:text-zinc-200 dark:group-hover:text-white";
 
   const linkProps = external
     ? { href, target: "_blank" as const, rel: "noopener noreferrer" }
@@ -36,6 +37,7 @@ export function ButtercutCourseProjectLink({
       <p style={nameStyle} className={nameClass}>
         {title}
       </p>
+      <ButtercutProjectStars stars={stars} />
       {grade ? (
         <span
           style={{ fontFamily: "var(--font-ui-en)", fontWeight: 400, fontSize: 10 }}
@@ -63,7 +65,7 @@ export function ButtercutCourseProjectLink({
     ) : null;
 
   if (variant === "card") {
-    const className = "mag-card group block no-underline";
+    const className = "mag-card project-card-theme group block no-underline";
     const content = (
       <>
         <div className="mb-2">{titleRow}</div>
@@ -104,7 +106,7 @@ export function ButtercutCourseProjectLink({
   }
 
   const listClassName =
-    "group block py-2 -mx-2 px-2 rounded-sm hover:bg-zinc-50 dark:hover:bg-zinc-800/60 transition-all duration-150 no-underline";
+    "group block py-2 -mx-2 px-2 rounded-sm hover:bg-[#e8f0f4] dark:hover:bg-[#243640] transition-all duration-150 no-underline";
 
   const listContent = (
     <>

@@ -6,9 +6,9 @@ import {
 
 const HOVER_RING =
   "ring-0 group-hover/track:ring-[1.5px] " +
-  "group-hover/track:ring-[#C4894F]/45 group-hover/track:ring-offset-[2px] " +
+  "group-hover/track:ring-[var(--link-hover-color)] group-hover/track:ring-offset-[2px] " +
   "group-hover/track:ring-offset-white " +
-  "dark:group-hover/track:ring-[#D9A870]/40 dark:group-hover/track:ring-offset-[#252019]";
+  "dark:group-hover/track:ring-offset-[#1F1F23]";
 
 type ButtercutListeningTrackRowProps = {
   title: string;
@@ -37,7 +37,7 @@ export function ButtercutListeningTrackRow({
       href={songUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group group/track -mx-2 flex items-center rounded-sm px-2 pl-3 transition-all duration-150 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 ${
+      className={`group group/track -mx-2 flex items-center rounded-sm px-2 pl-3 transition-all duration-150 hover:bg-[#e8f0f4] dark:hover:bg-[#243640] ${
         compact ? "gap-2 py-1" : "gap-3 py-1.5"
       } ${live ? "" : "opacity-[0.97]"} ${className}`}
     >
@@ -76,7 +76,7 @@ export function ButtercutListeningTrackRow({
             fontSize: compact ? 14 : 18,
             lineHeight: 1.3,
           }}
-          className="truncate text-zinc-800 transition-colors duration-150 group-hover/track:text-[#C4894F] dark:text-zinc-200 dark:group-hover/track:text-[#D9A870]"
+          className="truncate text-zinc-800 transition-colors duration-150 group-hover/track:text-black dark:text-zinc-200 dark:group-hover/track:text-white"
         >
           {title}
         </p>

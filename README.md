@@ -22,7 +22,7 @@ Import [this GitHub repository](https://github.com/kaiiiichen/buttercut) into Ve
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot&logoColor=white)](https://github.com/kaiiiichen/buttercut/network/updates)
 [![site](https://img.shields.io/badge/site-buttercut.kaichen.dev-D4A574?logo=googlechrome&logoColor=white)](https://buttercut.kaichen.dev)
 
-**Buttercut** is a production-oriented Next.js theme distilled from [kaichen.dev](https://kaichen.dev). It ships the same editorial shell — Nunito UI, magazine cards, accent navigation, composable home blocks — with **placeholder content** you replace through config and `content/demo/`.
+**Buttercut** is a production-oriented Next.js theme distilled from [kaichen.dev](https://kaichen.dev). It ships the same editorial shell — Nunito UI, blue/orange link palette, magazine cards, composable home blocks — with **placeholder content** you replace through config and `content/demo/`.
 
 The live site at [buttercut.kaichen.dev](https://buttercut.kaichen.dev) documents the theme itself: design tokens, an interactive component catalog, a live widget sandbox, and a fork-and-deploy guide. It is **not** a sample personal profile — fork the repo to build your own site.
 
@@ -51,7 +51,7 @@ Built on **Next.js 16** (App Router, React 19). One typed **`site.config.ts`** d
 
 ## Why Buttercut
 
-- **Same design language as kaichen.dev.** Layout rhythm (`max-w-[1180px]`, `mag-card`, nav underline states, link rows with hover hints) is inherited 1:1; only the copy is generic.
+- **Same design language as kaichen.dev.** Layout rhythm (`max-w-[1180px]`, `mag-card`, shared link states, link rows with hover hints) is inherited 1:1; only the copy is generic.
 - **Theme docs + forkable starter in one repo.** The deployed site teaches the system; your fork swaps nav, blocks, and content for a personal or product site.
 - **Runs on first clone.** `npm install` and `npm run dev` show the full showcase. Integrations render gentle placeholders until you add credentials.
 - **Configuration you can trust.** `createSiteConfig` merges your `site.config.ts` with typed defaults — override only what differs.
@@ -146,7 +146,7 @@ Edit `site.config.ts` at the repo root. Only fields you set override the typed d
 export const siteConfig = createSiteConfig({
   site: {
     title: "Buttercut",
-    description: "A configurable Next.js theme — warm editorial layout, composable blocks.",
+    description: "A configurable Next.js theme — editorial layout, composable blocks.",
     siteUrl: "https://buttercut.kaichen.dev",
   },
   nav: [
@@ -250,7 +250,7 @@ Copy `.env.example` to `.env.local` when enabling integrations. Preview live wid
 
 ### Inline markdown
 
-Used in hero intro and card summaries — `**bold**`, `` `code` ``, `[label](url)` with zinc/bronze link styling matching kaichen.dev. See [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx).
+Used in hero intro and card summaries — `**bold**`, `` `code` ``, `[label](url)` with the same blue/orange link styling as kaichen.dev. See [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx).
 
 ---
 
@@ -275,8 +275,13 @@ Used in hero intro and card summaries — `**bold**`, `` `code` ``, `[label](url
 | `lint` | `eslint .` |
 | `typecheck` | `tsc --noEmit` |
 | `test` | `vitest run` |
+| `sync:kaichen` | Report watched changes from a sibling `../kaichen.dev` checkout. |
+| `sync:kaichen:check` | Same report; exits non-zero when a sync review is pending. |
+| `sync:kaichen:record` | Record upstream `HEAD` after the mapped changes are ported and verified. |
 
 CI: `lint` → `typecheck` → `test` → `build`.
+
+`.github/workflows/kaichen-sync.yml` checks `kaichen.dev/main` daily. When a watched source file changes, it creates or refreshes one labelled `upstream-sync` issue with the exact Buttercut target mapping. The baseline and mapping live in `.kaichen-sync.json`; this avoids blindly copying personal content or overwriting Buttercut’s config layer.
 
 ---
 
@@ -295,7 +300,7 @@ CI: `lint` → `typecheck` → `test` → `build`.
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md) — current package version **0.5.0** (theme showcase site, product hero, Get Started guide).
+[CHANGELOG.md](CHANGELOG.md) — current package version **0.6.0** (latest kaichen.dev design parity plus upstream sync automation).
 
 ---
 

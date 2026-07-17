@@ -35,7 +35,7 @@ function MiniAboutPreview({
           {md(entry.institution)}
         </p>
         <p
-          className="mt-1 font-nunito text-[17px] font-semibold leading-[1.4] text-[#C4894F] dark:text-[#D9A870]"
+          className="mt-1 font-nunito text-[17px] font-semibold leading-[1.4] text-[var(--link-color)]"
           style={{ fontFamily: "var(--font-ui-en)" }}
         >
           {md(entry.role)}
@@ -74,7 +74,7 @@ function MiniMiscPreview({
           <a
             key={link.href}
             href={link.href}
-            className="block font-nunito text-[15px] text-zinc-700 underline-offset-2 hover:text-[#C4894F] hover:underline dark:text-zinc-300 dark:hover:text-[#D9A870]"
+            className="block font-nunito text-[15px] text-zinc-700 underline-offset-2 hover:text-[var(--link-hover-color)] hover:underline dark:text-zinc-300"
             style={{ fontFamily: "var(--font-ui-en)" }}
           >
             {link.name}

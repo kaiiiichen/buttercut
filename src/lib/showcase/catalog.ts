@@ -4,8 +4,8 @@ export type CatalogEntry = { name: string; desc: string };
 
 export const DESIGN_PRINCIPLES: CatalogEntry[] = [
   {
-    name: "Warm editorial minimalism",
-    desc: "Soft zinc neutrals, one accent hue, generous whitespace. Reads like a magazine spread, not a dashboard.",
+    name: "Editorial minimalism",
+    desc: "White/black surfaces, cool-blue structure, warm-orange hover states, and generous whitespace.",
   },
   {
     name: "Content-first hierarchy",
@@ -13,7 +13,7 @@ export const DESIGN_PRINCIPLES: CatalogEntry[] = [
   },
   {
     name: "Considered motion",
-    desc: "Entrance fades, JumpText greetings, hover tooltips. Motion is opt-in per component.",
+    desc: "Instant navigation, JumpText greetings, hover tooltips, and reduced-motion fallbacks.",
   },
   {
     name: "Adaptive identity row",
@@ -30,7 +30,7 @@ export const DESIGN_PRINCIPLES: CatalogEntry[] = [
 ];
 
 export const DESIGN_TYPOGRAPHY: CatalogEntry[] = [
-  { name: "Display / UI", desc: "Nunito 300–600 — hero title 36–48px, body 15–17px / 1.75" },
+  { name: "Display / UI", desc: "Nunito 300–600 — hero title 32–42px, body 15–17px / 1.75" },
   { name: "Section labels", desc: ".mag-label — 11px uppercase, zinc-400, tracking-wide" },
   { name: "System", desc: "Geist Sans + Geist Mono for layout chrome" },
   { name: "Code paths", desc: "JetBrains Mono — inline code, config field names" },
@@ -38,7 +38,8 @@ export const DESIGN_TYPOGRAPHY: CatalogEntry[] = [
 
 export const DESIGN_TOKENS: CatalogEntry[] = [
   { name: "--background / --foreground", desc: "Page surface and default text" },
-  { name: "--accent", desc: "Links, nav underline, hover hints, chip hover" },
+  { name: "--link-color", desc: "Resting links, nav, TOC, and structural blue" },
+  { name: "--link-hover-color / --accent", desc: "Hover, focus, and action orange" },
   { name: "--font-ui-en", desc: "Nunito stack for English UI copy" },
   { name: "--color-border-primary … tertiary", desc: "Three-step border hierarchy for .mag-card" },
   { name: "--mag-card-radius", desc: "6px corner radius on cards" },
@@ -54,13 +55,13 @@ export const DESIGN_LAYOUT: CatalogEntry[] = [
   { name: ".mag-card", desc: "Primary content surface — Listening, Projects, about sections" },
   { name: ".mag-card-inset", desc: "Nested list surface inside a parent card" },
   { name: ".mag-chip", desc: "Pill links and buttons with optional arrow suffix" },
-  { name: ".nav-link", desc: "Fixed header links with accent underline active state" },
+  { name: ".nav-link", desc: "Fixed header links using the shared site link palette" },
   { name: "Page TOC", desc: "Floating right-rail navigator on subpages" },
   { name: "max-w-[1180px]", desc: "Shared content width across all routes" },
 ];
 
 export const DESIGN_MOTION: CatalogEntry[] = [
-  { name: ".fade-up", desc: "Staggered entrance on page sections" },
+  { name: ".fade-up", desc: "Structural TOC anchor; navigation intentionally has no entry delay" },
   { name: ".jump-letter", desc: "iMessage-style wave on hero greeting" },
   { name: "Hover link row", desc: "Leading ↗ + trailing Label ↗ on .group hover" },
   { name: ".hover-tip-bubble", desc: "Portal tooltip with fade + slide" },
@@ -98,7 +99,7 @@ export const COMPONENT_CATALOG: { group: string; items: CatalogEntry[] }[] = [
       { name: "ButtercutPageToc", desc: "Floating section navigator (portal)" },
       { name: "ButtercutTocSection", desc: "Explicit scroll target for TOC" },
       { name: "ButtercutIdentityRow", desc: "Hero grid with adaptive avatar sizing" },
-      { name: "ButtercutSubpageEnter", desc: "Subpage fade-in wrapper" },
+      { name: "ButtercutSubpageEnter", desc: "Instant subpage wrapper and TOC mount" },
       { name: "ButtercutThemeProvider", desc: "Light / dark / system theme context" },
       { name: "ButtercutThemeToggle", desc: "Nav sun/moon control" },
     ],
@@ -119,7 +120,7 @@ export const COMPONENT_CATALOG: { group: string; items: CatalogEntry[] }[] = [
     items: [
       { name: "ButtercutHero", desc: "Home identity — product (title + intro) or personal (avatar + greeting)" },
       { name: "ButtercutAvatarCard", desc: "Next/Image portrait fill" },
-      { name: "ButtercutSocialIcons", desc: "Monochrome social row with brand hovers" },
+      { name: "ButtercutSocialIcons", desc: "Shared-palette social row with subtle hover lift" },
       { name: "ButtercutGwwcBadge", desc: "Optional pledge badge beside title" },
     ],
   },

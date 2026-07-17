@@ -43,7 +43,7 @@ function ButtercutPersonalHero({
     >
       <ButtercutTocSection label={config.site.title}>
         {slots?.title ?? (
-          <h1 className="ui-title font-nunito text-[36px] font-light leading-[1.1] tracking-tight md:text-[48px]">
+          <h1 className="ui-title font-nunito text-[32px] font-light leading-[1.1] tracking-tight md:text-[42px]">
             {config.site.title}
             {config.brand.showGwwcBadge ? (
               <>
@@ -115,7 +115,7 @@ function ButtercutProductHero({
     <section className="max-w-3xl space-y-6">
       {slots?.title ?? (
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-          <h1 className="ui-title font-nunito text-[36px] font-light leading-[1.1] tracking-tight md:text-[48px]">
+          <h1 className="ui-title font-nunito text-[32px] font-light leading-[1.1] tracking-tight md:text-[42px]">
             {config.site.title}
           </h1>
           {slots?.socials ??

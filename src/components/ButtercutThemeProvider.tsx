@@ -27,6 +27,15 @@ function applyResolved(resolved: "light" | "dark") {
   root.style.colorScheme = resolved;
 }
 
+function applyResolvedInstant(resolved: "light" | "dark") {
+  const root = document.documentElement;
+  root.classList.add("theme-switching");
+  applyResolved(resolved);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => root.classList.remove("theme-switching"));
+  });
+}
+
 type ButtercutThemeContextValue = {
   theme: ButtercutTheme;
   setTheme: (t: ButtercutTheme) => void;
@@ -76,7 +85,7 @@ export function ButtercutThemeProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
-    applyResolved(t === "system" ? getSystemTheme() : t);
+    applyResolvedInstant(t === "system" ? getSystemTheme() : t);
   }, []);
 
   const value = useMemo(

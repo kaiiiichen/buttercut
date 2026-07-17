@@ -5,7 +5,7 @@ export function ButtercutSiteFooter({ config }: { config: ButtercutSiteConfig })
   const attribution = config.brand.attribution;
 
   return (
-    <footer className="site-footer fade-up mt-auto shrink-0" style={{ animationDelay: "180ms" }}>
+    <footer className="site-footer fade-up mt-auto shrink-0" style={{ animationDelay: "45ms" }}>
       <div className="site-footer-inner mx-auto max-w-[1180px] px-4 pb-16 pt-8 md:px-12">
         <p className="ui-footer">
           © {new Date().getFullYear()}{" "}

@@ -26,3 +26,6 @@ coverage/
 
 # cursor — local agent skills (not committed)
 .cursor/skills/
+
+# scheduled upstream checkout
+.upstream/

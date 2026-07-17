@@ -1,5 +1,4 @@
 import { ButtercutMagChip } from "@/components/ButtercutMagChip";
-import type { ButtercutBlockProps } from "@/lib/blocks/registry";
 
 const FEATURES = [
   {
@@ -20,7 +19,7 @@ const FEATURES = [
   },
 ] as const;
 
-export function ButtercutShowcaseFeatures(_props: ButtercutBlockProps) {
+export function ButtercutShowcaseFeatures() {
   return (
     <section className="space-y-4">
       <p className="mag-label">Why Buttercut</p>
@@ -41,7 +40,7 @@ export function ButtercutShowcaseFeatures(_props: ButtercutBlockProps) {
   );
 }
 
-export function ButtercutShowcaseUseCases(_props: ButtercutBlockProps) {
+export function ButtercutShowcaseUseCases() {
   const cases = [
     {
       label: "Personal site",
@@ -98,7 +97,7 @@ export function ButtercutShowcaseUseCases(_props: ButtercutBlockProps) {
   );
 }
 
-export function ButtercutShowcaseCta(_props: ButtercutBlockProps) {
+export function ButtercutShowcaseCta() {
   return (
     <section className="mag-card">
       <div className="mag-label">Next steps</div>

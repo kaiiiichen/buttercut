@@ -71,7 +71,7 @@ export function ButtercutListeningCard({ featuredLink }: ButtercutListeningCardP
             ↗
           </span>
           <span
-            className={`size-2 shrink-0 rounded-full bg-[#1DB954] transition-colors duration-300 ${
+            className={`size-2 shrink-0 rounded-full bg-black transition-colors duration-300 dark:bg-white ${
               live ? "listening-live-dot" : "opacity-35"
             }`}
             style={
