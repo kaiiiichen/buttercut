@@ -6,33 +6,43 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased](https://github.com/kaiiiichen/buttercut/compare/v0.6.0...HEAD)
 
+### Changed
+
+- **Standalone theme.** Buttercut is maintained as its own product. Docs, footer, and demo copy present Buttercut on its own terms.
+- Package description and README reframed around Buttercut’s own design system and fork workflow.
+
+### Removed
+
+- Upstream sync config, script, npm scripts, and daily GitHub workflow that tracked an external site.
+- Showcase-site footer attribution credit.
+
 ## [0.6.0](https://github.com/kaiiiichen/buttercut/compare/v0.5.0...v0.6.0) — 2026-07-16
 
 ### Added
 
-- **Upstream sync watcher** — `.kaichen-sync.json`, `scripts/sync-kaichen.mjs`, and a daily GitHub workflow map relevant `kaichen.dev` changes to their Buttercut targets and maintain one review issue.
+- **Release automation helpers** for tracking design-system file changes across versions.
 - **Two-color theme tokens** — `brand.theme.link` / `linkDark` control resting links; the existing `accent` / `accentDark` tokens now control hover and action color.
 - Weather unit switch affordance, project-card blue hover surfaces, tooltip start alignment, and race-free tooltip animation cleanup.
 
 ### Changed
 
-- Default design matches the latest `kaichen.dev`: white/black page surfaces, blue links and borders, orange hover states, grayscale activity heatmap, monochrome Listening indicator, and instant navigation/theme repaint.
+- Default design: white/black page surfaces, blue links and borders, orange hover states, grayscale activity heatmap, monochrome Listening indicator, and instant navigation/theme repaint.
 - Nav active states no longer use decorative underlines; social icons share the site palette and lift subtly on hover.
 - Personal and product hero titles use the latest 32/42px scale; project and listening rows use blue hover surfaces with black/white title emphasis.
-- Next.js, React, Geist, Node types, and Vitest constraints align with the current source site.
+- Next.js, React, Geist, Node types, and Vitest constraints updated.
 
 ## [0.5.0](https://github.com/kaiiiichen/buttercut/compare/v0.4.0...v0.5.0) — 2026-07-05
 
 ### Added
 
 - **Theme showcase site** — routes `/design`, `/components`, `/sandbox`, `/get-started` document the system; home uses product hero + `showcase_explore` link rows instead of a sample personal profile.
-- **`home.heroLayout`** — `"product"` (title + tagline + intro, no avatar) or `"personal"` (kaichen.dev identity row with avatar, JumpText, socials).
+- **`home.heroLayout`** — `"product"` (title + tagline + intro, no avatar) or `"personal"` (identity row with avatar, JumpText, socials).
 - **`showcase_explore` home block** — Explore card linking to Design, Components, Sandbox, Get Started.
 - **Optional showcase blocks** — `showcase_features`, `showcase_block_previews`, `showcase_use_cases`, `showcase_cta` for marketing-style home pages.
 - **Showcase infrastructure** — `src/lib/showcase/` catalog, `ButtercutShowcaseSectionBlock`, interactive Design/Components highlights, Get Started AI starter prompts.
 - **UI typography utilities** — `.ui-title`, `.ui-heading`, `.ui-body`, `.ui-hint`, `.ui-footer`, `.ui-footer-link`, and related tokens in `globals.css`.
-- **`brand.attribution`** — footer credit with plain-text `prefix` and linked `label` (e.g. `Distilled from ` + `kaichen.dev`).
-- **Home hero avatar size manager** (`ButtercutIdentityPhotoColumn`) — on desktop, the portrait shrinks when intro copy is short so social links keep breathing room below the photo. Matches [kaichen.dev](https://kaichen.dev) `IdentityPhotoColumn` behaviour.
+- **`brand.attribution`** — optional footer credit with plain-text `prefix` and linked `label`.
+- **Home hero avatar size manager** (`ButtercutIdentityPhotoColumn`) — on desktop, the portrait shrinks when intro copy is short so social links keep breathing room below the photo.
 
 ### Changed
 
@@ -54,10 +64,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- **kaichen.dev parity refresh (2026).** Floating page TOC (`ButtercutPageToc`, `ButtercutTocSection`), design-system primitives (`.mag-card-inset`, `.mag-chip`, `.nav-link`, `.home-social-link`, `.help-icon`), `ButtercutMagChip`, `ButtercutHoverLinkHint`, and upgraded `ButtercutHoverTip` (portal default, tap-to-toggle, bubble animation).
+- **Design-system refresh (2026).** Floating page TOC (`ButtercutPageToc`, `ButtercutTocSection`), design-system primitives (`.mag-card-inset`, `.mag-chip`, `.nav-link`, `.home-social-link`, `.help-icon`), `ButtercutMagChip`, `ButtercutHoverLinkHint`, and upgraded `ButtercutHoverTip` (portal default, tap-to-toggle, bubble animation).
 - **Home hero** uses `flex-row-reverse` (text left / avatar right on desktop) with TOC scroll targets; Nunito 600 nav + site title weights.
 - **Projects split layout** — nested Course + Personal sections via `ButtercutProjectsSplit` / `ButtercutCourseProjectLink`; demo data in `content/demo/course-projects.json`.
-- **Misc page** matches kaichen.dev link rows (italic titles, hover hints, inset “Things I Love”, Resources section); content driven by `content/demo/misc.json`.
+- **Misc page** link rows (italic titles, hover hints, inset “Things I Love”, Resources section); content driven by `content/demo/misc.json`.
 - **About page** grouped experience/volunteering layout, education `grade` / `content` / `projectHref` fields, `ButtercutMagChip` project links.
 - **`useButtercutNowPlaying` hook** with abort-safe polling; Listening card MagChip footer link via `home.featuredLink` in `site.config.ts`.
 - **Weather SSR** — `ButtercutWeatherBlock` passes server-fetched forecast to `ButtercutWeatherCard` (no first-paint flash when weather integration is enabled).
@@ -65,7 +75,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- **`.mag-card` padding** aligned to kaichen.dev (`1.3rem`); global transitions scoped to card/nav/chip elements instead of universal `*`.
+- **`.mag-card` padding** set to `1.3rem`; global transitions scoped to card/nav/chip elements instead of universal `*`.
 - **Line heights** on hero/about copy use `1.75` editorial scale.
 - **Listening last-month tooltip** lazy-loads on open via `MagChip` trigger.
 - **Pinned project links** use shared hover destination hints on list + card variants.
@@ -74,10 +84,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- **kaichen.dev design parity pass.** Home hero layout (avatar column + socials,
-  JumpText greeting, subtitle lines), Listening and Location cards with the
-  same UI shells as [kaichen.dev](https://kaichen.dev), shared
-  `ButtercutPinnedProjectLink`, optional `ButtercutGwwcBadge`
+- **Design shell expansion.** Home hero layout (avatar column + socials,
+  JumpText greeting, subtitle lines), Listening and Location cards,
+  shared `ButtercutPinnedProjectLink`, optional `ButtercutGwwcBadge`
   (`brand.showGwwcBadge`), Signal + contact-guidance social row, `/misc`
   placeholder page, `sitemap.ts` / `robots.ts`, and API stubs under
   `src/app/api/` (weather, Spotify, GitHub contributions).
@@ -87,12 +96,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - **Notes, Guide, and MDX demo routes** (`/notes`, `/guide`, `/mdx-demo`) and all long-form MDX
   infrastructure (`@next/mdx`, `ButtercutProse`, `mdx-notes`, Bitter font, guide anchors,
-  smoke tests). Buttercut now matches kaichen.dev's core route set only.
+  smoke tests). Buttercut ships the core personal-site route set only.
 
 ### Changed
 
-- **Core pages use Nunito** for UI copy (matching kaichen.dev).
-- **Default theme** is light when no preference is stored (matches kaichen.dev).
+- **Core pages use Nunito** for UI copy.
+- **Default theme** is light when no preference is stored.
 - **Nav** uses accent underline active states (wave overlay removed).
 - **Hero intro** — two-line personal blurb added in the middle of `content/demo/intro.md`, keeping the original theme-first copy.
 - **Weather card** — generic location label (`San Francisco · CA`) instead of "Based in Berkeley".
@@ -101,7 +110,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 - **About intro** renders multiple paragraphs when separated by blank lines.
-- **Inline markdown links** use zinc decoration + bronze hover like kaichen.dev.
+- **Inline markdown links** use zinc decoration + bronze hover.
 - **GitHub Activity** loads live data when `GITHUB_TOKEN` is set; otherwise
   shows a labelled synthetic demo graph.
 
@@ -109,19 +118,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- **Note TOC from kaichen.dev.** Port of `components/notes/TableOfContents.tsx`
-  (`feat/notes-toc`) as `ButtercutNoteTableOfContents`, registered in
+- **Note TOC.** `ButtercutNoteTableOfContents` based on
+  a notes TOC pattern, registered in
   `mdx-components.tsx` under the same JSX tag **`TableOfContents`**. Demo
   notes call it immediately before the first `##`, matching the reference
   placement comment. The article shell exposes `id="note-content"` so the
   scanner can target `#note-content h2[id], h3[id]`. Flat `/notes/[slug]`
-  routes use the pattern `/^\\/notes\\/[^/]+$/` (nested `/notes/a/b` on
-  kaichen.dev still matches the upstream regex). Accent styling uses
+  routes use the pattern `/^\\/notes\\/[^/]+$/`. Accent styling uses
   `var(--accent)` instead of fixed bronze hex so theme presets apply.
   **`h2` / `h3`** in MDX get stable `id`s via `github-slugger` inside
   `ButtercutMdxH2` / `ButtercutMdxH3` — we do **not** use `rehype-slug` in
   `next.config.ts` because Turbopack requires serializable MDX options (same
-  constraint noted in kaichen.dev’s webpack MDX path).
+  constraint from the webpack MDX path).
 
 ### Removed
 
@@ -148,14 +156,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   now describes MDX notes + inline markdown instead of retired `marked`
   paths.
 
-- **Editorial shell matches kaichen.dev horizontal rhythm again.**
+- **Editorial shell horizontal rhythm restored.**
   Main content uses `max-w-[1180px]` with `px-4 md:px-12 py-16` — the
-  same numbers as `kaichen.dev` (`app/page.tsx`, `app/notes/layout.tsx`,
+  the same shell numbers (`app/page.tsx`, `app/notes/layout.tsx`,
   `app/about/page.tsx`, `app/projects/page.tsx`). The nav bar stays
   `max-w-[1180px] px-4 md:px-8` so the logo and links align with the
-  content column the way the reference site does. A brief experiment
-  with `1360px` + `md:px-8` is rolled back so side margins and
-  nav-to-content alignment match the screenshot reference.
+  content column. A brief experiment with `1360px` + `md:px-8` is
+  rolled back so side margins and nav-to-content alignment stay tight.
 - **`/guide` layout uses full `py-16`** (not `pt-16` only) so bottom
   padding matches other long-form routes.
 - **`/guide` Step 8 rewritten for the MDX-only path.** Anchors are
@@ -174,33 +181,33 @@ below).
 
 ### Changed
 
-- **`/notes/[slug]` header matches kaichen.dev notes exactly.**
+- **`/notes/[slug]` header layout finalized.**
 Flips h1 from 2.5rem Bitter / tracking-tight to 1.8rem Bitter /
 1.2, drops the subtitle from serif 0.9rem / zinc-400 to Nunito
 16px / 1.65 / zinc-500 with `max-w-[52rem]`, tightens the
 eyebrow to 13px, and pulls the header margins (`mb-8`, `mt-5`,
-`mb-1.5`) onto the kaichen.dev recipe. The back button stays as
+`mb-1.5`) onto the note header recipe. The back button stays as
 the rounded-full accent pill already in use on `/notes/[slug]`.
 - **MDX container architecture refactored.** `mdx-components.tsx`
 no longer imposes a `max-w-[760px]` shell on every MDX page —
 each route now owns its own container width. `/notes/[slug]`
 drops its nested 760px wrapper and flows the full 1180px like
-kaichen.dev's note pages (so wide code blocks and tables look
+note pages (so wide code blocks and tables look
 right). `/guide` keeps its 1180px editorial shell. A new
 `src/app/mdx-demo/layout.tsx` restores the narrow 760px reading
 column on `/mdx-demo` so the drop-in example route keeps its
 comfortable single-column look.
-- **Long-form typography rewritten to match `kaichen.dev` notes.**
+- **Long-form typography rewritten for notes.**
 `.buttercut-prose` now runs body copy through **Nunito** at
 `0.95rem / 1.75`, headings through **Bitter** (h1 1.8rem, h2 1.3rem
 with a section underline, h3 1.1rem), and lists / tables / code
-blocks through the same scale kaichen.dev uses in its lecture
+blocks through the lecture
 notes. Every selector is wrapped in `:where()` so any inline
 Tailwind utility on an inner element (e.g. the `<Step>` h3 in
 `/guide`) still wins. Drops the old `font-serif text-[15px]`
 look that felt cramped.
 - **`/guide` inner vocabulary matches the new prose scale.**
-`<Tip>` renders as a kaichen.dev-style `<NoteBlock>` — uppercase
+`<Tip>` renders as a `<NoteBlock>` — uppercase
 accent mini-label over serif (Bitter) 0.9rem body. `<Step>`
 headings move to serif 1.45rem with an `.1em / 0.8rem` Nunito
 eyebrow and Nunito 0.95rem body (no more 15px serif). The TOC
@@ -221,7 +228,7 @@ avoid duplication. The "On this page" TOC block was upgraded to a
 section labels across the rest of the theme.
 - **Synthetic GitHub Activity heatmap** on `/projects`
 (`src/components/ButtercutGitHubActivity.tsx`). A client component
-that mirrors the `kaichen.dev` contributions grid — 52 weeks × 7
+for a contributions-style grid — 52 weeks × 7
 days with month labels, a hover-scale animation, and a portal
 tooltip — but generated from a seeded `mulberry32` PRNG so a fresh
 clone shows something interesting with **zero API keys and zero
@@ -234,7 +241,7 @@ old always-identical behaviour or any number for a custom pin.
 
 ### Changed
 
-- `**/about` and `/projects` now mirror the `kaichen.dev` editorial
+- `**/about` and `/projects` now use the editorial
 layout** (`max-w-[1180px]` shell, `fade-up` entrance, `mag-card`
 blocks). `/about` is driven by a new structured file
 `content/demo/about.json` with optional `intro`, `education[]`,
@@ -306,7 +313,7 @@ touching theme source.
 ships `sunset`, `ocean`, `terminal` palettes; `build-theme-style.ts`
 sanitises and renders user token overrides into a `<style>` tag with no
 runtime crashes on typos.
-- **UI parity with the reference site**: mag-card layout, nav-wave
+- **UI shell**: mag-card layout, nav-wave
 overlay, Nunito + Bitter + JetBrains Mono font stack via Fontsource,
 pill-shaped back button on `/notes/[slug]`, editorial scale, hljs code
 theme in `ButtercutProse`, light/dark/system theme with no flash.
@@ -359,5 +366,4 @@ explicitly lists a known-exploitable scheme, a built-in set
 
 ### License
 
-- **GPL-3.0-or-later** — same licence as the reference site
-[kaichen.dev](https://github.com/kaichen/kaichen.dev).
+- **GPL-3.0-or-later**.

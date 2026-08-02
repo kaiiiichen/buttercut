@@ -6,7 +6,7 @@ import { ButtercutPinnedProjectLink } from "@/components/ButtercutPinnedProjectL
 
 const SAMPLE_PINNED = {
   name: "buttercut",
-  desc: "Configurable Next.js theme distilled from kaichen.dev.",
+  desc: "Configurable Next.js theme for personal sites and portfolios.",
   href: "https://github.com/kaiiiichen/buttercut",
   stack: ["Next.js", "TypeScript"],
   stars: 128,

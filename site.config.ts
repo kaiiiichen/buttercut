@@ -31,11 +31,6 @@ export const siteConfig = createSiteConfig({
   brand: {
     showGwwcBadge: false,
     contactGuidanceTip: "Buttercut is open source (GPL-3.0). Fork, configure, and ship.",
-    attribution: {
-      href: "https://kaichen.dev",
-      prefix: "Distilled from ",
-      label: "kaichen.dev",
-    },
   },
   integrations: {
     weather: { enabled: false },

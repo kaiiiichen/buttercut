@@ -1,7 +1,7 @@
 import { ButtercutListLinkRow } from "@/components/ButtercutListLinkRow";
 import { SHOWCASE_EXPLORE_LINKS } from "@/lib/showcase/home-explore";
 
-/** Showcase home — explore link rows in a magazine card (kaichen.dev list pattern). */
+/** Showcase home — explore link rows in a magazine card. */
 export function ButtercutShowcaseExplore() {
   return (
     <section className="space-y-4">

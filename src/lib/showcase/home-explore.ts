@@ -1,4 +1,4 @@
-/** Home-page explore rows — same link language as kaichen.dev project lists. */
+/** Home-page explore rows — link language shared with project lists. */
 export const SHOWCASE_EXPLORE_LINKS = [
   {
     title: "Design",

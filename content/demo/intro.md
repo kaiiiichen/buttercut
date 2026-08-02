@@ -1,4 +1,4 @@
-Buttercut is an **open-source Next.js theme** for personal sites, portfolios, and product pages — distilled from [kaichen.dev](https://kaichen.dev).
+Buttercut is an **open-source Next.js theme** for personal sites, portfolios, and product pages.
 
 This site documents the theme itself: design tokens, interactive components, a live widget sandbox, and a fork-and-deploy guide. It is not a demo personal profile — fork the repo to build your own.
 
