@@ -65,7 +65,7 @@ export const GET_STARTED_AI_TIPS: string[] = [
   "Give the agent site.config.ts, content/demo/, and this Get Started page as context.",
   "Ask for content changes first, then config, then new routes or custom blocks.",
   "Point it at /design and /components on buttercut.kaichen.dev so it reuses existing UI.",
-  "Keep theme-core edits in src/custom/ — easier to merge upstream updates.",
+  "Keep theme-core edits in src/custom/ — easier to merge Buttercut updates.",
 ];
 
 export const GET_STARTED_MASTER_PROMPT = `You are customizing Buttercut — a Next.js 16 theme (App Router, TypeScript, Tailwind 4).

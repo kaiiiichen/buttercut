@@ -3,7 +3,7 @@
 import { ButtercutHoverTip } from "./ButtercutHoverTip";
 
 /**
- * Optional pledge badge slot — mirrors kaichen.dev's GwwcBadge.
+ * Optional Giving What We Can pledge badge slot.
  * Enable via `brand.showGwwcBadge` in site.config.ts.
  */
 export function ButtercutGwwcBadge() {

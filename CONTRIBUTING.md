@@ -1,6 +1,6 @@
 # Contributing to Buttercut
 
-Thanks for helping improve Buttercut. The deployed site at [buttercut.kaichen.dev](https://buttercut.kaichen.dev) documents the theme; [kaichen.dev](https://kaichen.dev) remains the visual reference for personal-site patterns. Keep changes focused and documented.
+Thanks for helping improve Buttercut. The deployed site at [buttercut.kaichen.dev](https://buttercut.kaichen.dev) documents the theme. Keep changes focused and documented.
 
 ## Before you open a PR
 
@@ -20,7 +20,7 @@ npm run build
 
 ## What belongs in a PR
 
-- Bug fixes and regressions against kaichen.dev parity or the showcase site.
+- Bug fixes and regressions against the showcase site or theme building blocks.
 - Clear improvements to config, blocks, showcase pages, or demo content loaders.
 - Tests that lock in behaviour (inline markdown, config merge, block rendering).
 

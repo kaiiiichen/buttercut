@@ -3,8 +3,7 @@ import { ButtercutNowPlayingBlock } from "./ButtercutNowPlayingBlock";
 import { ButtercutWeatherBlock } from "./ButtercutWeatherBlock";
 
 /**
- * Mirrors the kaichen.dev home layout: Listening and Location share
- * one row (two columns on md+, stacked on mobile).
+ * Listening and Location share one row (two columns on md+, stacked on mobile).
  */
 export async function ButtercutStatusRow(props: ButtercutBlockProps) {
   return (

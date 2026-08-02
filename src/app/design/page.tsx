@@ -26,7 +26,7 @@ export default function DesignPage() {
     <ButtercutShowcasePageShell>
       <ButtercutShowcasePageHeader
         title="Design"
-        lede="Warm editorial minimalism from kaichen.dev. Hover the cards first — lift, shadow, accent border — then switch palettes and read the type scale."
+        lede="Warm editorial minimalism. Hover the cards first — lift, shadow, accent border — then switch palettes and read the type scale."
       />
 
       <section className="fade-up" style={{ animationDelay: "30ms" }}>

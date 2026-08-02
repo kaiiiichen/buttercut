@@ -2,7 +2,7 @@
   "name": "buttercut",
   "version": "0.6.0",
   "private": true,
-  "description": "Buttercut — configurable Next.js theme (App Router). Theme docs at buttercut.kaichen.dev.",
+  "description": "Buttercut — configurable Next.js theme (App Router) for personal sites, portfolios, and product pages.",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "next dev",
@@ -10,10 +10,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "sync:kaichen": "node scripts/sync-kaichen.mjs",
-    "sync:kaichen:check": "node scripts/sync-kaichen.mjs --check",
-    "sync:kaichen:record": "node scripts/sync-kaichen.mjs --record"
+    "test": "vitest run"
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.2.8",

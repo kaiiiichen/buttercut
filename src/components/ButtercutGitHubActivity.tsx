@@ -188,13 +188,12 @@ function getMonthLabels(
 }
 
 /**
- * Client-only heatmap that mirrors `kaichen.dev`'s GitHub Activity
- * widget, but with seeded synthetic data instead of a live GitHub
- * query — so a fresh clone of Buttercut shows something interesting
- * immediately, with zero API keys and zero network calls.
+ * Client-only GitHub Activity heatmap with seeded synthetic data
+ * instead of a live GitHub query — so a fresh clone shows something
+ * interesting immediately, with zero API keys and zero network calls.
  *
  * @see README — GitHub integration and `GITHUB_TOKEN` setup.
- * swap this for a real contributions API when you're ready.
+ * Swap this for a real contributions API when you're ready.
  */
 // Subscribe to nothing; the snapshot mismatch between server ("false") and
 // client ("true") is exactly how we flip on the client-only render path

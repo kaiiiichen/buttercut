@@ -15,7 +15,7 @@
   --accent-hover: var(--link-hover-color);
   --dot-idle: #a1a1aa;
 
-  /* Text hierarchy — matches kaichen.dev (About / Projects / Misc / footer) */
+  /* Text hierarchy (About / Projects / Misc / footer) */
   --text-title: #18181b; /* zinc-900 — page h1 */
   --text-heading: #27272a; /* zinc-800 — card titles, semibold rows */
   --text-body: #3f3f46; /* zinc-700 — hero + about body (17px) */
@@ -310,7 +310,7 @@ html.theme-switching *::after {
   background: var(--color-border-secondary);
 }
 
-/* ── UI typography — Nunito scale; colors from kaichen.dev tokens above */
+/* ── UI typography — Nunito scale; colors from tokens above */
 .ui-title {
   font-family: var(--font-ui-en);
   color: var(--text-title);

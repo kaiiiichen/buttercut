@@ -22,7 +22,7 @@ Import [this GitHub repository](https://github.com/kaiiiichen/buttercut) into Ve
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot&logoColor=white)](https://github.com/kaiiiichen/buttercut/network/updates)
 [![site](https://img.shields.io/badge/site-buttercut.kaichen.dev-D4A574?logo=googlechrome&logoColor=white)](https://buttercut.kaichen.dev)
 
-**Buttercut** is a production-oriented Next.js theme distilled from [kaichen.dev](https://kaichen.dev). It ships the same editorial shell — Nunito UI, blue/orange link palette, magazine cards, composable home blocks — with **placeholder content** you replace through config and `content/demo/`.
+**Buttercut** is a production-oriented Next.js theme for personal sites, portfolios, and product pages. It ships an editorial shell — Nunito UI, blue/orange link palette, magazine cards, composable home blocks — with **placeholder content** you replace through config and `content/demo/`.
 
 The live site at [buttercut.kaichen.dev](https://buttercut.kaichen.dev) documents the theme itself: design tokens, an interactive component catalog, a live widget sandbox, and a fork-and-deploy guide. It is **not** a sample personal profile — fork the repo to build your own site.
 
@@ -51,12 +51,12 @@ Built on **Next.js 16** (App Router, React 19). One typed **`site.config.ts`** d
 
 ## Why Buttercut
 
-- **Same design language as kaichen.dev.** Layout rhythm (`max-w-[1180px]`, `mag-card`, shared link states, link rows with hover hints) is inherited 1:1; only the copy is generic.
+- **Editorial design language.** Layout rhythm (`max-w-[1180px]`, `mag-card`, shared link states, link rows with hover hints) is consistent across the theme; only the copy is yours to replace.
 - **Theme docs + forkable starter in one repo.** The deployed site teaches the system; your fork swaps nav, blocks, and content for a personal or product site.
 - **Runs on first clone.** `npm install` and `npm run dev` show the full showcase. Integrations render gentle placeholders until you add credentials.
 - **Configuration you can trust.** `createSiteConfig` merges your `site.config.ts` with typed defaults — override only what differs.
 - **Copy where writers expect it.** Hero body and page JSON sit under `content/demo/`.
-- **Two hero layouts.** `home.heroLayout: "product"` for theme/docs sites; `"personal"` for avatar + greeting + socials like kaichen.dev.
+- **Two hero layouts.** `home.heroLayout: "product"` for theme/docs sites; `"personal"` for avatar + greeting + socials.
 - **GPL-3.0-or-later.** Fork, adapt, ship; share improvements if you redistribute.
 
 ---
@@ -80,7 +80,7 @@ Built on **Next.js 16** (App Router, React 19). One typed **`site.config.ts`** d
 | **Personal hero** | Avatar column, JumpText greeting, socials, intro — set `home.heroLayout: "personal"`. |
 | **Home blocks** | Listening + Location (`status`), projects list (`demo_projects`), integration panel, and optional showcase blocks. |
 | **Page copy** | Sample schemas in `content/demo/about.json`, `projects.json`, `course-projects.json`, `misc.json` for About / Projects / Misc pages you add under `src/app/`. |
-| **Components** | Full kaichen.dev UI kit — `ButtercutProjectsSplit`, `ButtercutListeningCard`, `ButtercutPageToc`, and more (see `/components`). |
+| **Components** | Full UI kit — `ButtercutProjectsSplit`, `ButtercutListeningCard`, `ButtercutPageToc`, and more (see `/components`). |
 | **Theme** | CSS variables + optional `brand.theme` overrides; presets `sunset`, `ocean`, `terminal`. |
 | **Integrations** | GitHub pins & activity (`GITHUB_TOKEN`), Open-Meteo weather, Spotify API stubs for Listening UI. |
 
@@ -89,7 +89,6 @@ Built on **Next.js 16** (App Router, React 19). One typed **`site.config.ts`** d
 ## Live demo and stack
 
 - **See it live:** [buttercut.kaichen.dev](https://buttercut.kaichen.dev)
-- **Reference site:** [kaichen.dev](https://kaichen.dev) — the visual source of truth for personal-site patterns.
 - **Stack:** Next.js 16, React 19, TypeScript (strict), Tailwind CSS 4, Vitest.
 
 ---
@@ -124,7 +123,7 @@ Open [http://localhost:3000](http://localhost:3000). No `.env` file is required 
 | `content/demo/` | `intro.md`, `about.json`, `projects.json`, `course-projects.json`, `misc.json`. |
 | `src/app/` | Routes: `/`, `/design`, `/components`, `/sandbox`, `/get-started`, `api/*`. |
 | `src/blocks/` | Home sections (`ButtercutHero`, `ButtercutShowcaseExplore`, `ButtercutStatusRow`, …). |
-| `src/components/` | Shared UI ported from kaichen.dev (nav, listening, weather, pinned projects, …). |
+| `src/components/` | Shared UI (nav, listening, weather, pinned projects, …). |
 | `src/components/showcase/` | Docs-site shells, catalog lists, copy blocks, starter prompts. |
 | `src/lib/showcase/` | Static catalog and Get Started copy for showcase pages. |
 | `src/custom/` | Your `register.ts` and optional block overrides. |
@@ -167,11 +166,6 @@ export const siteConfig = createSiteConfig({
   },
   brand: {
     contactGuidanceTip: "Buttercut is open source (GPL-3.0). Fork, configure, and ship.",
-    attribution: {
-      href: "https://kaichen.dev",
-      prefix: "Distilled from ",
-      label: "kaichen.dev",
-    },
   },
 });
 ```
@@ -243,14 +237,14 @@ Built-in ids:
 | ----------- | --- | ------ | --------- |
 | GitHub pins & activity | `GITHUB_TOKEN`, `GITHUB_LOGIN` | `integrations.github.login` | Mirrors profile pins when token set; else `projects.json` |
 | Weather | — | `integrations.weather` (`lat`, `lon`, `label`, `timezone`) | Open-Meteo via `/api/weather` |
-| Spotify Listening UI | Wire your OAuth in `api/spotify/*` | — | Stubs return empty; UI matches kaichen.dev |
+| Spotify Listening UI | Wire your OAuth in `api/spotify/*` | — | Stubs return empty; UI shell is ready |
 | Last.fm | `LASTFM_API_KEY` | `integrations.lastfm` | Legacy server fetch (optional) |
 
 Copy `.env.example` to `.env.local` when enabling integrations. Preview live widgets on `/sandbox`.
 
 ### Inline markdown
 
-Used in hero intro and card summaries — `**bold**`, `` `code` ``, `[label](url)` with the same blue/orange link styling as kaichen.dev. See [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx).
+Used in hero intro and card summaries — `**bold**`, `` `code` ``, `[label](url)` with Buttercut's blue/orange link styling. See [`src/lib/markdown/inline.tsx`](src/lib/markdown/inline.tsx).
 
 ---
 
@@ -275,13 +269,8 @@ Used in hero intro and card summaries — `**bold**`, `` `code` ``, `[label](url
 | `lint` | `eslint .` |
 | `typecheck` | `tsc --noEmit` |
 | `test` | `vitest run` |
-| `sync:kaichen` | Report watched changes from a sibling `../kaichen.dev` checkout. |
-| `sync:kaichen:check` | Same report; exits non-zero when a sync review is pending. |
-| `sync:kaichen:record` | Record upstream `HEAD` after the mapped changes are ported and verified. |
 
 CI: `lint` → `typecheck` → `test` → `build`.
-
-`.github/workflows/kaichen-sync.yml` checks `kaichen.dev/main` daily. When a watched source file changes, it creates or refreshes one labelled `upstream-sync` issue with the exact Buttercut target mapping. The baseline and mapping live in `.kaichen-sync.json`; this avoids blindly copying personal content or overwriting Buttercut’s config layer.
 
 ---
 
@@ -300,7 +289,7 @@ CI: `lint` → `typecheck` → `test` → `build`.
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md) — current package version **0.6.0** (latest kaichen.dev design parity plus upstream sync automation).
+[CHANGELOG.md](CHANGELOG.md) — current package version **0.6.0**.
 
 ---
 
@@ -314,4 +303,4 @@ CI: `lint` → `typecheck` → `test` → `build`.
 
 ## License
 
-[GPL-3.0-or-later](LICENSE). Same license family as [kaichen.dev](https://github.com/kaiiiichen/kaichen.dev).
+[GPL-3.0-or-later](LICENSE).

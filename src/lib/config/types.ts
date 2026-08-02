@@ -110,8 +110,8 @@ export type ButtercutSiteConfig = {
   home: {
     blocks: ButtercutHomeBlock[];
     /**
-     * `personal` — avatar column + greeting jump text (kaichen.dev layout).
-     * `product` — title + tagline + intro only; for theme/docs sites like buttercut.kaichen.dev.
+     * `personal` — avatar column + greeting jump text + socials.
+     * `product` — title + tagline + intro only; for theme/docs sites.
      */
     heroLayout?: "personal" | "product";
     /** Optional featured link shown in the Listening card footer (MagChip). */

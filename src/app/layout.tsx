@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <Script id="buttercut-theme-init" strategy="beforeInteractive">
-          {/* Matches kaichen.dev: when nothing is stored we start in light mode.
+          {/* When nothing is stored we start in light mode.
               ButtercutThemeProvider re-checks and promotes to system/stored afterwards. */}
           {`(function(){try{var d=document.documentElement;var t=localStorage.getItem('buttercut-theme');var dark;if(t==='dark')dark=true;else if(t==='light')dark=false;else dark=false;d.classList.toggle('dark',dark);d.style.colorScheme=dark?'dark':'light';}catch(e){}})();`}
         </Script>
